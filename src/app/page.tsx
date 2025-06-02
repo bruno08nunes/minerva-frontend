@@ -1,6 +1,7 @@
 import Image from "next/image";
 import logo from "../../public/minerva.png";
 import Link from "next/link";
+import { Settings, CircleUser, Menu, Bell } from "lucide-react";
 
 export default function Home() {
     return (
@@ -33,34 +34,22 @@ export default function Home() {
                     className="bg-transparent border-0 cursor-pointer"
                     aria-label="Notificações"
                 >
-                    <Image
-                        src={logo}
-                        alt="Ícone de notificações"
-                        className="max-w-10"
-                    />
+                    <Bell color="#D3B1C2" size={40} /> 
                 </button>
                 <Link href={"/"}>
-                    <Image src={logo} alt="Ícone de perfil" />
+                    <CircleUser color="#D3B1C2" size={40} />
                 </Link>
                 <button
                     className="bg-transparent border-0 cursor-pointer"
                     aria-label="Configurações"
                 >
-                    <Image
-                        src={logo}
-                        alt="Ícone de configurações"
-                        className="max-w-10"
-                    />
+                    <Settings color="#D3B1C2" size={40} />
                 </button>
                 <button
                     className="bg-transparent border-0 cursor-pointer hidden"
                     aria-label="Abrir menu"
                 >
-                    <Image
-                        src={logo}
-                        alt="Ícone de menu"
-                        className="max-w-10"
-                    />
+                    <Menu color="#D3B1C2" size={40} />
                 </button>
             </div>
             <nav className="hidden absolute top-[100%] right-0 flex-col bg-[#613659] p-2.5 gap-2 text-xl shadow">
