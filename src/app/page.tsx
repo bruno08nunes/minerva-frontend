@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+import Header from "@/components/layout/Header";
 import Image from "next/image";
 import heroImage from "../../public/pc.png";
 import freeLearnImage from "../../public/idea.png";
