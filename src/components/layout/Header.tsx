@@ -37,9 +37,13 @@ const links = [
     },
 ];
 
-export default function Header() {
+export default function Header({ isSticky = true }: { isSticky?: boolean }) {
     return (
-        <header className="bg-[#613659] flex justify-between items-center p-4 sticky top-0">
+        <header
+            className={`bg-[#613659] flex justify-between items-center p-4 ${
+                isSticky ? "sticky" : ""
+            } top-0`}
+        >
             <Link href={"/"}>
                 <Image
                     src={logo}
@@ -94,7 +98,11 @@ export default function Header() {
                         sideOffset={30}
                     >
                         {links.map((item, index) => (
-                            <DropdownMenuItem className="text-lg" key={index} asChild>
+                            <DropdownMenuItem
+                                className="text-lg"
+                                key={index}
+                                asChild
+                            >
                                 <Link
                                     href={item.path}
                                     className="text-[#D3B1C2] decoration-0"
