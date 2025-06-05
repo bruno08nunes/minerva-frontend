@@ -83,7 +83,7 @@ export default function Header() {
                 >
                     <Settings color="#D3B1C2" size={35} />
                 </button>
-                <DropdownMenu>
+                <DropdownMenu modal={false}>
                     <DropdownMenuTrigger className="cursor-pointer sm:hidden">
                         <Menu color="#D3B1C2" size={40} />
                     </DropdownMenuTrigger>
