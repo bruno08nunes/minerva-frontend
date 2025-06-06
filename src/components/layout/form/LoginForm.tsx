@@ -5,6 +5,7 @@ import Input from "@/components/layout/form/Input";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { loginAction } from "@/action/login-action";
+import { redirect } from "next/navigation";
 
 export default function LoginForm() {
     const [state, formAction] = useActionState(loginAction, {
@@ -14,7 +15,15 @@ export default function LoginForm() {
 
     useEffect(() => {
         if (state.message && state.success === false) {
-            toast.error(state.message);
+            toast.error(state.message, {
+                duration: 3000,
+                position: "top-center",
+                style: { color: "red" } 
+            });
+        }
+
+        if (state.success) {
+            redirect("/");
         }
     }, [state]);
 

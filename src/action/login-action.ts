@@ -1,7 +1,6 @@
 "use server";
 
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import z from "zod";
 
 export const loginAction = async (
@@ -22,8 +21,7 @@ export const loginAction = async (
     });
 
     if (!success) {
-        // toast("Dados inválidos!");
-        return { success: false, message: "Dados inválidos" };
+        return { success: false, message: "Dados inválidos!" };
     }
 
     try {
@@ -39,9 +37,8 @@ export const loginAction = async (
             }
         );
 
-        if (!response.ok) {
+        if (response.status >= 500) {
             console.log(response);
-            // toast("Erro ao fazer login. Tente novamente mais tarde.");
             return {
                 success: false,
                 message: "Erro ao fazer login. Tente novamente mais tarde.",
@@ -50,10 +47,28 @@ export const loginAction = async (
 
         const data = await response.json();
 
+        if (!data.success && data.message === "Invalid credentials.") {
+            return {
+                success: false,
+                message: "Email ou senha inválidos."
+            }
+        }
+
+        if (!data.success && data.message === "Validation error.") {
+            return {
+                success: false,
+                message: "Dados inválidos!"
+            }
+        }
+
         if (!data.success) {
             console.error("Erro", data.message);
-            // toast(data.message || "Erro")
-            return { success: false, message: data.message || "Erro" };
+            return {
+                success: false,
+                message:
+                    data.message ||
+                    "Erro ao fazer login. Tente novamente mais tarde.",
+            };
         }
 
         const cookiesStore = await cookies();
@@ -62,13 +77,12 @@ export const loginAction = async (
             maxAge: 60 * 60,
         });
 
-        redirect("/");
+        return { success: true, message: "Login concluído." };
     } catch (err) {
         console.log(err);
-        // toast(err instanceof Error ? err.message : "Erro");
         return {
             success: false,
-            message: err instanceof Error ? err.message : "Erro",
+            message: err instanceof Error ? err.message : "Erro ao fazer login. Tente novamente mais tarde.F",
         };
     }
 };

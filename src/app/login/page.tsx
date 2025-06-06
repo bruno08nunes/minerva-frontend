@@ -1,8 +1,17 @@
 import Header from "@/components/layout/Header";
 import LoginForm from "@/components/layout/form/LoginForm";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
-export default function Login() {
+export default async function Login() {
+    const cookie = await cookies();
+    const token = cookie.get("token");
+
+    if (token) {
+        redirect("/");
+    }
+
     return (
         <>
             <Header isSticky={false} />
