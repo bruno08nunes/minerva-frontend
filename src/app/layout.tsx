@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { inter } from "@/lib/fonts";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
     title: "Minerva",
@@ -18,6 +19,7 @@ export default function RootLayout({
                 className={`${inter.variable} antialiased`}
             >
                 {children}
+                <Toaster />
             </body>
         </html>
     );
