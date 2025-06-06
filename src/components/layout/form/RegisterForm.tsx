@@ -1,0 +1,63 @@
+"use client";
+
+import { redirect } from "next/navigation";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
+import Button from "./Button";
+import Input from "./Input";
+import { registerAction } from "@/action/register-action";
+
+export default function RegisterForm() {
+    const [state, formAction] = useActionState(registerAction, {
+        success: false,
+        message: null,
+    });
+
+    useEffect(() => {
+        if (state.message && state.success === false) {
+            toast.error(state.message, {
+                duration: 3000,
+                position: "top-center",
+                style: { color: "red" },
+            });
+        }
+
+        if (state.success) {
+            redirect("/");
+        }
+    }, [state]);
+
+    return (
+        <form className="max-w-[700px] w-full mx-auto flex flex-col gap-6 px-5" action={formAction}>
+            <div className="flex gap-4 flex-col sm:flex-row">
+                <Input
+                    id="name"
+                    type="text"
+                    label="Nome:"
+                    placeholder="Nome..."
+                />
+                <Input
+                    id="username"
+                    type="text"
+                    label="Nome de Usuário:"
+                    placeholder="@Nome de usuário..."
+                />
+            </div>
+            <div className="flex gap-4 flex-col sm:flex-row">
+                <Input
+                    id="email"
+                    type="email"
+                    label="Email:"
+                    placeholder="Email..."
+                />
+                <Input
+                    id="password"
+                    type="password"
+                    label="Senha:"
+                    placeholder="Senha..."
+                />
+            </div>
+            <Button text="Cadastrar-se" />
+        </form>
+    );
+}
