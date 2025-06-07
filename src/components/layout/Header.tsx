@@ -12,7 +12,7 @@ import {
 
 const links = [
     {
-        path: "/",
+        path: "/learn/themes",
         text: "Desafios",
     },
     {
@@ -40,7 +40,7 @@ const links = [
 export default function Header({ isSticky = true }: { isSticky?: boolean }) {
     return (
         <header
-            className={`bg-[#613659] flex justify-between items-center p-4 ${
+            className={`bg-plum flex justify-between items-center p-4 ${
                 isSticky ? "sticky" : ""
             } top-0`}
         >
@@ -53,20 +53,20 @@ export default function Header({ isSticky = true }: { isSticky?: boolean }) {
             </Link>
             <nav className="flex text-2xl gap-4">
                 <Link
-                    href={"/"}
-                    className="text-[#D3B1C2] decoration-0 hover:decoration-1 hidden sm:block"
+                    href={"/learn/themes"}
+                    className="text-lavender-blush decoration-0 hover:decoration-1 hidden sm:block"
                 >
                     Desafios
                 </Link>
                 <Link
                     href={"/"}
-                    className="text-[#D3B1C2] decoration-0 hover:decoration-1 hidden sm:block"
+                    className="text-lavender-blush decoration-0 hover:decoration-1 hidden sm:block"
                 >
                     Explicações
                 </Link>
                 <Link
                     href={"/"}
-                    className="text-[#D3B1C2] decoration-0 hover:decoration-1 hidden sm:block"
+                    className="text-lavender-blush decoration-0 hover:decoration-1 hidden sm:block"
                 >
                     Ranking
                 </Link>
@@ -92,7 +92,7 @@ export default function Header({ isSticky = true }: { isSticky?: boolean }) {
                         <Menu color="#D3B1C2" size={40} />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                        className="bg-[#613659] p-2.5 gap-2 text-xl shadow"
+                        className="bg-plum p-2.5 gap-2 text-xl shadow"
                         side="top"
                         align="end"
                         sideOffset={30}
@@ -105,7 +105,7 @@ export default function Header({ isSticky = true }: { isSticky?: boolean }) {
                             >
                                 <Link
                                     href={item.path}
-                                    className="text-[#D3B1C2] decoration-0"
+                                    className="text-lavender-blush decoration-0"
                                 >
                                     {item.text}
                                 </Link>

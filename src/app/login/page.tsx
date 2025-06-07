@@ -3,6 +3,7 @@ import LoginForm from "@/components/layout/form/LoginForm";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import H1 from "@/components/layout/H1";
 
 export default async function Login() {
     const cookie = await cookies();
@@ -15,9 +16,9 @@ export default async function Login() {
     return (
         <>
             <Header isSticky={false} />
-            <h1 className="text-[#D3B1C2] text-center text-3xl my-4">Login</h1>
+            <H1 title="Login" />
             <LoginForm />
-            <p className="text-[#D3B1C2] text-center mt-4">
+            <p className="text-lavender-blush text-center mt-4">
                 Não possui uma conta? {}
                 <Link href={"/register"} className="underline">
                     Cadastre-se
@@ -25,7 +26,7 @@ export default async function Login() {
             </p>
             <Link
                 href={"/"}
-                className="text-center text-[#D3B1C2] underline my-4"
+                className="text-center text-lavender-blush underline my-4"
             >
                 Estude sem fazer cadastro
             </Link>
