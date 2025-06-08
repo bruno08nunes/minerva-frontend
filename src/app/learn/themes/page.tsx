@@ -3,6 +3,7 @@ import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { env } from "@/lib/env";
 import { Themes } from "@/types/themes";
+import Link from "next/link";
 
 interface ThemesListReponse {
     success: boolean;
@@ -27,14 +28,14 @@ export default async function ThemesPage() {
                     {success ? (
                         <>
                             {data.map((item) => (
-                                <div key={item.id} className="sm:block grid grid-cols-[150px_minmax(0,_1fr)] items-center">
+                                <Link href={`/learn/topics/${item.slug}`} key={item.id} className="sm:block grid grid-cols-[150px_minmax(0,_1fr)] items-center">
                                     <Figure
                                         image={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${item.icon.url}`}
                                         title={item.name}
                                         isColored
                                     />
                                     <p className="text-white sm:text-lg p-2 text-justify">{item.description}</p>
-                                </div>
+                                </Link>
                             ))}
                         </>
                     ) : (

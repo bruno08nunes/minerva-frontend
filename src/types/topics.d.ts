@@ -1,4 +1,4 @@
-export interface Themes {
+export interface Topics {
     id: string;
     name: string;
     description: string;
