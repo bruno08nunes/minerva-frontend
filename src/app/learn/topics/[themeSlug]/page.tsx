@@ -52,7 +52,7 @@ export default async function ChallengesPages({
                             {data.map((item) => (
                                 <HoverCard key={item.id}>
                                     <HoverCardTrigger
-                                        href={`/learn/challenges/${themeSlug}/${item.slug}`}
+                                        href={`/learn/lessons/${themeSlug}/${item.slug}`}
                                         className="flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center"
                                     >
                                         <Image
