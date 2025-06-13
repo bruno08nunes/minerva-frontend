@@ -1,7 +1,7 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { env } from "@/lib/env";
-import { Topics } from "@/types/topics";
+import { Topic } from "@/types/topic";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import {
@@ -17,7 +17,7 @@ interface ChallengesPagesProps {
 interface TopicsListResponse {
     success: boolean;
     message: string;
-    data: Topics[];
+    data: Topic[];
 }
 
 export default async function ChallengesPages({

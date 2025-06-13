@@ -1,8 +1,7 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { env } from "@/lib/env";
-import { Themes } from "@/types/themes";
-import { Topics } from "@/types/topics";
+import { Lesson } from "@/types/lesson";
 import {
     HoverCard,
     HoverCardTrigger,
@@ -17,22 +16,7 @@ interface LessonsPageProps {
 interface LessonsListResponse {
     success: boolean;
     message: string;
-    data: {
-        name: string;
-        description: string;
-        id: string;
-        rewardXP: number;
-        order: number;
-        exercises: any;
-        topic: Topics;
-        topicId: string;
-        theme: Themes;
-        themeId: string;
-        Progress: any;
-        icon: {
-            url: string;
-        };
-    }[];
+    data: Lesson[];
 }
 
 export default async function LessonsPage({ params }: LessonsPageProps) {

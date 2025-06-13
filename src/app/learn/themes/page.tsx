@@ -2,7 +2,7 @@ import Figure from "@/components/Figure";
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { env } from "@/lib/env";
-import { Themes } from "@/types/themes";
+import { Themes } from "@/types/theme";
 import Link from "next/link";
 
 interface ThemesListReponse {
