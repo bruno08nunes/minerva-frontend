@@ -1,19 +1,12 @@
 import Figure from "@/components/Figure";
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
+import { listThemes } from "@/lib/api/themes";
 import { env } from "@/lib/env";
-import { Themes } from "@/types/theme";
 import Link from "next/link";
 
-interface ThemesListReponse {
-    success: boolean;
-    message: string;
-    data: Themes[];
-}
-
 export default async function ThemesPage() {
-    const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/themes`);
-    const { data, message, success }: ThemesListReponse = await response.json();
+    const { themesData, success, message } = await listThemes();
 
     return (
         <>
@@ -27,7 +20,7 @@ export default async function ThemesPage() {
                 <section className="grid sm:grid-cols-3 gap-8">
                     {success ? (
                         <>
-                            {data.map((item) => (
+                            {themesData!.map((item) => (
                                 <Link href={`/learn/topics/${item.slug}`} key={item.id} className="sm:block grid grid-cols-[150px_minmax(0,_1fr)] items-center">
                                     <Figure
                                         image={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${item.icon.url}`}

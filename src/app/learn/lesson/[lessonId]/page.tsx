@@ -1,6 +1,6 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
-import { env } from "@/lib/env";
+import { getLessonById } from "@/lib/api/lessons";
 
 interface LessonExercisePageProps {
     params: Promise<{ lessonId: string }>;
@@ -10,16 +10,21 @@ export default async function LessonExercisePage({
     params,
 }: LessonExercisePageProps) {
     const { lessonId } = await params;
-    const response = await fetch(
-        `${env.NEXT_PUBLIC_API_URL}/lessons/${lessonId}`
-    );
-    const { data } = await response.json();
+    const { success, lessonData, message } = await getLessonById(lessonId);
 
     return (
         <>
             <Header />
             <main>
-                <H1 title={`Desafios - ${data.theme.name} - ${data.topic.name}`} />
+                {success ? (
+                    <H1
+                        title={`Desafios - ${lessonData!.theme.name} - ${
+                            lessonData!.topic.name
+                        }`}
+                    />
+                ) : (
+                    <p>{message}</p>
+                )}
             </main>
         </>
     );

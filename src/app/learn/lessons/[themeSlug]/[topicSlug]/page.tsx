@@ -1,7 +1,7 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
+import { listLessonsByTopicAndTheme } from "@/lib/api/lessons";
 import { env } from "@/lib/env";
-import { Lesson } from "@/types/lesson";
 import {
     HoverCard,
     HoverCardTrigger,
@@ -11,12 +11,6 @@ import Image from "next/image";
 
 interface LessonsPageProps {
     params: Promise<{ themeSlug: string; topicSlug: string }>;
-}
-
-interface LessonsListResponse {
-    success: boolean;
-    message: string;
-    data: Lesson[];
 }
 
 export default async function LessonsPage({ params }: LessonsPageProps) {
@@ -30,12 +24,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
         topicAndThemeResponses.map((response) => response.json())
     );
 
-    // TODO: change the backend to receive the theme slug and topicSlug
-    const response = await fetch(
-        `${env.NEXT_PUBLIC_API_URL}/lessons/list?themeId=${themeData.data.id}&topicId=${topicData.data.id}`
-    );
-    const { data, success, message }: LessonsListResponse =
-        await response.json();
+    const { lessonsData, message, success } = await listLessonsByTopicAndTheme({ themeId: themeData.data.id, topicId: topicData.data.id });
 
     const positions = [0, -40, -80, -40, 0, 40, 80, 40];
 
@@ -49,7 +38,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                 </h2>
                 <section className="flex flex-col gap-3 p-4 items-center">
                     {success ? (
-                        data.map((item, index) => (
+                        lessonsData!.map((item, index) => (
                             <HoverCard key={item.id}>
                                 <HoverCardTrigger
                                     href={`/learn/lesson/${item.id}`}
