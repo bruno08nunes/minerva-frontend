@@ -37,6 +37,8 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
     const { data, success, message }: LessonsListResponse =
         await response.json();
 
+    const positions = [0, -40, -80, -40, 0, 40, 80, 40];
+
     return (
         <>
             <Header />
@@ -45,13 +47,14 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                 <h2 className="text-center text-lavender-blush text-xl font-bold">
                     {themeData.data.name} - {topicData.data.name}
                 </h2>
-                <section className="flex flex-col gap-3 p-4">
+                <section className="flex flex-col gap-3 p-4 items-center">
                     {success ? (
-                        data.map((item) => (
+                        data.map((item, index) => (
                             <HoverCard key={item.id}>
                                 <HoverCardTrigger
-                                    href={`/learn/lessons/${item.id}`}
-                                    className="flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center"
+                                    href={`/learn/lesson/${item.id}`}
+                                    className="flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center relative"
+                                    style={{ left: positions[index % positions.length] }}
                                 >
                                     <Image
                                         src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${item.icon.url}`}
@@ -65,7 +68,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                                     </p>
                                 </HoverCardTrigger>
                                 <HoverCardContent
-                                    className="bg-plum text-lavender-blush border-lavender-blush rounded p-2"
+                                    className="bg-plum text-lavender-blush border-lavender-blush rounded p-2 z-10"
                                     sideOffset={15}
                                 >
                                     <h3 className="text-lg font-bold text-center">
