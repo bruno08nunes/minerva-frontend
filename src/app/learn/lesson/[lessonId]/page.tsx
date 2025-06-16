@@ -1,3 +1,4 @@
+import ExerciseComponent from "@/components/Exercise";
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { getLessonById } from "@/lib/api/lessons";
@@ -17,11 +18,14 @@ export default async function LessonExercisePage({
             <Header />
             <main>
                 {success ? (
-                    <H1
-                        title={`Desafios - ${lessonData!.theme.name} - ${
-                            lessonData!.topic.name
-                        }`}
-                    />
+                    <>
+                        <H1
+                            title={`Desafios - ${lessonData!.theme.name} - ${
+                                lessonData!.topic.name
+                            }`}
+                        />
+                        <ExerciseComponent lesson={lessonData!} />
+                    </>
                 ) : (
                     <p>{message}</p>
                 )}
