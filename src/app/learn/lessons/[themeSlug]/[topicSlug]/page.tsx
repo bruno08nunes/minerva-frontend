@@ -1,6 +1,8 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { listLessonsByTopicAndTheme } from "@/lib/api/lessons";
+import { getThemeBySlug } from "@/lib/api/themes";
+import { getTopicBySlug } from "@/lib/api/topics";
 import { env } from "@/lib/env";
 import {
     HoverCard,
@@ -16,15 +18,18 @@ interface LessonsPageProps {
 export default async function LessonsPage({ params }: LessonsPageProps) {
     const { themeSlug, topicSlug } = await params;
 
-    const topicAndThemeResponses = await Promise.all([
-        fetch(`${env.NEXT_PUBLIC_API_URL}/themes/${themeSlug}`),
-        fetch(`${env.NEXT_PUBLIC_API_URL}/topics/${topicSlug}`),
+    const data = await Promise.all([
+        listLessonsByTopicAndTheme({ themeSlug, topicSlug }),
+        getTopicBySlug(topicSlug),
+        getThemeBySlug(themeSlug),
     ]);
-    const [themeData, topicData] = await Promise.all(
-        topicAndThemeResponses.map((response) => response.json())
-    );
 
-    const { lessonsData, message, success } = await listLessonsByTopicAndTheme({ themeId: themeData.data.id, topicId: topicData.data.id });
+    const [lessonsData, topicData, themeData] = data;
+
+    const success =
+        themeData.success && topicData.success && lessonsData.success;
+    const message =
+        data.find((item) => !item.success)?.message ?? data[0].message;
 
     const positions = [0, -40, -80, -40, 0, 40, 80, 40];
 
@@ -34,16 +39,20 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
             <main>
                 <H1 title="Lições" />
                 <h2 className="text-center text-lavender-blush text-xl font-bold">
-                    {themeData.data.name} - {topicData.data.name}
+                    {themeData.theme?.name} - {topicData.topic?.name}
                 </h2>
                 <section className="flex flex-col gap-3 p-4 items-center">
                     {success ? (
-                        lessonsData!.map((item, index) => (
+                        lessonsData.lessonsData?.map((item, index) => (
                             <HoverCard key={item.id}>
                                 <HoverCardTrigger
                                     href={`/learn/lesson/${item.id}`}
                                     className="flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center relative"
-                                    style={{ left: positions[index % positions.length] }}
+                                    style={{
+                                        left: positions[
+                                            index % positions.length
+                                        ],
+                                    }}
                                 >
                                     <Image
                                         src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${item.icon.url}`}

@@ -37,16 +37,15 @@ interface LessonsListResponse {
 }
 
 export async function listLessonsByTopicAndTheme({
-    themeId,
-    topicId,
+    themeSlug,
+    topicSlug,
 }: {
-    themeId: string;
-    topicId: string;
+    themeSlug: string;
+    topicSlug: string;
 }) {
-    // TODO: change the backend to receive the theme slug and topicSlug
     try {
         const response = await fetch(
-            `${env.NEXT_PUBLIC_API_URL}/lessons/list?themeId=${themeId}&topicId=${topicId}`
+            `${env.NEXT_PUBLIC_API_URL}/lessons/list?themeId=${themeSlug}&topicId=${topicSlug}`
         );
         const { data, success, message }: LessonsListResponse =
             await response.json();
