@@ -10,7 +10,10 @@ interface TopicResponse {
 export async function getTopicBySlug(topicSlug: string) {
     try {
         const response = await fetch(
-            `${env.NEXT_PUBLIC_API_URL}/topics/${topicSlug}`
+            `${env.NEXT_PUBLIC_API_URL}/topics/${topicSlug}`,
+            {
+                cache: "force-cache",
+            }
         );
         const { data, message, success }: TopicResponse = await response.json();
 
@@ -39,7 +42,9 @@ interface TopicsListResponse {
 
 export async function listTopics() {
     try {
-        const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/topics`);
+        const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/topics`, {
+            cache: "force-cache",
+        });
         const { data, message, success }: TopicsListResponse =
             await response.json();
 
