@@ -1,16 +1,27 @@
 "use client";
 import { Exercise } from "@/types/exercise";
 import { Lesson } from "@/types/lesson";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 function ExerciseParagraph({ content }: { content: string }) {
     return <p>{content}</p>;
 }
 
 function ExerciseCode({ content }: { content: string }) {
+    const codes = content === "_____" ? [] : content.split("_____");
+    console.log(codes);
     return (
         <pre>
-            <code>{content}</code>
+            {codes.length !== 0 ? (
+                codes.map((item, index) => (
+                    <Fragment key={index}>
+                        <code>{item}</code>
+                        <input type="text" />
+                    </Fragment>
+                ))
+            ) : (
+                <input type="text" />
+            )}
         </pre>
     );
 }
