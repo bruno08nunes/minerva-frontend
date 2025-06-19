@@ -1,4 +1,4 @@
-import ExerciseComponent from "@/components/Exercise";
+import ExerciseComponent from "@/components/exercise/Exercise";
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { getLessonById } from "@/lib/api/lessons";

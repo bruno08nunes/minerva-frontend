@@ -16,7 +16,7 @@ export default function RootLayout({
     return (
         <html lang="pt-br">
             <body
-                className={`${inter.variable} antialiased`}
+                className={`${inter.className} antialiased`}
             >
                 {children}
                 <Toaster />
