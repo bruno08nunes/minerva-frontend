@@ -1,17 +1,32 @@
 import { Fragment } from "react";
 import { codeFont } from "@/lib/fonts";
 
-function CodeInput() {
+function CodeInput({
+    onChangeInputValue,
+    inputValue,
+}: Omit<ExerciseCodeProps, "content">) {
     // Todo: change this to a text area and update the size by the lenght of the answer
     return (
         <input
             type="text"
             className="border-0 outline-0 border-plum border-b-4 bg-[#0007] p-2"
+            value={inputValue}
+            onChange={(e) => onChangeInputValue(e.target.value)}
         />
     );
 }
 
-export default function ExerciseCode({ content }: { content: string }) {
+interface ExerciseCodeProps {
+    content: string;
+    onChangeInputValue(value: string): void;
+    inputValue: string;
+}
+
+export default function ExerciseCode({
+    content,
+    inputValue,
+    onChangeInputValue,
+}: ExerciseCodeProps) {
     const codes = content === "_____" ? [] : content.split("_____");
 
     return (
@@ -24,17 +39,23 @@ export default function ExerciseCode({ content }: { content: string }) {
                         return null;
                     }
                     if (index === codes.length - 1) {
-                        return <code key={index}>{item}</code>
+                        return <code key={index}>{item}</code>;
                     }
                     return (
                         <Fragment key={index}>
                             <code>{item}</code>
-                            <CodeInput />
+                            <CodeInput
+                                inputValue={inputValue}
+                                onChangeInputValue={onChangeInputValue}
+                            />
                         </Fragment>
                     );
                 })
             ) : (
-                <CodeInput />
+                <CodeInput
+                    inputValue={inputValue}
+                    onChangeInputValue={onChangeInputValue}
+                />
             )}
         </pre>
     );
