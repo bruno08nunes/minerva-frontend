@@ -8,16 +8,32 @@ import Link from "next/link";
 import Image from "next/image";
 
 import winImage from "../../../public/pc.png";
+import { env } from "@/lib/env";
 
-export default function ExerciseComponent({ lesson }: { lesson: Lesson }) {
+export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, token?: string }) {
     const [inputValue, setInputValue] = useState("");
     const [isGameOver, setIsGameOver] = useState(false);
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const exercise: Exercise = lesson.exercises[currentExerciseIndex];
 
-    function updateExercise() {
+    async function updateExercise() {
         if (currentExerciseIndex + 1 >= lesson.exercises.length) {
             setIsGameOver(true);
+            if (!token) {
+                // TODO: Add a way to save the user data in localStorage
+                return;
+            }
+            await fetch(`${env.NEXT_PUBLIC_API_URL}/progress`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    lessonId: lesson.id,
+                    isCompleted: true
+                })
+            });
             return;
         }
         setCurrentExerciseIndex((state) => state + 1);

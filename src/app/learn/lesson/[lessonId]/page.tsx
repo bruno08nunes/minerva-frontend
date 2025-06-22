@@ -2,6 +2,7 @@ import ExerciseComponent from "@/components/exercise/Exercise";
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { getLessonById } from "@/lib/api/lessons";
+import { cookies } from "next/headers";
 
 interface LessonExercisePageProps {
     params: Promise<{ lessonId: string }>;
@@ -12,6 +13,7 @@ export default async function LessonExercisePage({
 }: LessonExercisePageProps) {
     const { lessonId } = await params;
     const { success, lessonData, message } = await getLessonById(lessonId);
+    const token = (await cookies()).get("token");
 
     return (
         <>
@@ -24,7 +26,7 @@ export default async function LessonExercisePage({
                                 lessonData!.topic.name
                             }`}
                         />
-                        <ExerciseComponent lesson={lessonData!} />
+                        <ExerciseComponent lesson={lessonData!} token={token?.value} />
                     </>
                 ) : (
                     <p>{message}</p>
