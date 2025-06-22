@@ -9,6 +9,7 @@ import {
     HoverCardTrigger,
     HoverCardContent,
 } from "@radix-ui/react-hover-card";
+import { cookies } from "next/headers";
 import Image from "next/image";
 
 interface LessonsPageProps {
@@ -16,10 +17,19 @@ interface LessonsPageProps {
 }
 
 export default async function LessonsPage({ params }: LessonsPageProps) {
-    const { themeSlug, topicSlug } = await params;
+    const [{ themeSlug, topicSlug }, cookie] = await Promise.all([
+        params,
+        cookies(),
+    ]);
+
+    const token = cookie.get("token");
 
     const data = await Promise.all([
-        listLessonsByTopicAndTheme({ themeSlug, topicSlug }),
+        listLessonsByTopicAndTheme({
+            themeSlug,
+            topicSlug,
+            token: token?.value,
+        }),
         getTopicBySlug(topicSlug),
         getThemeBySlug(themeSlug),
     ]);
@@ -47,7 +57,12 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                             <HoverCard key={item.id}>
                                 <HoverCardTrigger
                                     href={`/learn/lesson/${item.id}`}
-                                    className="flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center relative"
+                                    // TODO: Change the style when lesson is completed
+                                    className={`flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center relative ${
+                                        item.Progress[0]?.isCompleted
+                                            ? "grayscale-100"
+                                            : ""
+                                    }`}
                                     style={{
                                         left: positions[
                                             index % positions.length

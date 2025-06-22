@@ -1,4 +1,5 @@
 import type { Icon } from "./icon";
+import type { Progress } from "./progress";
 import type { Theme } from "./theme";
 import type { Topic } from "./topic";
 
@@ -13,7 +14,7 @@ export interface Lesson {
     topicId: string;
     theme: Theme;
     themeId: string;
-    // TODO: Add Progress here and in the backend
+    Progress: Progress[];
     iconId: string;
     icon: Icon;
 }

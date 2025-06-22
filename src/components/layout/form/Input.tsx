@@ -13,7 +13,7 @@ export default function Input({
 }: InputProps) {
     return (
         <div className="flex flex-col gap-2 grow">
-            <label htmlFor={id} className="text-[] text-xl">
+            <label htmlFor={id} className="text-lavender-blush text-xl">
                 {label}
             </label>
             <input

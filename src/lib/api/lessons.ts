@@ -39,13 +39,20 @@ interface LessonsListResponse {
 export async function listLessonsByTopicAndTheme({
     themeSlug,
     topicSlug,
+    token,
 }: {
     themeSlug: string;
     topicSlug: string;
+    token?: string;
 }) {
     try {
         const response = await fetch(
-            `${env.NEXT_PUBLIC_API_URL}/lessons/list?themeId=${themeSlug}&topicId=${topicSlug}`
+            `${env.NEXT_PUBLIC_API_URL}/lessons/list?themeId=${themeSlug}&topicId=${topicSlug}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            }
         );
         const { data, success, message }: LessonsListResponse =
             await response.json();
