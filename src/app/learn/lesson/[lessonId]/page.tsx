@@ -16,7 +16,7 @@ export default async function LessonExercisePage({
     return (
         <>
             <Header />
-            <main>
+            <main className="p-4">
                 {success ? (
                     <>
                         <H1

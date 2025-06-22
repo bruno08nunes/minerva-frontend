@@ -4,41 +4,59 @@ import { Lesson } from "@/types/lesson";
 import { useState } from "react";
 import ExerciseParagraph from "./ExerciseParagraph";
 import ExerciseCode from "./ExerciseCode";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+
+import winImage from "../../../public/pc.png";
 
 export default function ExerciseComponent({ lesson }: { lesson: Lesson }) {
     const [inputValue, setInputValue] = useState("");
+    const [isGameOver, setIsGameOver] = useState(false);
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
-    const exercise: Exercise =
-        lesson.exercises[currentExerciseIndex % lesson.exercises.length];
-
-    const router = useRouter();
+    const exercise: Exercise = lesson.exercises[currentExerciseIndex];
 
     function updateExercise() {
         if (currentExerciseIndex + 1 >= lesson.exercises.length) {
-            router.push(`/learn/lessons/${lesson.theme.slug}/${lesson.topic.slug}`);
+            setIsGameOver(true);
+            return;
         }
         setCurrentExerciseIndex((state) => state + 1);
     }
 
     function handleSubmitChoice(isCorrect: boolean) {
-        alert(isCorrect ? "Correto" : "Errado");
         if (isCorrect) {
             updateExercise();
         }
     }
-    
+
     function handleChangeInput(value: string) {
         setInputValue(value);
     }
-    
+
     function handleSubmitInputAnswer() {
         const isCorrect = inputValue === exercise.choices[0].text;
-        alert(isCorrect ? "Correto" : "Errado");
         setInputValue("");
         if (isCorrect) {
             updateExercise();
         }
+    }
+
+    if (isGameOver) {
+        return (
+            <section className="flex justify-center mx-auto max-w-[800px] gap-6 py-8">
+                <Image src={winImage} alt="" />
+                <div className="text-lavender-blush py-8 flex flex-col items-center justify-center">
+                    <h2 className="text-4xl font-bold text-center mb-5">Vitória!</h2>
+                    <p className="text-xl">Parabéns! Você concluiu essa lição!</p>
+                    <Link
+                        href={`/learn/lessons/${lesson.theme.slug}/${lesson.topic.slug}`}
+                        className="inline-block mt-8 p-4 bg-plum rounded-xl"
+                    >
+                        Continuar
+                    </Link>
+                </div>
+            </section>
+        );
     }
 
     return (
