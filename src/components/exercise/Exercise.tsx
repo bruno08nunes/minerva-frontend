@@ -8,7 +8,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 import winImage from "../../../public/pc.png";
-import { env } from "@/lib/env";
 import { winLesson } from "@/lib/api/lessons";
 
 export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, token?: string }) {
@@ -24,7 +23,7 @@ export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, t
                 // TODO: Add a way to save the user data in localStorage
                 return;
             }
-            winLesson({ token, lesson });
+            await winLesson({ token, lesson });
             return;
         }
         setCurrentExerciseIndex((state) => state + 1);

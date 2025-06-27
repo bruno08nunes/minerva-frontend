@@ -50,7 +50,7 @@ export async function listLessonsByTopicAndTheme({
             `${env.NEXT_PUBLIC_API_URL}/lessons/list?themeId=${themeSlug}&topicId=${topicSlug}`,
             {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
                 },
             }
         );
@@ -73,41 +73,80 @@ export async function listLessonsByTopicAndTheme({
     }
 }
 
-export async function winLesson({ token, lesson }: {token: string, lesson: Lesson}) {
-    // TODO: Melhorar o funcionamento dessa função
+interface WinLessonReturn {
+    success: boolean;
+    message: string;
+    responses?: {
+        message: string;
+        success: boolean;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        data: any;
+    }[]
+}
+
+export async function winLesson({
+    token,
+    lesson,
+}: {
+    token: string;
+    lesson: Lesson;
+}): Promise<WinLessonReturn> {
     const resProgress = fetch(`${env.NEXT_PUBLIC_API_URL}/progress`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
             lessonId: lesson.id,
-            isCompleted: true
-        })
+            isCompleted: true,
+        }),
     });
     const resUserStreak = fetch(`${env.NEXT_PUBLIC_API_URL}/users/streak`, {
         method: "PATCH",
         headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
         },
     });
     const resUserXP = fetch(`${env.NEXT_PUBLIC_API_URL}/users/xp`, {
         method: "PUT",
         headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            amount: lesson.rewardXP
-        })
+            amount: lesson.rewardXP,
+        }),
     });
 
     try {
-        const res = await Promise.all([resProgress, resUserStreak, resUserXP]);
+        const responses = await Promise.all([
+            resProgress,
+            resUserStreak,
+            resUserXP,
+        ]);
 
-        return res;
+        const jsonResponses = await Promise.all(
+            responses.map((res) => res.json())
+        );
+
+        for (const response of jsonResponses) {
+            if (!response.success) {
+                return {
+                    success: false,
+                    message: response.message || "Erro no servidor.",
+                };
+            }
+        }
+
+        return { success: true, responses: jsonResponses, message: jsonResponses[0].message };
     } catch (err) {
-        return err;
+        if (err instanceof Error) {
+            return {
+                success: false,
+                message: err.message || "Erro desconhecido",
+            };
+        }
+        return { success: false, message: "Erro desconhecido" };
     }
-};
+}
