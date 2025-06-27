@@ -40,6 +40,16 @@ export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, t
                     Authorization: `Bearer ${token}`
                 },
             });
+            await fetch(`${env.NEXT_PUBLIC_API_URL}/users/xp`, {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    amount: lesson.rewardXP
+                })
+            });
             return;
         }
         setCurrentExerciseIndex((state) => state + 1);
