@@ -9,6 +9,7 @@ import Image from "next/image";
 
 import winImage from "../../../public/pc.png";
 import { env } from "@/lib/env";
+import { winLesson } from "@/lib/api/lessons";
 
 export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, token?: string }) {
     const [inputValue, setInputValue] = useState("");
@@ -23,33 +24,7 @@ export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, t
                 // TODO: Add a way to save the user data in localStorage
                 return;
             }
-            await fetch(`${env.NEXT_PUBLIC_API_URL}/progress`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    lessonId: lesson.id,
-                    isCompleted: true
-                })
-            });
-            await fetch(`${env.NEXT_PUBLIC_API_URL}/users/streak`, {
-                method: "PATCH",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                },
-            });
-            await fetch(`${env.NEXT_PUBLIC_API_URL}/users/xp`, {
-                method: "PUT",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    amount: lesson.rewardXP
-                })
-            });
+            winLesson({ token, lesson });
             return;
         }
         setCurrentExerciseIndex((state) => state + 1);
