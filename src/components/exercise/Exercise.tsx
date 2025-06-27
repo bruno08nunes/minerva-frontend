@@ -34,6 +34,12 @@ export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, t
                     isCompleted: true
                 })
             });
+            await fetch(`${env.NEXT_PUBLIC_API_URL}/users/streak`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            });
             return;
         }
         setCurrentExerciseIndex((state) => state + 1);
