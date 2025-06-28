@@ -1,22 +1,50 @@
 import Header from "@/components/layout/Header";
-import { env } from "@/lib/env";
+import Image from "next/image";
+import profilePictureImage from "../../../../public/theme_placeholder/detective.png";
+import { getUserProfile } from "@/lib/api/user";
 
-export default async function UserProfilePage({ params }: { params: Promise<{ username: string }> }) {
+export default async function UserProfilePage({
+    params,
+}: {
+    params: Promise<{ username: string }>;
+}) {
     const { username } = await params;
 
-    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/users/${username}`);
-    const { user, message, success } = await res.json();
+    const userData = await getUserProfile({ username });
+
+    if (!userData.success) {
+        // TODO: Create not found page
+        throw new Error(userData.message);
+    }
+
+    const { user } = userData;
+
+    const profilePicture = user.profilePicture?.url || profilePictureImage;
 
     return (
         <>
             <Header />
-            {
-                success ? (
-                    <h1 className="text-lavender-blush text-center mt-4 text-xl font-bold">Hello, {user.name}!</h1>
-                ) : (
-                    <p>{message}</p>
-                )
-            }
+            <section className="flex justify-between bg-plum w-full max-w-[800px] mx-auto mt-8 p-4 rounded-xl items-center">
+                <div className="flex gap-4 items-center">
+                    <Image
+                        src={profilePicture}
+                        alt={`Foto de perfil de ${user.name}`}
+                        className="max-w-25 rounded-full object-cover aspect-square"
+                    />
+                    <div className="flex flex-col text-xl text-lavender-blush">
+                        <div className="flex gap-3 items-baseline">
+                            <span className="text-center mt-4 font-bold text-2xl">
+                                {user.name}
+                            </span>
+                            <span>@{user.username}</span>
+                        </div>
+                        <span>{user.totalXP} - POSIÇÃO</span>
+                    </div>
+                </div>
+                <button className="bg-lavender-blush p-3 rounded-4xl cursor-pointer">
+                    Personalizar conta
+                </button>
+            </section>
         </>
     );
 }
