@@ -10,7 +10,13 @@ import Image from "next/image";
 import winImage from "../../../public/pc.png";
 import { winLesson } from "@/lib/api/lessons";
 
-export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, token?: string }) {
+export default function ExerciseComponent({
+    lesson,
+    token,
+}: {
+    lesson: Lesson;
+    token?: string;
+}) {
     const [inputValue, setInputValue] = useState("");
     const [isGameOver, setIsGameOver] = useState(false);
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
@@ -20,8 +26,17 @@ export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, t
         if (currentExerciseIndex + 1 >= lesson.exercises.length) {
             setIsGameOver(true);
             if (!token) {
-                // TODO: Add a way to save the user data in localStorage
-                return;
+                if (!token) {
+                    const res = await fetch("/auth/refresh", {
+                        method: "POST",
+                        credentials: "include",
+                    });
+                    token = (await res.json()).token;
+                }
+                if (!token) {
+                    // TODO: Add a way to save the user data in localStorage
+                    return;
+                }
             }
             await winLesson({ token, lesson });
             return;
@@ -52,8 +67,12 @@ export default function ExerciseComponent({ lesson, token }: { lesson: Lesson, t
             <section className="flex justify-center mx-auto max-w-[800px] gap-6 py-8">
                 <Image src={winImage} alt="" />
                 <div className="text-lavender-blush py-8 flex flex-col items-center justify-center">
-                    <h2 className="text-4xl font-bold text-center mb-5">Vitória!</h2>
-                    <p className="text-xl">Parabéns! Você concluiu essa lição!</p>
+                    <h2 className="text-4xl font-bold text-center mb-5">
+                        Vitória!
+                    </h2>
+                    <p className="text-xl">
+                        Parabéns! Você concluiu essa lição!
+                    </p>
                     <Link
                         href={`/learn/lessons/${lesson.theme.slug}/${lesson.topic.slug}`}
                         className="inline-block mt-8 p-4 bg-plum rounded-xl"

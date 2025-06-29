@@ -50,7 +50,7 @@ export async function listLessonsByTopicAndTheme({
             `${env.NEXT_PUBLIC_API_URL}/lessons/list?themeId=${themeSlug}&topicId=${topicSlug}`,
             {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: token ? `Bearer ${token}` : "",
                 },
             }
         );

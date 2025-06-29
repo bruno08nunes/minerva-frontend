@@ -74,7 +74,7 @@ export const loginAction = async (
         const cookiesStore = await cookies();
         cookiesStore.set("token", data.token, {
             httpOnly: false,
-            maxAge: 60 * 60,
+            maxAge: 60 * 60 * 24,
         });
 
         return { success: true, message: "Login concluído." };

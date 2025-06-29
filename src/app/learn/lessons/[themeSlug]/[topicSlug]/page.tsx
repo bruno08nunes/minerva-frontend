@@ -59,7 +59,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                                     href={`/learn/lesson/${item.id}`}
                                     // TODO: Change the style when lesson is completed
                                     className={`flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center relative ${
-                                        item.Progress[0]?.isCompleted
+                                        item.Progress?.[0]?.isCompleted
                                             ? "grayscale-100"
                                             : ""
                                     }`}

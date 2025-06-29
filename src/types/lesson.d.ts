@@ -14,7 +14,7 @@ export interface Lesson {
     topicId: string;
     theme: Theme;
     themeId: string;
-    Progress: Progress[];
+    Progress?: Progress[];
     iconId: string;
     icon: Icon;
 }
