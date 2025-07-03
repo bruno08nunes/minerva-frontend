@@ -13,5 +13,10 @@ export interface User {
     profilePicture: {
         id: string;
         url: string;
-    }
+    };
+    _count: {
+        followers: number;
+        following: number;
+    };
+    achievements: Achievement[];
 }

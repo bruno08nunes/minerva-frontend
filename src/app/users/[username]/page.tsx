@@ -1,7 +1,8 @@
 import Header from "@/components/layout/Header";
 import Image from "next/image";
-import profilePictureImage from "../../../../public/theme_placeholder/detective.png";
+import profilePictureFallback from "../../../../public/theme_placeholder/detective.png";
 import { getUserProfile } from "@/lib/api/user";
+import { env } from "@/lib/env";
 
 export default async function UserProfilePage({
     params,
@@ -18,8 +19,11 @@ export default async function UserProfilePage({
     }
 
     const { user } = userData;
+    console.log(user.achievements);
 
-    const profilePicture = user.profilePicture?.url || profilePictureImage;
+    const profilePicture = user.profilePicture?.url || profilePictureFallback;
+    const { followers: followersAmount, following: followingAmount } =
+        user._count;
 
     return (
         <>
@@ -38,12 +42,39 @@ export default async function UserProfilePage({
                             </span>
                             <span>@{user.username}</span>
                         </div>
-                        <span>{user.totalXP} - POSIÇÃO</span>
+                        <span>{user.totalXP}XP - POSIÇÃO</span>
+                        <span>
+                            {followersAmount ?? 0} Seguidores -{" "}
+                            {followingAmount ?? 0} Seguindo
+                        </span>
                     </div>
                 </div>
                 <button className="bg-lavender-blush p-3 rounded-4xl cursor-pointer">
                     Personalizar conta
                 </button>
+            </section>
+            <section>
+                {user.achievements.length > 0 &&
+                    user.achievements.map((userAchievement) => (
+                        <div
+                            key={userAchievement.achievement.id}
+                            className="flex items-center gap-4 p-4 bg-lavender-blush rounded-xl my-4 max-w-[800px] mx-auto"
+                        >
+                            <Image
+                                src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${userAchievement.achievement.icon.url}`}
+                                alt={userAchievement.achievement.name}
+                                width={50}
+                                height={50}
+                                className="rounded-full"
+                            />
+                            <div>
+                                <h3 className="text-xl font-bold">
+                                    {userAchievement.achievement.name}
+                                </h3>
+                                <p>{userAchievement.achievement.description}</p>
+                            </div>
+                        </div>
+                    ))}
             </section>
         </>
     );
