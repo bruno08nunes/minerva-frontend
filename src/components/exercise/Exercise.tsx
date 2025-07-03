@@ -26,13 +26,11 @@ export default function ExerciseComponent({
         if (currentExerciseIndex + 1 >= lesson.exercises.length) {
             setIsGameOver(true);
             if (!token) {
-                if (!token) {
-                    const res = await fetch("/auth/refresh", {
-                        method: "POST",
-                        credentials: "include",
-                    });
-                    token = (await res.json()).token;
-                }
+                const res = await fetch("/auth/refresh", {
+                    method: "POST",
+                    credentials: "include",
+                });
+                token = (await res.json()).token;
                 if (!token) {
                     // TODO: Add a way to save the user data in localStorage
                     return;
