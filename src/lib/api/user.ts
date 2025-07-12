@@ -1,15 +1,31 @@
 import { env } from "@/lib/env";
 import type { User } from "@/types/user";
 
-export async function getUserProfile({ username }: { username: string }):
-    Promise<{ user: User; message: string; success: true; } | { message: string; success: false; }> {
+export async function getUserProfile({
+    username,
+    token,
+}: {
+    username: string;
+    token?: string;
+}): Promise<
+    | { user: User & { isCurrentUser: boolean }; message: string; success: true }
+    | { message: string; success: false }
+> {
     try {
-        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/users/${username}`);
+        const res = await fetch(
+            `${env.NEXT_PUBLIC_API_URL}/users/${username}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: token ? `Bearer ${token}` : "",
+                },
+            }
+        );
         const {
             user,
             message,
             success,
-        }: { user: User; message: string; success: boolean } = await res.json();
+        }: { user: User & { isCurrentUser: boolean }; message: string; success: boolean } = await res.json();
 
         if (res.status === 404) {
             throw new Error("Usuário não encontrado.");

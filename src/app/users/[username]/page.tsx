@@ -3,6 +3,7 @@ import Image from "next/image";
 import profilePictureFallback from "../../../../public/theme_placeholder/detective.png";
 import { getUserProfile } from "@/lib/api/user";
 import { env } from "@/lib/env";
+import { cookies } from "next/headers";
 
 export default async function UserProfilePage({
     params,
@@ -10,8 +11,9 @@ export default async function UserProfilePage({
     params: Promise<{ username: string }>;
 }) {
     const { username } = await params;
+    const token = (await cookies()).get("token")?.value;
 
-    const userData = await getUserProfile({ username });
+    const userData = await getUserProfile({ username, token });
 
     if (!userData.success) {
         // TODO: Create not found page
@@ -19,11 +21,12 @@ export default async function UserProfilePage({
     }
 
     const { user } = userData;
-    console.log(user.achievements);
 
     const profilePicture = user.profilePicture?.url || profilePictureFallback;
     const { followers: followersAmount, following: followingAmount } =
         user._count;
+
+    const { isCurrentUser } = user;
 
     return (
         <>
@@ -50,7 +53,7 @@ export default async function UserProfilePage({
                     </div>
                 </div>
                 <button className="bg-lavender-blush p-3 rounded-4xl cursor-pointer">
-                    Personalizar conta
+                    {isCurrentUser ? "Personalizar conta" : "Seguir"}
                 </button>
             </section>
             <section>
