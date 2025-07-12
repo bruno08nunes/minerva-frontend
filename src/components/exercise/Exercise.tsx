@@ -9,6 +9,13 @@ import Image from "next/image";
 
 import winImage from "../../../public/pc.png";
 import { winLesson } from "@/lib/api/lessons";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogTitle,
+    DialogTrigger,
+} from "../ui/dialog";
 
 export default function ExerciseComponent({
     lesson,
@@ -62,7 +69,7 @@ export default function ExerciseComponent({
 
     if (isGameOver) {
         return (
-            <section className="flex justify-center mx-auto max-w-[800px] gap-6 py-8">
+            <div className="flex justify-center mx-auto max-w-[800px] gap-6 py-8">
                 <Image src={winImage} alt="" />
                 <div className="text-lavender-blush py-8 flex flex-col items-center justify-center">
                     <h2 className="text-4xl font-bold text-center mb-5">
@@ -78,12 +85,21 @@ export default function ExerciseComponent({
                         Continuar
                     </Link>
                 </div>
-            </section>
+            </div>
         );
     }
 
     return (
-        <section>
+        <>
+            {/* Exercise Hint Button */}
+            <Dialog>
+                <DialogTrigger className="bg-plum text-lavender-blush px-5 py-3 rounded-full text-xl cursor-pointer absolute right-0 top-0">Dica</DialogTrigger>
+                <DialogContent className="bg-plum text-lavender-blush" >
+                    <DialogTitle className="font-bold text-2xl">Dica</DialogTitle>
+                    <DialogDescription className="text-lavender-blush text-lg">{exercise.hint}</DialogDescription>
+                </DialogContent>
+            </Dialog>
+
             {/* Exercise Content */}
             {exercise.content.map((item, index) => (
                 <div key={index}>
@@ -123,6 +139,6 @@ export default function ExerciseComponent({
                     ))}
                 </div>
             )}
-        </section>
+        </>
     );
 }

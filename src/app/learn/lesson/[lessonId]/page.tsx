@@ -20,14 +20,14 @@ export default async function LessonExercisePage({
             <Header />
             <main className="p-4">
                 {success ? (
-                    <>
+                    <section className="relative">
                         <H1
                             title={`Desafios - ${lessonData!.theme.name} - ${
                                 lessonData!.topic.name
                             }`}
                         />
                         <ExerciseComponent lesson={lessonData!} token={token?.value} />
-                    </>
+                    </section>
                 ) : (
                     <p>{message}</p>
                 )}
