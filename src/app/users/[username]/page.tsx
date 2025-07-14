@@ -4,6 +4,7 @@ import profilePictureFallback from "../../../../public/theme_placeholder/detecti
 import { getUserProfile } from "@/lib/api/user";
 import { env } from "@/lib/env";
 import { cookies } from "next/headers";
+import Link from "next/link";
 
 export default async function UserProfilePage({
     params,
@@ -45,39 +46,54 @@ export default async function UserProfilePage({
                             </span>
                             <span>@{user.username}</span>
                         </div>
-                        <span>{user.totalXP}XP - POSIÇÃO</span>
+                        <span>{user.totalXP}XP</span>
                         <span>
                             {followersAmount ?? 0} Seguidores -{" "}
                             {followingAmount ?? 0} Seguindo
                         </span>
                     </div>
                 </div>
-                <button className="bg-lavender-blush p-3 rounded-4xl cursor-pointer">
-                    {isCurrentUser ? "Personalizar conta" : "Seguir"}
-                </button>
+                {isCurrentUser ? (
+                    <Link href={"/user/edit"} className="bg-lavender-blush p-3 rounded-4xl">Editar Perfil</Link>
+                ) : (
+                    <button className="bg-lavender-blush p-3 rounded-4xl cursor-pointer">
+                        Seguir
+                    </button>
+                )}
             </section>
             <section>
-                {user.achievements.length > 0 &&
-                    user.achievements.map((userAchievement) => (
-                        <div
-                            key={userAchievement.achievement.id}
-                            className="flex items-center gap-4 p-4 bg-lavender-blush rounded-xl my-4 max-w-[800px] mx-auto"
-                        >
-                            <Image
-                                src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${userAchievement.achievement.icon.url}`}
-                                alt={userAchievement.achievement.name}
-                                width={50}
-                                height={50}
-                                className="rounded-full"
-                            />
-                            <div>
-                                <h3 className="text-xl font-bold">
-                                    {userAchievement.achievement.name}
-                                </h3>
-                                <p>{userAchievement.achievement.description}</p>
+                {user.achievements.length > 0 && (
+                    <>
+                        <h2 className="p-4 text-lavender-blush text-2xl font-bold my-4 max-w-[800px] mx-auto text-center">
+                            Conquistas
+                        </h2>
+                        {user.achievements.map((userAchievement) => (
+                            <div
+                                key={userAchievement.achievement.id}
+                                className="flex items-center gap-4 p-4 bg-plum text-lavender-blush rounded-xl my-4 max-w-[800px] mx-auto"
+                            >
+                                <Image
+                                    src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${userAchievement.achievement.icon.url}`}
+                                    alt={userAchievement.achievement.name}
+                                    width={50}
+                                    height={50}
+                                    className="rounded-full"
+                                />
+                                <div>
+                                    <h3 className="text-xl font-bold">
+                                        {userAchievement.achievement.name}
+                                    </h3>
+                                    <p>
+                                        {
+                                            userAchievement.achievement
+                                                .description
+                                        }
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </>
+                )}
             </section>
         </>
     );
