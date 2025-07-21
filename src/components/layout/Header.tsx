@@ -9,6 +9,8 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cookies } from "next/headers";
+import { env } from "@/lib/env";
 
 const links = [
     {
@@ -37,7 +39,23 @@ const links = [
     },
 ];
 
-export default function Header({ isSticky = true }: { isSticky?: boolean }) {
+export default async function Header({
+    isSticky = true,
+}: {
+    isSticky?: boolean;
+}) {
+    const cookie = await cookies();
+    const token = cookie.get("token")?.value;
+
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/me`, {
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+    const data = await res.json();
+
+    const userLink = data.user ? `/users/${data.user.username}` : "/login";
+
     return (
         <header
             className={`bg-plum flex justify-between items-center p-4 ${
@@ -78,7 +96,7 @@ export default function Header({ isSticky = true }: { isSticky?: boolean }) {
                 >
                     <Bell color="#D3B1C2" size={35} />
                 </button>
-                <Link href={"/"} className="hidden sm:block">
+                <Link href={userLink} className="hidden sm:block">
                     <CircleUser color="#D3B1C2" size={35} />
                 </Link>
                 <button
