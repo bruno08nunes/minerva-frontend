@@ -42,7 +42,7 @@ export default function Header({ isSticky = true }: { isSticky?: boolean }) {
         <header
             className={`bg-plum flex justify-between items-center p-4 ${
                 isSticky ? "sticky" : ""
-            } top-0`}
+            } top-0 z-10`}
         >
             <Link href={"/"}>
                 <Image
