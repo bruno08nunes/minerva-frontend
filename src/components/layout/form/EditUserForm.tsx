@@ -18,8 +18,10 @@ import { redirect } from "next/navigation";
 
 export default function EditUserForm({
     user,
+    token
 }: {
-    user: (User & { email: string }) | null;
+    user: (User & { email: string }) | null,
+    token: string;
 }) {
     const [state, formAction] = useActionState(editUserAction, {
         success: false,
@@ -38,7 +40,7 @@ export default function EditUserForm({
         if (state.success && state.message) {
             redirect("/users/" + state.message);
         }
-        
+
         if (state.success) {
             redirect("/");
         }
@@ -91,6 +93,7 @@ export default function EditUserForm({
                     placeholder="Senha..."
                 />
             </div>
+            <input type="hidden" name="token" value={token} />
             <div className="mt-4 ml-auto mb-4">
                 <Button text="Editar Usuário" />
             </div>

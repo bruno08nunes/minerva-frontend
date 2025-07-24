@@ -26,7 +26,7 @@ export default async function EditUserPage() {
             <Header />
             <H1 title="Editar Usuário" />
             <main className="max-w-[800px] mx-auto w-full p-3">
-                <EditUserForm user={data.user} />
+                <EditUserForm user={data.user} token={token} />
             </main>
         </>
     );
