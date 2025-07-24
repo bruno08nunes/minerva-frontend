@@ -1,7 +1,6 @@
 "use server";
 
 import { env } from "@/lib/env";
-import { cookies } from "next/headers";
 import z from "zod";
 
 export const editUserAction = async (
@@ -41,16 +40,43 @@ export const editUserAction = async (
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: "Bearer " + token
+                Authorization: "Bearer " + token,
             },
             body: JSON.stringify({
-                name, username, email, password
-            })
+                name,
+                username,
+                email,
+                password,
+            }),
         });
         const result = await res.json();
-        console.log(result);
 
-        return { success: false, message: typeof username === "string" ? username : "" };
+        if (res.status === 401 || res.status === 404) {
+            return {
+                success: false,
+                message:
+                    "Informações de login incorretas! Faça login novamente para continuar.",
+            };
+        }
+
+        if (res.status === 400) {
+            return {
+                success: false,
+                message: "Informações incorretas",
+            };
+        }
+
+        if (!result.success && !res.ok) {
+            return {
+                success: false,
+                message: "Erro ao editar usuário. Tente novamente mais tarde.",
+            };
+        }
+
+        return {
+            success: true,
+            message: typeof username === "string" ? username : "",
+        };
     } catch (err) {
         console.log(err);
         return {
@@ -58,7 +84,7 @@ export const editUserAction = async (
             message:
                 err instanceof Error
                     ? err.message
-                    : "Erro ao fazer login. Tente novamente mais tarde.F",
+                    : "Erro ao editar usuário. Tente novamente mais tarde.",
         };
     }
 };
