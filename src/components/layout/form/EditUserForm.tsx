@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Button from "./Button";
 import Input from "./Input";
@@ -9,14 +11,41 @@ import {
 } from "@/components/ui/dialog";
 import placeholderProfilePicture from "../../../../public/pc.png";
 import type { User } from "@/types/user";
+import { editUserAction } from "@/action/edit-user-action";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
 export default function EditUserForm({
     user,
 }: {
     user: (User & { email: string }) | null;
 }) {
+    const [state, formAction] = useActionState(editUserAction, {
+        success: false,
+        message: "",
+    });
+
+    useEffect(() => {
+        if (state.message && state.success === false) {
+            toast.error(state.message, {
+                duration: 3000,
+                position: "top-center",
+                style: { color: "red" } 
+            });
+        }
+
+        if (state.success && state.message) {
+            redirect("/users/" + state.message);
+        }
+        
+        if (state.success) {
+            redirect("/");
+        }
+    }, [state]);
+
     return (
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" action={formAction}>
             <div className="flex gap-4 items-center">
                 <Image
                     src={placeholderProfilePicture}
