@@ -1,3 +1,5 @@
+import { ProfilePicture } from "./profile-picture";
+
 export interface User {
     id: string;
     name: string;
@@ -10,10 +12,7 @@ export interface User {
     role: "ADMIN" | "USER";
     username: string;
     profilePictureId: string;
-    profilePicture: {
-        id: string;
-        url: string;
-    };
+    profilePicture: ProfilePicture;
     _count: {
         followers: number;
         following: number;

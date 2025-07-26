@@ -12,28 +12,33 @@ import {
 import placeholderProfilePicture from "../../../../public/pc.png";
 import type { User } from "@/types/user";
 import { editUserAction } from "@/action/edit-user-action";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
+import type { ProfilePicture } from "@/types/profile-picture";
+import { env } from "@/lib/env";
 
 export default function EditUserForm({
     user,
-    token
+    token,
+    profilePictures,
 }: {
-    user: (User & { email: string }) | null,
+    user: (User & { email: string }) | null;
     token: string;
+    profilePictures: ProfilePicture[];
 }) {
     const [state, formAction] = useActionState(editUserAction, {
         success: false,
         message: "",
     });
+    const [profilePictureId, setProfilePictureId] = useState("");
 
     useEffect(() => {
         if (state.message && state.success === false) {
             toast.error(state.message, {
                 duration: 3000,
                 position: "top-center",
-                style: { color: "red" } 
+                style: { color: "red" },
             });
         }
 
@@ -50,7 +55,9 @@ export default function EditUserForm({
         <form className="flex flex-col gap-4" action={formAction}>
             <div className="flex gap-4 items-center">
                 <Image
-                    src={placeholderProfilePicture}
+                    src={user?.profilePicture ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture.url}` : placeholderProfilePicture}
+                    width={400}
+                    height={400}
                     alt="Sua foto de perfil atual"
                     className="w-35 bg-plum rounded-full"
                 />
@@ -58,9 +65,30 @@ export default function EditUserForm({
                     <DialogTrigger className="border-2 border-lavender-blush text-lavender-blush p-3 cursor-pointer hover:scale-110 transition">
                         Mudar Foto de Perfil
                     </DialogTrigger>
-                    <DialogContent>
-                        <DialogTitle>Escolha Sua Foto de Perfil</DialogTitle>
-                        {/* TODO: List profile pictures */}
+                    <DialogContent className="bg-plum text-lavender-blush">
+                        <DialogTitle className="text-center font-bold text-2xl mb-3">
+                            Escolha Sua Foto de Perfil
+                        </DialogTitle>
+                        <section className="flex flex-wrap justify-center gap-4">
+                            {profilePictures.map((item) => (
+                                // Add profile picture description
+                                <button
+                                    key={item.id}
+                                    className="max-w-[100px] w-full cursor-pointer"
+                                    onClick={() => {
+                                        setProfilePictureId(item.id);
+                                    }}
+                                >
+                                    <Image
+                                        src={`${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${item.url}`}
+                                        alt={item.description ?? ""}
+                                        width={400}
+                                        height={400}
+                                        className="w-full aspect-square"
+                                    />
+                                </button>
+                            ))}
+                        </section>
                     </DialogContent>
                 </Dialog>
             </div>
@@ -94,6 +122,11 @@ export default function EditUserForm({
                 />
             </div>
             <input type="hidden" name="token" value={token} />
+            <input
+                type="hidden"
+                name="profilePictureId"
+                value={profilePictureId}
+            />
             <div className="mt-4 ml-auto mb-4">
                 <Button text="Editar Usuário" />
             </div>

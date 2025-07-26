@@ -21,12 +21,15 @@ export default async function EditUserPage() {
     });
     const data = await res.json();
 
+    const resProfilePictures = await fetch(`${env.NEXT_PUBLIC_API_URL}/profile-pictures`);
+    const profilePicturesData = await resProfilePictures.json();
+
     return (
         <>
             <Header />
             <H1 title="Editar Usuário" />
             <main className="max-w-[800px] mx-auto w-full p-3">
-                <EditUserForm user={data.user} token={token} />
+                <EditUserForm user={data.user} token={token} profilePictures={profilePicturesData.data} />
             </main>
         </>
     );

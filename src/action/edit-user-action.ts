@@ -12,16 +12,23 @@ export const editUserAction = async (
     const email = formData.get("email");
     const password = formData.get("password");
     const token = formData.get("token");
+    const profilePictureFormDataValue = formData.get("profilePictureId");
+    const profilePictureId =
+        profilePictureFormDataValue === ""
+            ? undefined
+            : profilePictureFormDataValue;
 
     const authenticateBodySchema = z.object({
-        name: z.string(),
+        name: z.string().optional(),
         username: z
             .string()
             .min(3)
             .max(20)
-            .regex(/^[a-zA-Z0-9_]+$/),
-        email: z.string().email(),
-        password: z.string().min(6),
+            .regex(/^[a-zA-Z0-9_]+$/)
+            .optional(),
+        email: z.string().email().optional(),
+        password: z.string().min(6).optional(),
+        profilePictureId: z.string().nullable().optional()
     });
 
     const { success } = authenticateBodySchema.safeParse({
@@ -29,6 +36,7 @@ export const editUserAction = async (
         username,
         email,
         password,
+        profilePictureId
     });
 
     if (!success) {
@@ -47,6 +55,7 @@ export const editUserAction = async (
                 username,
                 email,
                 password,
+                profilePictureId
             }),
         });
         const result = await res.json();

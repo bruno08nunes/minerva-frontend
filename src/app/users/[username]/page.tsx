@@ -23,7 +23,7 @@ export default async function UserProfilePage({
 
     const { user } = userData;
 
-    const profilePicture = user.profilePicture?.url || profilePictureFallback;
+    const profilePicture = `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture?.url}` || profilePictureFallback;
     const { followers: followersAmount, following: followingAmount } =
         user._count;
 
@@ -36,6 +36,8 @@ export default async function UserProfilePage({
                 <div className="flex gap-4 items-center">
                     <Image
                         src={profilePicture}
+                        width={400}
+                        height={400}
                         alt={`Foto de perfil de ${user.name}`}
                         className="max-w-25 rounded-full object-cover aspect-square"
                     />
