@@ -6,6 +6,7 @@ import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { loginAction } from "@/action/login-action";
 import { redirect } from "next/navigation";
+import PasswordInput from "./PasswordInput";
 
 export default function LoginForm() {
     const [state, formAction] = useActionState(loginAction, {
@@ -39,9 +40,8 @@ export default function LoginForm() {
                 placeholder="Email..."
                 required
             />
-            <Input
+            <PasswordInput
                 id="password"
-                type="password"
                 label="Senha"
                 placeholder="Senha..."
                 minLength={6}

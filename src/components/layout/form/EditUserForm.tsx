@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import type { ProfilePicture } from "@/types/profile-picture";
 import { env } from "@/lib/env";
+import PasswordInput from "./PasswordInput";
 
 export default function EditUserForm({
     user,
@@ -116,7 +117,7 @@ export default function EditUserForm({
                     defaultValue={user?.username}
                 />
             </div>
-            <div className="flex gap-4 flex-col sm:flex-row">
+            <div className="grid-cols-2 grid gap-4 sm:flex-row">
                 <Input
                     type="email"
                     id="email"
@@ -124,11 +125,11 @@ export default function EditUserForm({
                     placeholder="Email..."
                     defaultValue={user?.email}
                 />
-                <Input
-                    type="password"
+                <PasswordInput
                     id="password"
                     label="Senha:"
                     placeholder="Senha..."
+                    min={6}
                 />
             </div>
             <input type="hidden" name="token" value={token} />

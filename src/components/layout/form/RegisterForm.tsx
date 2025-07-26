@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import Button from "./Button";
 import Input from "./Input";
 import { registerAction } from "@/action/register-action";
+import PasswordInput from "./PasswordInput";
 
 export default function RegisterForm() {
     const [state, formAction] = useActionState(registerAction, {
@@ -43,16 +44,15 @@ export default function RegisterForm() {
                     placeholder="@Nome de usuário..."
                 />
             </div>
-            <div className="flex gap-4 flex-col sm:flex-row">
+            <div className="grid grid-cols-2 gap-4 sm:flex-row">
                 <Input
                     id="email"
                     type="email"
                     label="Email:"
                     placeholder="Email..."
                 />
-                <Input
+                <PasswordInput
                     id="password"
-                    type="password"
                     label="Senha:"
                     placeholder="Senha..."
                 />
