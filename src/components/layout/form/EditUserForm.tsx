@@ -9,7 +9,7 @@ import {
     DialogContent,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import placeholderProfilePicture from "../../../../public/pc.png";
+import profilePictureFallback from "../../../../public/no-picture.png";
 import type { User } from "@/types/user";
 import { editUserAction } from "@/action/edit-user-action";
 import { useActionState, useEffect, useState } from "react";
@@ -31,7 +31,9 @@ export default function EditUserForm({
         success: false,
         message: "",
     });
-    const [profilePictureId, setProfilePictureId] = useState("");
+    const [profilePicture, setProfilePicture] = useState<ProfilePicture | null>(
+        null
+    );
 
     useEffect(() => {
         if (state.message && state.success === false) {
@@ -51,11 +53,16 @@ export default function EditUserForm({
         }
     }, [state]);
 
+    const currentImage = profilePicture?.url ?? user?.profilePicture?.url;
+    const imageUrl = currentImage
+        ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${currentImage}`
+        : profilePictureFallback;
+
     return (
         <form className="flex flex-col gap-4" action={formAction}>
             <div className="flex gap-4 items-center">
                 <Image
-                    src={user?.profilePicture ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture.url}` : placeholderProfilePicture}
+                    src={imageUrl}
                     width={400}
                     height={400}
                     alt="Sua foto de perfil atual"
@@ -71,12 +78,15 @@ export default function EditUserForm({
                         </DialogTitle>
                         <section className="flex flex-wrap justify-center gap-4">
                             {profilePictures.map((item) => (
-                                // Add profile picture description
+                                // TODO: Add profile picture description
                                 <button
                                     key={item.id}
                                     className="max-w-[100px] w-full cursor-pointer"
                                     onClick={() => {
-                                        setProfilePictureId(item.id);
+                                        setProfilePicture({
+                                            id: item.id,
+                                            url: item.url,
+                                        });
                                     }}
                                 >
                                     <Image
@@ -125,7 +135,7 @@ export default function EditUserForm({
             <input
                 type="hidden"
                 name="profilePictureId"
-                value={profilePictureId}
+                value={profilePicture?.id ?? ""}
             />
             <div className="mt-4 ml-auto mb-4">
                 <Button text="Editar Usuário" />

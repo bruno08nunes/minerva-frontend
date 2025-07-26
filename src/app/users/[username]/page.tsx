@@ -1,6 +1,6 @@
 import Header from "@/components/layout/Header";
 import Image from "next/image";
-import profilePictureFallback from "../../../../public/theme_placeholder/detective.png";
+import profilePictureFallback from "../../../../public/no-picture.png";
 import { getUserProfile } from "@/lib/api/user";
 import { env } from "@/lib/env";
 import { cookies } from "next/headers";
@@ -23,7 +23,7 @@ export default async function UserProfilePage({
 
     const { user } = userData;
 
-    const profilePicture = `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture?.url}` || profilePictureFallback;
+    const profilePicture = user?.profilePicture?.url ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture?.url}` : profilePictureFallback;
     const { followers: followersAmount, following: followingAmount } =
         user._count;
 
