@@ -23,7 +23,9 @@ export default async function UserProfilePage({
 
     const { user } = userData;
 
-    const profilePicture = user?.profilePicture?.url ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture?.url}` : profilePictureFallback;
+    const profilePicture = user?.profilePicture?.url
+        ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture?.url}`
+        : profilePictureFallback;
     const { followers: followersAmount, following: followingAmount } =
         user._count;
 
@@ -56,7 +58,12 @@ export default async function UserProfilePage({
                     </div>
                 </div>
                 {isCurrentUser ? (
-                    <Link href={"/user/edit"} className="bg-lavender-blush p-3 rounded-4xl">Editar Perfil</Link>
+                    <Link
+                        href={"/user/edit"}
+                        className="bg-lavender-blush p-3 rounded-4xl"
+                    >
+                        Editar Perfil
+                    </Link>
                 ) : (
                     <button className="bg-lavender-blush p-3 rounded-4xl cursor-pointer">
                         Seguir
@@ -64,37 +71,32 @@ export default async function UserProfilePage({
                 )}
             </section>
             <section>
-                {user.achievements.length > 0 && (
-                    <>
-                        <h2 className="p-4 text-lavender-blush text-2xl font-bold my-4 max-w-[800px] mx-auto text-center">
-                            Conquistas
-                        </h2>
-                        {user.achievements.map((userAchievement) => (
-                            <div
-                                key={userAchievement.achievement.id}
-                                className="flex items-center gap-4 p-4 bg-plum text-lavender-blush rounded-xl my-4 max-w-[800px] mx-auto"
-                            >
-                                <Image
-                                    src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${userAchievement.achievement.icon.url}`}
-                                    alt={userAchievement.achievement.name}
-                                    width={50}
-                                    height={50}
-                                    className="rounded-full"
-                                />
-                                <div>
-                                    <h3 className="text-xl font-bold">
-                                        {userAchievement.achievement.name}
-                                    </h3>
-                                    <p>
-                                        {
-                                            userAchievement.achievement
-                                                .description
-                                        }
-                                    </p>
-                                </div>
+                <h2 className="p-4 text-lavender-blush text-2xl font-bold my-4 max-w-[800px] mx-auto text-center">
+                    Conquistas
+                </h2>
+                {user.achievements.length > 0 ? (
+                    user.achievements.map((userAchievement) => (
+                        <div
+                            key={userAchievement.achievement.id}
+                            className="flex items-center gap-4 p-4 bg-plum text-lavender-blush rounded-xl my-4 max-w-[800px] mx-auto"
+                        >
+                            <Image
+                                src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${userAchievement.achievement.icon.url}`}
+                                alt={userAchievement.achievement.name}
+                                width={50}
+                                height={50}
+                                className="rounded-full"
+                            />
+                            <div>
+                                <h3 className="text-xl font-bold">
+                                    {userAchievement.achievement.name}
+                                </h3>
+                                <p>{userAchievement.achievement.description}</p>
                             </div>
-                        ))}
-                    </>
+                        </div>
+                    ))
+                ) : (
+                    <p className="text-lavender-blush text-center text-xl">Não possui nenhuma conquista ainda :(</p>
                 )}
             </section>
         </>
