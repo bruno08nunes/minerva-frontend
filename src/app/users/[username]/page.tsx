@@ -1,10 +1,9 @@
 import Header from "@/components/layout/Header";
 import Image from "next/image";
-import profilePictureFallback from "../../../../public/no-picture.png";
 import { getUserProfile } from "@/lib/api/user";
 import { env } from "@/lib/env";
 import { cookies } from "next/headers";
-import Link from "next/link";
+import UserInfoSection from "@/components/layout/user-page/UserInfoSection";
 
 export default async function UserProfilePage({
     params,
@@ -23,53 +22,10 @@ export default async function UserProfilePage({
 
     const { user } = userData;
 
-    const profilePicture = user?.profilePicture?.url
-        ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture?.url}`
-        : profilePictureFallback;
-    const { followings: followersAmount, followers: followingAmount } =
-        user._count;
-
-    const { isCurrentUser, isFollowing } = user;
-
     return (
         <>
             <Header />
-            <section className="flex justify-between bg-plum w-full max-w-[800px] mx-auto mt-8 p-4 rounded-xl items-center">
-                <div className="flex gap-4 items-center">
-                    <Image
-                        src={profilePicture}
-                        width={400}
-                        height={400}
-                        alt={`Foto de perfil de ${user.name}`}
-                        className="max-w-25 rounded-full object-cover aspect-square"
-                    />
-                    <div className="flex flex-col text-xl text-lavender-blush">
-                        <div className="flex gap-3 items-baseline">
-                            <span className="text-center mt-4 font-bold text-2xl">
-                                {user.name}
-                            </span>
-                            <span>@{user.username}</span>
-                        </div>
-                        <span>{user.totalXP}XP</span>
-                        <span>
-                            {followersAmount ?? 0} Seguidores -{" "}
-                            {followingAmount ?? 0} Seguindo
-                        </span>
-                    </div>
-                </div>
-                {isCurrentUser ? (
-                    <Link
-                        href={"/user/edit"}
-                        className="bg-lavender-blush p-3 rounded-4xl"
-                    >
-                        Editar Perfil
-                    </Link>
-                ) : (
-                    <button className="bg-lavender-blush p-3 rounded-4xl cursor-pointer">
-                        {isFollowing ? "Deixar de Seguir" : "Seguir"}
-                    </button>
-                )}
-            </section>
+            <UserInfoSection user={user} />
             <section>
                 <h2 className="p-4 text-lavender-blush text-2xl font-bold my-4 max-w-[800px] mx-auto text-center">
                     Conquistas
