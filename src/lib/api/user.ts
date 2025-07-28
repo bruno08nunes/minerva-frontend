@@ -8,7 +8,11 @@ export async function getUserProfile({
     username: string;
     token?: string;
 }): Promise<
-    | { user: User & { isCurrentUser: boolean }; message: string; success: true }
+    | {
+          user: User & { isCurrentUser: boolean };
+          message: string;
+          success: true;
+      }
     | { message: string; success: false }
 > {
     try {
@@ -25,7 +29,11 @@ export async function getUserProfile({
             user,
             message,
             success,
-        }: { user: User & { isCurrentUser: boolean }; message: string; success: boolean } = await res.json();
+        }: {
+            user: User & { isCurrentUser: boolean };
+            message: string;
+            success: boolean;
+        } = await res.json();
 
         if (res.status === 404) {
             throw new Error("Usuário não encontrado.");
@@ -37,5 +45,40 @@ export async function getUserProfile({
             return { message: err.message || "Erro interno.", success: false };
         }
         return { message: "Erro interno.", success: false };
+    }
+}
+
+export async function getMe({ token }: { token: string }) {
+    try {
+        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/me`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        });
+        const data: {
+            user: User & { email: string };
+            success: boolean;
+            message: string;
+        } = await res.json();
+
+        if (res.status === 404) {
+            throw new Error("Usuário não encontrado!");
+        }
+
+        if (!res.ok || !data.success) {
+            throw new Error(data.message);
+        }
+
+        return data;
+    } catch (err) {
+        if (err instanceof Error) {
+            return {
+                message: err.message || "Erro interno.",
+                success: false,
+                user: null,
+            };
+        }
+        return { message: "Erro interno.", success: false, user: null };
     }
 }
