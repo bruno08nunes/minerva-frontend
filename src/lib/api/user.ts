@@ -9,7 +9,7 @@ export async function getUserProfile({
     token?: string;
 }): Promise<
     | {
-          user: User & { isCurrentUser: boolean };
+          user: User & { isCurrentUser: boolean; isFollowing: boolean };
           message: string;
           success: true;
       }
@@ -30,7 +30,7 @@ export async function getUserProfile({
             message,
             success,
         }: {
-            user: User & { isCurrentUser: boolean };
+            user: User & { isCurrentUser: boolean; isFollowing: boolean };
             message: string;
             success: boolean;
         } = await res.json();

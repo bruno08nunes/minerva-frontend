@@ -15,7 +15,7 @@ export interface User {
     profilePicture: ProfilePicture;
     _count: {
         followers: number;
-        following: number;
+        followings: number;
     };
     achievements: Achievement[];
 }

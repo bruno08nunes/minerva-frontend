@@ -26,10 +26,10 @@ export default async function UserProfilePage({
     const profilePicture = user?.profilePicture?.url
         ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture?.url}`
         : profilePictureFallback;
-    const { followers: followersAmount, following: followingAmount } =
+    const { followings: followersAmount, followers: followingAmount } =
         user._count;
 
-    const { isCurrentUser } = user;
+    const { isCurrentUser, isFollowing } = user;
 
     return (
         <>
@@ -66,7 +66,7 @@ export default async function UserProfilePage({
                     </Link>
                 ) : (
                     <button className="bg-lavender-blush p-3 rounded-4xl cursor-pointer">
-                        Seguir
+                        {isFollowing ? "Deixar de Seguir" : "Seguir"}
                     </button>
                 )}
             </section>

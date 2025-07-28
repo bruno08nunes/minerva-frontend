@@ -35,6 +35,7 @@ export default function EditUserForm({
     const [profilePicture, setProfilePicture] = useState<ProfilePicture | null>(
         null
     );
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         if (state.message && state.success === false) {
@@ -69,7 +70,10 @@ export default function EditUserForm({
                     alt="Sua foto de perfil atual"
                     className="w-35 bg-plum rounded-full"
                 />
-                <Dialog>
+                <Dialog
+                    open={isModalOpen}
+                    onOpenChange={() => setIsModalOpen((state) => !state)}
+                >
                     <DialogTrigger className="border-2 border-lavender-blush text-lavender-blush p-3 cursor-pointer hover:scale-110 transition">
                         Mudar Foto de Perfil
                     </DialogTrigger>
@@ -82,12 +86,14 @@ export default function EditUserForm({
                                 // TODO: Add profile picture description
                                 <button
                                     key={item.id}
+                                    type="button"
                                     className="max-w-[100px] w-full cursor-pointer"
                                     onClick={() => {
                                         setProfilePicture({
                                             id: item.id,
                                             url: item.url,
                                         });
+                                        setIsModalOpen(false);
                                     }}
                                 >
                                     <Image
