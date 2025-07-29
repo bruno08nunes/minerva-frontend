@@ -25,7 +25,7 @@ export default async function UserProfilePage({
     return (
         <>
             <Header />
-            <UserInfoSection user={user} />
+            <UserInfoSection user={user} token={token ?? ""} />
             <section>
                 <h2 className="p-4 text-lavender-blush text-2xl font-bold my-4 max-w-[800px] mx-auto text-center">
                     Conquistas

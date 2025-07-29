@@ -82,3 +82,99 @@ export async function getMe({ token }: { token: string }) {
         return { message: "Erro interno.", success: false, user: null };
     }
 }
+
+export async function followFetch({
+    token,
+    followingId,
+}: {
+    token: string;
+    followingId: string;
+}) {
+    try {
+        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/users/follow`, {
+            method: "POST",
+            body: JSON.stringify({
+                followingId,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        });
+
+        if (res.status === 401) {
+            throw new Error(
+                "O usuário deve estar logado para seguir outro usuário."
+            );
+        }
+
+        const result: {
+            success: boolean;
+            message: string;
+        } = await res.json();
+
+        if (!res.ok && !result.success) {
+            throw new Error("Erro interno.");
+        }
+
+        return { success: result.success, message: result.message };
+    } catch (err) {
+        if (err instanceof Error) {
+            return {
+                message: err.message || "Erro interno.",
+                success: false,
+            };
+        }
+        return { message: "Erro interno.", success: false };
+    }
+}
+
+export async function unfollowFetch({
+    token,
+    followingId,
+}: {
+    token: string;
+    followingId: string;
+}) {
+    try {
+        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/users/follow`, {
+            method: "DELETE",
+            body: JSON.stringify({
+                followingId,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: token ? `Bearer ${token}` : "",
+            },
+        });
+
+        if (res.status === 401) {
+            throw new Error(
+                "O usuário deve estar logado para seguir outro usuário."
+            );
+        }
+
+        if (res.status === 404) {
+            throw new Error("O usuário não segue esse usuário.");
+        }
+
+        const result: {
+            success: boolean;
+            message: string;
+        } = await res.json();
+
+        if (!res.ok && !result.success) {
+            throw new Error("Erro interno.");
+        }
+
+        return { success: result.success, message: result.message };
+    } catch (err) {
+        if (err instanceof Error) {
+            return {
+                message: err.message || "Erro interno.",
+                success: false,
+            };
+        }
+        return { message: "Erro interno.", success: false };
+    }
+}

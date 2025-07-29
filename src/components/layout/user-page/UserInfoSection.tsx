@@ -7,8 +7,10 @@ import UserPageButton from "./UserPageButton";
 
 export default function UserInfoSection({
     user,
+    token,
 }: {
     user: User & { isCurrentUser: boolean; isFollowing: boolean };
+    token: string;
 }) {
     const profilePicture = user?.profilePicture?.url
         ? `${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${user.profilePicture?.url}`
@@ -42,6 +44,8 @@ export default function UserInfoSection({
             <UserPageButton
                 isCurrentUser={isCurrentUser}
                 isFollowing={isFollowing}
+                userId={user.id}
+                token={token}
             />
         </section>
     );
