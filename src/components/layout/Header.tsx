@@ -22,7 +22,7 @@ const links = [
         text: "Explicações",
     },
     {
-        path: "/",
+        path: "/ranking",
         text: "Ranking",
     },
     {
@@ -83,7 +83,7 @@ export default async function Header({
                     Explicações
                 </Link>
                 <Link
-                    href={"/"}
+                    href={"/ranking"}
                     className="text-lavender-blush decoration-0 hover:decoration-1 hidden sm:block"
                 >
                     Ranking
@@ -122,7 +122,7 @@ export default async function Header({
                                 asChild
                             >
                                 <Link
-                                    href={item.path}
+                                    href={item.text === "Perfil" ? userLink : item.path}
                                     className="text-lavender-blush decoration-0"
                                 >
                                     {item.text}
