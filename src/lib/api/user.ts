@@ -178,3 +178,23 @@ export async function unfollowFetch({
         return { message: "Erro interno.", success: false };
     }
 }
+
+export async function listUserRanking() {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/ranking`, {
+        cache: "force-cache",
+        next: {
+            revalidate: 60 * 60,
+        },
+    });
+    const {
+        message,
+        success,
+        users,
+    }: {
+        message: string;
+        success: boolean;
+        users: User[];
+    } = await res.json();
+
+    return { message, success, users };
+}

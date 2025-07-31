@@ -1,24 +1,9 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
-import { env } from "@/lib/env";
-import { User } from "@/types/user";
+import { listUserRanking } from "@/lib/api/user";
 
 export default async function RankingPage() {
-    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/ranking`, {
-        cache: "force-cache",
-        next: {
-            revalidate: 60 * 60,
-        },
-    });
-    const {
-        message,
-        success,
-        users,
-    }: {
-        message: string;
-        success: boolean;
-        users: User[];
-    } = await res.json();
+    const { message, success, users } = await listUserRanking();
 
     return (
         <>
