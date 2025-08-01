@@ -81,7 +81,7 @@ export default function EditUserForm({
                         <DialogTitle className="text-center font-bold text-2xl mb-3">
                             Escolha Sua Foto de Perfil
                         </DialogTitle>
-                        <section className="flex flex-wrap justify-center gap-4">
+                        <section className="flex flex-wrap justify-center gap-4 overflow-auto max-h-[50vh]">
                             {profilePictures.map((item) => (
                                 // TODO: Add profile picture description
                                 <button
@@ -123,7 +123,7 @@ export default function EditUserForm({
                     defaultValue={user?.username}
                 />
             </div>
-            <div className="grid-cols-2 grid gap-4 sm:flex-row">
+            <div className="sm:grid-cols-2 grid gap-4 grid-cols-1">
                 <Input
                     type="email"
                     id="email"
