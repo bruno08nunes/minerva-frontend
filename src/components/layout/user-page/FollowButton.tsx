@@ -49,14 +49,14 @@ export default function FollowButton({
 
     return isFollowingState ? (
         <button
-            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full"
+            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full text-center"
             onClick={() => unfollow()}
         >
             Deixar de Seguir
         </button>
     ) : (
         <button
-            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full"
+            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full text-center"
             onClick={() => follow()}
         >
             Seguir

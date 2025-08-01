@@ -15,7 +15,7 @@ export default function UserPageButton({
     token
 }: UserPageButtonProps) {
     return isCurrentUser ? (
-        <Link href={"/user/edit"} className="bg-lavender-blush p-3 rounded-4xl">
+        <Link href={"/user/edit"} className="bg-lavender-blush p-3 rounded-4xl text-center">
             Editar Perfil
         </Link>
     ) : (
