@@ -35,17 +35,17 @@ export default async function UserProfilePage({
                         user.achievements.map((userAchievement) => (
                             <div
                                 key={userAchievement.achievement.id}
-                                className="flex items-center gap-4 p-4 bg-plum text-lavender-blush rounded-xl my-4 max-w-[800px] mx-auto"
+                                className="flex items-center gap-4 p-4 bg-plum text-lavender-blush rounded-xl my-4 max-w-[800px] mx-auto text-xl"
                             >
                                 <Image
                                     src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${userAchievement.achievement.icon.url}`}
                                     alt={userAchievement.achievement.name}
-                                    width={50}
-                                    height={50}
+                                    width={100}
+                                    height={100}
                                     className="rounded-full"
                                 />
                                 <div>
-                                    <h3 className="text-xl font-bold">
+                                    <h3 className="text-2xl font-bold">
                                         {userAchievement.achievement.name}
                                     </h3>
                                     <p>
