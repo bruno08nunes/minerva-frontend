@@ -18,7 +18,7 @@ const links = [
         text: "Desafios",
     },
     {
-        path: "/",
+        path: "/explanations",
         text: "Explicações",
     },
     {
@@ -77,7 +77,7 @@ export default async function Header({
                     Desafios
                 </Link>
                 <Link
-                    href={"/"}
+                    href={"/explanations"}
                     className="text-lavender-blush decoration-0 hover:decoration-1 hidden sm:block"
                 >
                     Explicações
