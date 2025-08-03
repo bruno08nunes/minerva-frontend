@@ -51,7 +51,7 @@ export default async function ChallengesPages({
                                             height={400}
                                             className="bg-plum max-w-[60px] rounded-full"
                                         />
-                                        <p className="sm:hidden text-lavender-blush">{item.name}</p>
+                                        <p className="text-lavender-blush">{item.name}</p>
                                     </HoverCardTrigger>
                                     <HoverCardContent
                                         className="bg-plum text-lavender-blush border-lavender-blush"
