@@ -28,14 +28,14 @@ export default async function ExplanationPage({
             <Header />
             <main className="p-4">
                 <H1 title={"Explicações Sobre " + data[0].topic.name} />
-                <section className="max-w-[800px] mx-auto flex flex-col gap-6">
+                <section className="max-w-[800px] mx-auto flex flex-col gap-6 py-4">
                     {success ? (
                         data.map((item) => (
                             <Link
                                 key={item.id}
                                 href={`/explanations/${slug}/${item.id}`}
                             >
-                                <article className="text-lavender-blush text-xl flex flex-col gap-2 text-justify border-2 border-lavender-blush p-4">
+                                <article className="text-lavender-blush text-xl flex flex-col gap-2 text-justify border-2 border-lavender-blush p-4 hover:-translate-y-3 hover:border-plum transition-transform">
                                     <div className="flex items-baseline gap-2">
                                         <h2 className="font-bold text-2xl">
                                             {item.title}
