@@ -2,7 +2,7 @@ import ExplanationHeader from "@/components/layout/explanations/ExplanationHeade
 import Header from "@/components/layout/Header";
 import { getExplanationById } from "@/lib/api/explanations";
 import { codeFont } from "@/lib/fonts";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { Fragment } from "react";
 
 export default async function ExplanationPage({
@@ -15,8 +15,7 @@ export default async function ExplanationPage({
     const { success, data } = await getExplanationById({ id });
 
     if (!success || data === undefined) {
-        // TODO: 404 page
-        redirect("/");
+        notFound();
     }
 
     return (
