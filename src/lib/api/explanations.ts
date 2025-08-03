@@ -4,7 +4,10 @@ import { env } from "../env";
 export async function listExplanationsByTopicSlug({ slug }: { slug: string }) {
     try {
         const res = await fetch(
-            `${env.NEXT_PUBLIC_API_URL}/explanations/list/${slug}`
+            `${env.NEXT_PUBLIC_API_URL}/explanations/list/${slug}`,
+            {
+                cache: "force-cache",
+            }
         );
 
         const {
@@ -29,7 +32,10 @@ export async function listExplanationsByTopicSlug({ slug }: { slug: string }) {
 export async function getExplanationById({ id }: { id: string }) {
     try {
         const res = await fetch(
-            `${env.NEXT_PUBLIC_API_URL}/explanations/${id}`
+            `${env.NEXT_PUBLIC_API_URL}/explanations/${id}`,
+            {
+                cache: "force-cache",
+            }
         );
         const {
             data,
