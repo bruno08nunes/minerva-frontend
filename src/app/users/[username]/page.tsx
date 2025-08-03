@@ -4,6 +4,7 @@ import { getUserProfile } from "@/lib/api/user";
 import { env } from "@/lib/env";
 import { cookies } from "next/headers";
 import UserInfoSection from "@/components/layout/user-page/UserInfoSection";
+import { notFound } from "next/navigation";
 
 export default async function UserProfilePage({
     params,
@@ -16,8 +17,7 @@ export default async function UserProfilePage({
     const userData = await getUserProfile({ username, token });
 
     if (!userData.success) {
-        // TODO: Create not found page
-        throw new Error(userData.message);
+        notFound();
     }
 
     const { user } = userData;
