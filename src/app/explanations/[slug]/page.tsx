@@ -4,7 +4,7 @@ import { env } from "@/lib/env";
 import { Explanation } from "@/types/explanation";
 import Link from "next/link";
 
-export default async function ExplanationPage({
+export default async function ExplanationsListPage({
     params,
 }: {
     params: Promise<{ slug: string }>;
@@ -23,11 +23,13 @@ export default async function ExplanationPage({
         data: Explanation[];
     } = await res.json();
 
+    const title = data.length > 0 ? "Explicações Sobre " + data[0]?.topic.name : "Não há explicações sobre esse tema."
+
     return (
         <>
             <Header />
             <main className="p-4">
-                <H1 title={"Explicações Sobre " + data[0].topic.name} />
+                <H1 title={title} />
                 <section className="max-w-[800px] mx-auto flex flex-col gap-6 py-4">
                     {success ? (
                         data.map((item) => (
