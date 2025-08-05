@@ -43,6 +43,21 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
 
     const positions = [0, -40, -80, -40, 0, 40, 80, 40];
 
+    const cardTriggerClasses =
+        lessonsData.lessonsData?.map((lesson, index) => {
+            const isCompleted = lesson.Progress?.[0]?.isCompleted;
+            if (isCompleted) {
+                return "grayscale-100 pointer-events-none";
+            }
+            const isPreviousLessonCompleted = lessonsData.lessonsData?.at(
+                index - 1
+            )?.Progress?.[0]?.isCompleted;
+            if (isPreviousLessonCompleted) {
+                return "";
+            }
+            return "grayscale-100 pointer-events-none";
+        }) ?? [];
+
     return (
         <>
             <Header />
@@ -58,11 +73,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                                 <HoverCardTrigger
                                     href={`/learn/lesson/${item.id}`}
                                     // TODO: Change the style when lesson is completed
-                                    className={`flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center relative ${
-                                        item.Progress?.[0]?.isCompleted
-                                            ? "grayscale-100"
-                                            : ""
-                                    }`}
+                                    className={`flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center relative ${cardTriggerClasses[index]}`}
                                     style={{
                                         left: positions[
                                             index % positions.length
