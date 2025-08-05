@@ -1,6 +1,6 @@
 import { db } from ".";
 
-export async function updateLessonProgress({
+export async function updateLessonProgressIDB({
     themeId,
     topicId,
 }: {

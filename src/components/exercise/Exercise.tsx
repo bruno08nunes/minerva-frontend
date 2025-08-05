@@ -16,9 +16,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import { updateLessonProgress } from "@/lib/indexeddb/progress-idb";
-import { toast } from "sonner";
 import { refreshToken } from "@/lib/api/user";
+import winLessonIDB from "@/utils/winLessonIDB";
 
 export default function ExerciseComponent({
     lesson,
@@ -33,30 +32,29 @@ export default function ExerciseComponent({
     const exercise: Exercise = lesson.exercises[currentExerciseIndex];
 
     async function updateExercise() {
-        if (currentExerciseIndex + 1 >= 2) {
-            setIsGameOver(true);
-            if (!token) {
-                const newToken = (await refreshToken()) ?? token;
-                token = newToken;
-                if (!token) {
-                    const [err] = await updateLessonProgress({
-                        themeId: lesson.themeId,
-                        topicId: lesson.topicId,
-                    });
-                    if (err) {
-                        toast.error("Erro ao salvar dados localmente.", {
-                            duration: 3000,
-                            position: "top-center",
-                            style: { color: "red" },
-                        });
-                    }
-                    return;
-                }
-            }
-            await winLesson({ token, lesson });
+        const isNotLastExercise =
+            currentExerciseIndex + 1 < lesson.exercises.length;
+
+        if (isNotLastExercise) {
+            setCurrentExerciseIndex((state) => state + 1);
             return;
         }
-        setCurrentExerciseIndex((state) => state + 1);
+
+        setIsGameOver(true);
+
+        if (!token) {
+            token = (await refreshToken()) ?? "";
+        }
+
+        if (!token) {
+            await winLessonIDB({
+                themeId: lesson.themeId,
+                topicId: lesson.topicId,
+            });
+            return;
+        }
+
+        await winLesson({ token, lesson });
     }
 
     function handleSubmitChoice(isCorrect: boolean) {
