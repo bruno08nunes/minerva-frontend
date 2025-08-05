@@ -16,6 +16,9 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
+import { updateLessonProgress } from "@/lib/indexeddb/progress-idb";
+import { toast } from "sonner";
+import { refreshToken } from "@/lib/api/user";
 
 export default function ExerciseComponent({
     lesson,
@@ -30,16 +33,23 @@ export default function ExerciseComponent({
     const exercise: Exercise = lesson.exercises[currentExerciseIndex];
 
     async function updateExercise() {
-        if (currentExerciseIndex + 1 >= lesson.exercises.length) {
+        if (currentExerciseIndex + 1 >= 2) {
             setIsGameOver(true);
             if (!token) {
-                const res = await fetch("/auth/refresh", {
-                    method: "POST",
-                    credentials: "include",
-                });
-                token = (await res.json()).token;
+                const newToken = (await refreshToken()) ?? token;
+                token = newToken;
                 if (!token) {
-                    // TODO: Add a way to save the user data in localStorage
+                    const [err] = await updateLessonProgress({
+                        themeId: lesson.themeId,
+                        topicId: lesson.topicId,
+                    });
+                    if (err) {
+                        toast.error("Erro ao salvar dados localmente.", {
+                            duration: 3000,
+                            position: "top-center",
+                            style: { color: "red" },
+                        });
+                    }
                     return;
                 }
             }
@@ -93,10 +103,16 @@ export default function ExerciseComponent({
         <>
             {/* Exercise Hint Button */}
             <Dialog>
-                <DialogTrigger className="bg-plum text-lavender-blush px-5 py-3 rounded-full text-xl cursor-pointer absolute right-0 top-0">Dica</DialogTrigger>
-                <DialogContent className="bg-plum text-lavender-blush" >
-                    <DialogTitle className="font-bold text-2xl">Dica</DialogTitle>
-                    <DialogDescription className="text-lavender-blush text-lg">{exercise.hint}</DialogDescription>
+                <DialogTrigger className="bg-plum text-lavender-blush px-5 py-3 rounded-full text-xl cursor-pointer absolute right-0 top-0">
+                    Dica
+                </DialogTrigger>
+                <DialogContent className="bg-plum text-lavender-blush">
+                    <DialogTitle className="font-bold text-2xl">
+                        Dica
+                    </DialogTitle>
+                    <DialogDescription className="text-lavender-blush text-lg">
+                        {exercise.hint}
+                    </DialogDescription>
                 </DialogContent>
             </Dialog>
 

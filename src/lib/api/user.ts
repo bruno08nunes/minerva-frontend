@@ -1,6 +1,20 @@
 import { env } from "@/lib/env";
 import type { User } from "@/types/user";
 
+export async function refreshToken() {
+    try {
+        const res = await fetch("/auth/refresh", {
+            method: "POST",
+            credentials: "include",
+        });
+        const token = (await res.json()).token;
+
+        return token as string;
+    } catch {
+        return null;
+    }
+}
+
 export async function getUserProfile({
     username,
     token,
