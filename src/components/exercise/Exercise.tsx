@@ -7,7 +7,7 @@ import ExerciseCode from "./ExerciseCode";
 import Link from "next/link";
 import Image from "next/image";
 
-import winImage from "../../../public/pc.png";
+import winImage from "../../../public/win.png";
 import { winLesson } from "@/lib/api/lessons";
 import {
     Dialog,
@@ -78,12 +78,12 @@ export default function ExerciseComponent({
     if (isGameOver) {
         return (
             <div className="flex justify-center mx-auto max-w-[800px] gap-6 py-8">
-                <Image src={winImage} alt="" />
+                <Image src={winImage} alt="" className="max-w-[450px]" />
                 <div className="text-lavender-blush py-8 flex flex-col items-center justify-center">
                     <h2 className="text-4xl font-bold text-center mb-5">
                         Vitória!
                     </h2>
-                    <p className="text-xl">
+                    <p className="text-xl text-center">
                         Parabéns! Você concluiu essa lição!
                     </p>
                     <Link

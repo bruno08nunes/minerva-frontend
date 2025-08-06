@@ -7,7 +7,7 @@ import gamificationImage from "../../public/gameplay.png";
 import rankingImage from "../../public/podium.png";
 import achievementImage from "../../public/winner.png";
 
-import rpgImage from "../../public/theme_placeholder/d20.png";
+import rpgImage from "../../public/theme_placeholder/rpg.png";
 import detectiveImage from "../../public/theme_placeholder/detective.png";
 import horrorImage from "../../public/theme_placeholder/horror.png";
 import Figure from "@/components/Figure";
