@@ -12,14 +12,14 @@ export default function Figure({ image, isColored, title }: FigureProps) {
     const imageProps = {
         src: image,
         alt: "",
-        className: "max-w-[200px] w-[70%] aspect-square object-cover",
+        className: "max-w-[200px] w-full aspect-square object-cover",
         width: typeof image === "string" ? 400 : undefined,
         height: typeof image === "string" ? 400 : undefined
     }
 
     return (
         <figure
-            className={`flex flex-1 flex-col gap-8 items-center md:py-10 py-4 md:px-4 px-1 md:text-3xl text-lg font-bold text-center ${
+            className={`flex flex-col gap-8 items-center md:py-10 py-4 md:px-4 px-1 md:text-3xl text-lg font-bold text-center ${
                 isColored && "bg-plum rounded"
             }`}
         >

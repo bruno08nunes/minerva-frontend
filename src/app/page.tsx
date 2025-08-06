@@ -77,7 +77,7 @@ export default function Home() {
                         Você pode desenvolver suas habilidades em programação
                         concluindo desafios de temas de seus interesse.
                     </p>
-                    <div className="flex gap-4">
+                    <div className="flex gap-8 justify-center">
                         <Figure
                             title="RPG de Mesa"
                             image={rpgImage}
