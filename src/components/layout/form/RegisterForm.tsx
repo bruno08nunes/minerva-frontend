@@ -7,6 +7,7 @@ import Button from "./Button";
 import Input from "./Input";
 import { registerAction } from "@/action/register-action";
 import PasswordInput from "./PasswordInput";
+import { checkIfHasProgressIDB } from "@/lib/indexeddb/progress-idb";
 
 export default function RegisterForm() {
     const [state, formAction] = useActionState(registerAction, {
@@ -28,8 +29,30 @@ export default function RegisterForm() {
         }
     }, [state]);
 
+    useEffect(() => {
+        const checkProgress = async () => {
+            const hasProgressIDB = await checkIfHasProgressIDB();
+            if (hasProgressIDB) {
+                toast.warning(
+                    "Você contém dados salvos localmente. Fazer login poderá sobreescrevê-los!",
+                    {
+                        position: "top-center",
+                    }
+                );
+            }
+        };
+        checkProgress();
+
+        return () => {
+            toast.dismiss();
+        }
+    }, []);
+
     return (
-        <form className="max-w-[700px] w-full mx-auto flex flex-col gap-6 px-5" action={formAction}>
+        <form
+            className="max-w-[700px] w-full mx-auto flex flex-col gap-6 px-5"
+            action={formAction}
+        >
             <div className="flex gap-4 flex-col sm:flex-row">
                 <Input
                     id="name"

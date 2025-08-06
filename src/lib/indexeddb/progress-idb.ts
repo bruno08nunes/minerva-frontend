@@ -44,3 +44,8 @@ export async function getLastCompletedLesson({
 
     return (await db.progress.get(id))?.lessonOrder ?? 0;
 }
+
+export async function checkIfHasProgressIDB() {
+    const first = await db.progress.toCollection().first();
+    return !!first;
+}

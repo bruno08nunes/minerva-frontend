@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { loginAction } from "@/action/login-action";
 import { redirect } from "next/navigation";
 import PasswordInput from "./PasswordInput";
+import { checkIfHasProgressIDB } from "@/lib/indexeddb/progress-idb";
 
 export default function LoginForm() {
     const [state, formAction] = useActionState(loginAction, {
@@ -19,7 +20,7 @@ export default function LoginForm() {
             toast.error(state.message, {
                 duration: 3000,
                 position: "top-center",
-                style: { color: "red" } 
+                style: { color: "red" },
             });
         }
 
@@ -27,6 +28,25 @@ export default function LoginForm() {
             redirect("/");
         }
     }, [state]);
+
+    useEffect(() => {
+        const checkProgress = async () => {
+            const hasProgressIDB = await checkIfHasProgressIDB();
+            if (hasProgressIDB) {
+                toast.warning(
+                    "Você contém dados salvos localmente. Fazer login poderá sobreescrevê-los!",
+                    {
+                        position: "top-center",
+                    }
+                );
+            }
+        };
+        checkProgress();
+
+        return () => {
+            toast.dismiss();
+        };
+    }, []);
 
     return (
         <form
