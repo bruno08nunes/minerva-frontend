@@ -32,3 +32,15 @@ export async function updateLessonProgressIDB({
         return [err];
     }
 }
+
+export async function getLastCompletedLesson({
+    themeId,
+    topicId,
+}: {
+    themeId: string;
+    topicId: string;
+}) {
+    const id = `${themeId}_${topicId}`;
+
+    return (await db.progress.get(id))?.lessonOrder ?? 0;
+}

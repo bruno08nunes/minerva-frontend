@@ -1,16 +1,10 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
+import LessonButton from "@/components/layout/lesson/LessonButton";
 import { listLessonsByTopicAndTheme } from "@/lib/api/lessons";
 import { getThemeBySlug } from "@/lib/api/themes";
 import { getTopicBySlug } from "@/lib/api/topics";
-import { env } from "@/lib/env";
-import {
-    HoverCard,
-    HoverCardTrigger,
-    HoverCardContent,
-} from "@radix-ui/react-hover-card";
 import { cookies } from "next/headers";
-import Image from "next/image";
 
 interface LessonsPageProps {
     params: Promise<{ themeSlug: string; topicSlug: string }>;
@@ -41,23 +35,6 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
     const message =
         data.find((item) => !item.success)?.message ?? data[0].message;
 
-    const positions = [0, -40, -80, -40, 0, 40, 80, 40];
-
-    const cardTriggerClasses =
-        lessonsData.lessonsData?.map((lesson, index) => {
-            const isCompleted = lesson.Progress?.[0]?.isCompleted;
-            if (isCompleted) {
-                return "grayscale-100 pointer-events-none";
-            }
-            const isPreviousLessonCompleted = lessonsData.lessonsData?.at(
-                index - 1
-            )?.Progress?.[0]?.isCompleted;
-            if (isPreviousLessonCompleted) {
-                return "";
-            }
-            return "grayscale-100 pointer-events-none";
-        }) ?? [];
-
     return (
         <>
             <Header />
@@ -69,38 +46,12 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                 <section className="flex flex-col gap-3 p-4 items-center">
                     {success ? (
                         lessonsData.lessonsData?.map((item, index) => (
-                            <HoverCard key={item.id}>
-                                <HoverCardTrigger
-                                    href={`/learn/lesson/${item.id}`}
-                                    // TODO: Change the style when lesson is completed
-                                    className={`flex flex-col gap-2 sm:flex-grow-0 flex-grow items-center relative ${cardTriggerClasses[index]}`}
-                                    style={{
-                                        left: positions[
-                                            index % positions.length
-                                        ],
-                                    }}
-                                >
-                                    <Image
-                                        src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${item.icon.url}`}
-                                        alt=""
-                                        width={400}
-                                        height={400}
-                                        className="bg-plum max-w-[60px] rounded-full"
-                                    />
-                                    <p className="sm:hidden text-lavender-blush">
-                                        {item.name}
-                                    </p>
-                                </HoverCardTrigger>
-                                <HoverCardContent
-                                    className="bg-plum text-lavender-blush border-lavender-blush rounded p-2 z-10"
-                                    sideOffset={15}
-                                >
-                                    <h3 className="text-lg font-bold text-center">
-                                        {item.name}
-                                    </h3>
-                                    <p>{item.description}</p>
-                                </HoverCardContent>
-                            </HoverCard>
+                            <LessonButton
+                                key={item.id}
+                                index={index}
+                                item={item}
+                                lessonsData={lessonsData.lessonsData}
+                            />
                         ))
                     ) : (
                         <p className="p-5 text-xl text-lavender-blush">
