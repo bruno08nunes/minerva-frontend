@@ -54,10 +54,10 @@ export default function LessonButtons({
             });
 
             const newLessons: LessonsStatus = lessonsData.map((lesson) => {
-                if (orderLessons < lesson.order - 1) {
+                if (orderLessons > (lesson.order - 1)) {
                     return { status: "completed" };
                 }
-                if (orderLessons > lesson.order - 1) {
+                if (orderLessons < (lesson.order - 1)) {
                     return { status: "unavailable" };
                 }
                 return { status: "normal" };
