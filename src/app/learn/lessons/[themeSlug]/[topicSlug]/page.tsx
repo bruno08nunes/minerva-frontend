@@ -1,6 +1,6 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
-import LessonButton from "@/components/layout/lesson/LessonButton";
+import LessonButtons from "@/components/layout/lesson/LessonButtons";
 import { listLessonsByTopicAndTheme } from "@/lib/api/lessons";
 import { getThemeBySlug } from "@/lib/api/themes";
 import { getTopicBySlug } from "@/lib/api/topics";
@@ -45,14 +45,7 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
                 </h2>
                 <section className="flex flex-col gap-3 p-4 items-center">
                     {success ? (
-                        lessonsData.lessonsData?.map((item, index) => (
-                            <LessonButton
-                                key={item.id}
-                                index={index}
-                                item={item}
-                                lessonsData={lessonsData.lessonsData}
-                            />
-                        ))
+                        <LessonButtons lessonsData={lessonsData.lessonsData} />
                     ) : (
                         <p className="p-5 text-xl text-lavender-blush">
                             Erro: {message}
