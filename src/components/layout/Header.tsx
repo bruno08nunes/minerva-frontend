@@ -34,7 +34,7 @@ const links = [
         text: "Perfil",
     },
     {
-        path: "/",
+        path: "/user/edit",
         text: "Configurações",
     },
 ];
@@ -99,12 +99,12 @@ export default async function Header({
                 <Link href={userLink} className="hidden sm:block">
                     <CircleUser color="#D3B1C2" size={35} />
                 </Link>
-                <button
+                <Link
+                    href={"/user/edit"}
                     className="bg-transparent border-0 cursor-pointer hidden sm:block"
-                    aria-label="Configurações"
                 >
                     <Settings color="#D3B1C2" size={35} />
-                </button>
+                </Link>
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger className="cursor-pointer sm:hidden">
                         <Menu color="#D3B1C2" size={40} />
