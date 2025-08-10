@@ -31,7 +31,7 @@ export default function ExerciseCode({
 
     return (
         <pre
-            className={`max-w-[800px] bg-[#ffffff03] rounded mx-auto mb-6 border-6 border-t-24 border-plum p-6 text-xl tracking-wider text-lavender-blush ${codeFont.className}`}
+            className={`max-w-[800px] bg-[#ffffff03] rounded mx-auto mb-6 border-6 border-t-24 border-plum p-6 sm:text-xl text-md text-wrap tracking-wider text-lavender-blush ${codeFont.className}`}
         >
             {codes.length !== 0 ? (
                 codes.map((item, index) => {
