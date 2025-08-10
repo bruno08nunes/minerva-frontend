@@ -78,7 +78,7 @@ export default function ExerciseComponent({
     if (isGameOver) {
         return (
             <div className="flex justify-center mx-auto max-w-[800px] gap-6 py-8">
-                <Image src={winImage} alt="" className="max-w-[450px]" />
+                <Image src={winImage} alt="" className="max-w-[450px] sm:block hidden" />
                 <div className="text-lavender-blush py-8 flex flex-col items-center justify-center">
                     <h2 className="text-4xl font-bold text-center mb-5">
                         Vitória!
