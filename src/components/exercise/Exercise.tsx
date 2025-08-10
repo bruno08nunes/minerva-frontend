@@ -18,6 +18,7 @@ import {
 } from "../ui/dialog";
 import { refreshToken } from "@/lib/api/user";
 import winLessonIDB from "@/utils/winLessonIDB";
+import { toast } from "sonner";
 
 export default function ExerciseComponent({
     lesson,
@@ -60,7 +61,13 @@ export default function ExerciseComponent({
     function handleSubmitChoice(isCorrect: boolean) {
         if (isCorrect) {
             updateExercise();
+            return;
         }
+        toast.error("Resposta errada!", {
+            duration: 3000,
+            position: "top-center",
+            style: { color: "red" },
+        });
     }
 
     function handleChangeInput(value: string) {
@@ -72,13 +79,23 @@ export default function ExerciseComponent({
         setInputValue("");
         if (isCorrect) {
             updateExercise();
+            return;
         }
+        toast.error("Resposta errada!", {
+            duration: 3000,
+            position: "top-center",
+            style: { color: "red" },
+        });
     }
 
     if (isGameOver) {
         return (
             <div className="flex justify-center mx-auto max-w-[800px] gap-6 py-8">
-                <Image src={winImage} alt="" className="max-w-[450px] sm:block hidden" />
+                <Image
+                    src={winImage}
+                    alt=""
+                    className="max-w-[450px] sm:block hidden"
+                />
                 <div className="text-lavender-blush py-8 flex flex-col items-center justify-center">
                     <h2 className="text-4xl font-bold text-center mb-5">
                         Vitória!
