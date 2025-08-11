@@ -212,3 +212,12 @@ export async function listUserRanking() {
 
     return { message, success, users };
 }
+
+export async function getIsAdmin({ token }: { token: string }) {
+    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/admin`, {
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+    return res.ok;
+}
