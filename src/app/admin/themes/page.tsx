@@ -14,7 +14,7 @@ export default async function AdminThemesPage() {
                 {success ? (
                     themes?.map((theme) => (
                         <Link
-                            href={"/admin/themes/form/" + theme.id}
+                            href={"/admin/themes/form/" + theme.slug}
                             key={theme.id}
                             className="w-full bg-plum text-lavender-blush p-2 rounded-md flex gap-2 items-center text-xl"
                         >
