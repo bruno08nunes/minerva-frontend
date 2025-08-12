@@ -15,7 +15,7 @@ export default async function AdminLayout({ children }: { children: any }) {
     return (
         <>
             <Header />
-            <main className="p-3 max-w-[800px] mx-auto">{children}</main>
+            <main className="p-3 max-w-[800px] w-full mx-auto">{children}</main>
         </>
     );
 }
