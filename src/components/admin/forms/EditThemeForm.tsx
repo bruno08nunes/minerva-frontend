@@ -67,7 +67,7 @@ export default function EditThemeForm({
                 defaultValue={theme?.icon?.id}
             />
             <input type="hidden" name="token" value={token} />
-            <input type="hidden" name="themeId" value={theme?.id} />
+            <input type="hidden" name="themeId" value={theme?.id ?? ""} />
             <Button text="Editar" />
         </form>
     );

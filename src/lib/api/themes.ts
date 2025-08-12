@@ -11,6 +11,9 @@ export async function listThemes() {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/themes`, {
             cache: "force-cache",
+            next: {
+                tags: ["themes"],
+            },
         });
         const { data, message, success }: ThemesListReponse =
             await response.json();
@@ -41,7 +44,7 @@ export async function getThemeBySlug(themeSlug: string) {
     try {
         const response = await fetch(
             `${env.NEXT_PUBLIC_API_URL}/themes/${themeSlug}`,
-            { cache: "force-cache" }
+            { cache: "force-cache", next: { tags: ["themes"] } }
         );
         const { data, message, success }: ThemeReponse = await response.json();
 
