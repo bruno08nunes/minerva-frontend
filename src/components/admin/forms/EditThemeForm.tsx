@@ -6,8 +6,10 @@ import Input from "@/components/layout/form/Input";
 import Textarea from "@/components/layout/form/Textarea";
 import { Theme } from "@/types/theme";
 import { redirect } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
+import SetIconDialog from "../SetIconDialog";
+import { Icon } from "@/types/icon";
 
 export default function EditThemeForm({
     theme,
@@ -16,6 +18,7 @@ export default function EditThemeForm({
     theme?: Theme;
     token: string;
 }) {
+    const [currentIcon, setCurrentIcon] = useState(theme?.icon as Icon | undefined);
     const [state, formAction] = useActionState(editThemeAction, {
         success: false,
         message: "",
@@ -40,6 +43,11 @@ export default function EditThemeForm({
             action={formAction}
             className="max-w-[700px] w-full mx-auto flex flex-col gap-6 px-5"
         >
+            <SetIconDialog
+                icons={[]}
+                currentIcon={currentIcon}
+                setCurrentIcon={setCurrentIcon}
+            />
             <div className="flex gap-4 flex-col sm:flex-row">
                 <Input
                     id="name"
@@ -59,12 +67,6 @@ export default function EditThemeForm({
                 label="Descrição:"
                 placeholder="Descrição"
                 defaultValue={theme?.description}
-            />
-            <Input
-                id="icon"
-                label="Ícone:"
-                placeholder=""
-                defaultValue={theme?.icon?.id}
             />
             <input type="hidden" name="token" value={token} />
             <input type="hidden" name="themeId" value={theme?.id ?? ""} />
