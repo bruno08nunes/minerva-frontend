@@ -1,6 +1,6 @@
 "use client";
 
-import { editThemeAction } from "@/action/admin/edit-theme-action";
+import { editThemeAction } from "@/action/admin/edit/edit-theme-action";
 import Button from "@/components/layout/form/Button";
 import Input from "@/components/layout/form/Input";
 import Textarea from "@/components/layout/form/Textarea";
@@ -8,7 +8,7 @@ import { Theme } from "@/types/theme";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
-import SetIconDialog from "../SetIconDialog";
+import SetIconDialog from "../../SetIconDialog";
 import { Icon } from "@/types/icon";
 
 export default function EditThemeForm({

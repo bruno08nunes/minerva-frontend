@@ -1,4 +1,4 @@
-import EditThemeForm from "@/components/admin/forms/EditThemeForm";
+import EditThemeForm from "@/components/admin/forms/edit/EditThemeForm";
 import H1 from "@/components/layout/H1";
 import listIcons from "@/lib/api/icons";
 import { getThemeBySlug } from "@/lib/api/themes";

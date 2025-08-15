@@ -1,4 +1,4 @@
-import EditTopicForm from "@/components/admin/forms/EditTopicForm";
+import EditTopicForm from "@/components/admin/forms/edit/EditTopicForm";
 import H1 from "@/components/layout/H1";
 import listIcons from "@/lib/api/icons";
 import { getTopicBySlug } from "@/lib/api/topics";
