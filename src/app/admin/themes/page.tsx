@@ -27,7 +27,9 @@ export default async function AdminThemesPage() {
                             />
                             <div>
                                 <div className="flex gap-2 items-baseline">
-                                    <span className="font-bold text-2xl">{theme.name}</span>
+                                    <span className="font-bold text-2xl">
+                                        {theme.name}
+                                    </span>
                                     <span className="italic">{theme.slug}</span>
                                 </div>
                                 <p>{theme.description}</p>
@@ -37,6 +39,12 @@ export default async function AdminThemesPage() {
                 ) : (
                     <p>{message}</p>
                 )}
+                <Link
+                    href={"/admin/themes/form/create"}
+                    className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl"
+                >
+                    Criar Tema
+                </Link>
             </section>
         </>
     );
