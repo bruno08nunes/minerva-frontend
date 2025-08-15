@@ -21,13 +21,10 @@ export default function CreateTopicForm({
         undefined as Icon | undefined
     );
 
-    const [state, formAction] = useActionState(
-        createTopicAction,
-        {
-            success: false,
-            message: "",
-        }
-    );
+    const [state, formAction] = useActionState(createTopicAction, {
+        success: false,
+        message: "",
+    });
 
     useEffect(() => {
         if (state.message && state.success === false) {
@@ -57,6 +54,14 @@ export default function CreateTopicForm({
                 <Input id="name" label="Nome do tema:" placeholder="Nome" />
                 <Input id="slug" label="Identificador:" placeholder="Slug" />
             </div>
+            <Input
+                id="order"
+                type="number"
+                step={1}
+                min={1}
+                label="Ordem:"
+                placeholder="N°"
+            />
             <Textarea
                 id="description"
                 label="Descrição:"

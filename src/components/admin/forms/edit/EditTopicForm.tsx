@@ -20,7 +20,9 @@ export default function EditTopicForm({
     token: string;
     icons?: Icon[];
 }) {
-    const [currentIcon, setCurrentIcon] = useState(topic?.icon as Icon | undefined);
+    const [currentIcon, setCurrentIcon] = useState(
+        topic?.icon as Icon | undefined
+    );
     const [state, formAction] = useActionState(editTopicAction, {
         success: false,
         message: "",
@@ -64,6 +66,15 @@ export default function EditTopicForm({
                     defaultValue={topic?.slug}
                 />
             </div>
+            <Input
+                id="order"
+                type="number"
+                step={1}
+                min={1}
+                label="Ordem:"
+                placeholder="N°"
+                defaultValue={topic?.order}
+            />
             <Textarea
                 id="description"
                 label="Descrição:"

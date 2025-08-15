@@ -10,6 +10,7 @@ export const editTopicAction = async (
 ) => {
     const name = formData.get("name")?.toString().trim() || undefined;
     const slug = formData.get("slug")?.toString().trim() || undefined;
+    const order = Number(formData.get("order")?.toString().trim());
     const description =
         formData.get("description")?.toString().trim() || undefined;
     const token = formData.get("token");
@@ -20,6 +21,7 @@ export const editTopicAction = async (
     const authenticateBodySchema = z.object({
         name: z.string().min(3).max(255).optional(),
         slug: z.string().min(3).max(255).optional(),
+        order: z.number().min(1).int(),
         description: z.string().min(3).max(255).optional(),
         iconId: z.string().nullable().optional(),
         id: z.string(),
@@ -28,6 +30,7 @@ export const editTopicAction = async (
     const { success } = authenticateBodySchema.safeParse({
         name,
         slug,
+        order,
         description,
         iconId,
         id,
@@ -47,6 +50,7 @@ export const editTopicAction = async (
             body: JSON.stringify({
                 name,
                 slug,
+                order,
                 description,
                 iconId,
             }),

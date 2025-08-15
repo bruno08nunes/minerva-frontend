@@ -28,7 +28,7 @@ export default async function AdminTopicsPage() {
                             <div>
                                 <div className="flex gap-2 items-baseline">
                                     <span className="font-bold text-2xl">{topic.name}</span>
-                                    <span className="italic">{topic.slug}</span>
+                                    <span className="italic">{topic.slug} - {topic.order}°</span>
                                 </div>
                                 <p>{topic.description}</p>
                             </div>

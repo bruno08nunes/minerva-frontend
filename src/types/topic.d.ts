@@ -6,4 +6,5 @@ export interface Topic {
     description: string;
     icon: Icon;
     slug: string;
+    order: number;
 }
