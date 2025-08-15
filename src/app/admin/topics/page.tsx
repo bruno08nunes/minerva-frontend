@@ -37,6 +37,12 @@ export default async function AdminTopicsPage() {
                 ) : (
                     <p>{message}</p>
                 )}
+                <Link
+                    href={"/admin/topics/form/create"}
+                    className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl"
+                >
+                    Criar Tópico
+                </Link>
             </section>
         </>
     );

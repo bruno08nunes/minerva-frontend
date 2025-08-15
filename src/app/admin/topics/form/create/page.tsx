@@ -1,10 +1,10 @@
-import CreateThemeForm from "@/components/admin/forms/create/CreateThemeForm";
+import CreateTopicForm from "@/components/admin/forms/create/CreateTopicForm";
 import H1 from "@/components/layout/H1";
 import listIcons from "@/lib/api/icons";
 import getAuthToken from "@/lib/token";
 import { redirect } from "next/navigation";
 
-export default async function CreateThemeAdminPage() {
+export default async function CreateTopicAdminPage() {
     const token = await getAuthToken();
 
     if (!token) {
@@ -15,8 +15,8 @@ export default async function CreateThemeAdminPage() {
 
     return (
         <section className="w-full">
-            <H1 title="Criar Tema" />
-            <CreateThemeForm token={token} icons={icons} />
+            <H1 title="Criar Tópico" />
+            <CreateTopicForm token={token} icons={icons} />
         </section>
     );
 }
