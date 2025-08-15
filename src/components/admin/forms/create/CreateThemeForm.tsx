@@ -8,6 +8,7 @@ import Textarea from "@/components/layout/form/Textarea";
 import Button from "@/components/layout/form/Button";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
+import { createThemeAction } from "@/action/admin/create/create-theme-action";
 
 export default function CreateThemeForm({
     icons = [],
@@ -21,7 +22,7 @@ export default function CreateThemeForm({
     );
 
     const [state, formAction] = useActionState(
-        () => ({ success: false, message: "" }),
+        createThemeAction,
         {
             success: false,
             message: "",
