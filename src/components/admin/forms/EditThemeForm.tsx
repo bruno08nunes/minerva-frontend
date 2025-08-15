@@ -14,11 +14,14 @@ import { Icon } from "@/types/icon";
 export default function EditThemeForm({
     theme,
     token,
+    icons = [],
 }: {
     theme?: Theme;
     token: string;
+    icons?: Icon[];
 }) {
     const [currentIcon, setCurrentIcon] = useState(theme?.icon as Icon | undefined);
+    console.log(theme);
     const [state, formAction] = useActionState(editThemeAction, {
         success: false,
         message: "",
@@ -44,7 +47,7 @@ export default function EditThemeForm({
             className="max-w-[700px] w-full mx-auto flex flex-col gap-6 px-5"
         >
             <SetIconDialog
-                icons={[]}
+                icons={icons}
                 currentIcon={currentIcon}
                 setCurrentIcon={setCurrentIcon}
             />
@@ -70,6 +73,7 @@ export default function EditThemeForm({
             />
             <input type="hidden" name="token" value={token} />
             <input type="hidden" name="themeId" value={theme?.id ?? ""} />
+            <input type="hidden" name="iconId" value={currentIcon?.id ?? ""} />
             <Button text="Editar" />
         </form>
     );

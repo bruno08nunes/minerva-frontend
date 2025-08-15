@@ -1,5 +1,6 @@
 import EditThemeForm from "@/components/admin/forms/EditThemeForm";
 import H1 from "@/components/layout/H1";
+import listIcons from "@/lib/api/icons";
 import { getThemeBySlug } from "@/lib/api/themes";
 import getAuthToken from "@/lib/token";
 import { redirect } from "next/navigation";
@@ -17,11 +18,12 @@ export default async function AdminThemeForm({
 
     const { id: slug } = await params;
     const { theme } = await getThemeBySlug(slug);
+    const { data: icons } = await listIcons();
 
     return (
         <section className="w-full">
             <H1 title="Editar Tema" />
-            <EditThemeForm token={token} theme={theme} />
+            <EditThemeForm token={token} theme={theme} icons={icons} />
         </section>
     );
 }

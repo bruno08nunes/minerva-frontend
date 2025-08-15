@@ -23,10 +23,14 @@ export default function SetIconDialog({
 }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const pathImage = currentIcon?.url
+        ? `${env.NEXT_PUBLIC_API_URL}/uploads/icons/${currentIcon.url}`
+        : placeholder;
+
     return (
         <div className="flex gap-4 items-center">
             <Image
-                src={currentIcon?.url || placeholder}
+                src={pathImage}
                 width={400}
                 height={400}
                 alt="Sua foto de perfil atual"
@@ -59,7 +63,7 @@ export default function SetIconDialog({
                                 }}
                             >
                                 <Image
-                                    src={`${env.NEXT_PUBLIC_API_URL}/uploads/profile-images/${item.url}`}
+                                    src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${item.url}`}
                                     alt={item.description ?? ""}
                                     width={400}
                                     height={400}
