@@ -13,6 +13,9 @@ export async function getTopicBySlug(topicSlug: string) {
             `${env.NEXT_PUBLIC_API_URL}/topics/${topicSlug}`,
             {
                 cache: "force-cache",
+                next: {
+                    tags: ["topics"],
+                },
             }
         );
         const { data, message, success }: TopicResponse = await response.json();
@@ -44,6 +47,9 @@ export async function listTopics() {
     try {
         const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/topics`, {
             cache: "force-cache",
+            next: {
+                tags: ["topics"],
+            },
         });
         const { data, message, success }: TopicsListResponse =
             await response.json();
