@@ -1,3 +1,4 @@
+import EditIconForm from "@/components/admin/forms/edit/EditIconForm";
 import H1 from "@/components/layout/H1";
 import { getIconById } from "@/lib/api/icons";
 import getAuthToken from "@/lib/token";
@@ -20,6 +21,7 @@ export default async function EditIconAdminPage({
     return (
         <section className="w-full">
             <H1 title="Editar Ícone" />
+            <EditIconForm icon={icon} token={token} />
         </section>
     );
 }

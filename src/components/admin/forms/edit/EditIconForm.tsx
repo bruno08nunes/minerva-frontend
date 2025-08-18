@@ -6,15 +6,17 @@ import { redirect } from "next/navigation";
 import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Icon } from "@/types/icon";
+import FileInput from "@/components/layout/form/FileInput";
+import { editIconAction } from "@/action/admin/edit/edit-icon-action";
 
-export default function EditThemeForm({
+export default function EditIconForm({
     icon,
     token,
 }: {
     icon?: Icon;
     token: string;
 }) {
-    const [state, formAction] = useActionState(editThemeAction, {
+    const [state, formAction] = useActionState(editIconAction, {
         success: false,
         message: "",
     });
@@ -38,6 +40,7 @@ export default function EditThemeForm({
             action={formAction}
             className="max-w-[700px] w-full mx-auto flex flex-col gap-6 px-5"
         >
+            <FileInput />
             <Textarea
                 id="description"
                 label="Descrição:"
