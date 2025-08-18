@@ -1,7 +1,6 @@
 "use server";
 
 import { env } from "@/lib/env";
-import { revalidateTag } from "next/cache";
 import z from "zod";
 
 export const editIconAction = async (
@@ -40,7 +39,6 @@ export const editIconAction = async (
             body: formData,
         });
         const result = await res.json();
-        revalidateTag("themes");
 
         if (res.status === 404) {
             return {

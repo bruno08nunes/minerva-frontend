@@ -40,7 +40,7 @@ export default function EditIconForm({
             action={formAction}
             className="max-w-[700px] w-full mx-auto flex flex-col gap-6 px-5"
         >
-            <FileInput />
+            <FileInput defaultUrl={icon?.url} />
             <Textarea
                 id="description"
                 label="Descrição:"

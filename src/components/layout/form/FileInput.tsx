@@ -1,8 +1,13 @@
+import { env } from "@/lib/env";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function FileInput() {
-    const [icon, setIcon] = useState("");
+export default function FileInput({ defaultUrl }: { defaultUrl?: string }) {
+    const [icon, setIcon] = useState(defaultUrl ?? "");
+    const url =
+        icon === defaultUrl
+            ? `${env.NEXT_PUBLIC_API_URL}/uploads/icons/${defaultUrl}`
+            : icon;
 
     const handleChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
         const fr = new FileReader();
@@ -19,7 +24,7 @@ export default function FileInput() {
         <div className="flex gap-4 items-center justify-center">
             {icon ? (
                 <Image
-                    src={icon}
+                    src={url}
                     width={400}
                     height={400}
                     alt="Sua foto de perfil atual"
