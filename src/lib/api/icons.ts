@@ -3,7 +3,12 @@ import { env } from "../env";
 
 export default async function listIcons() {
     try {
-        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/icons`);
+        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/icons`, {
+            cache: "force-cache",
+            next: {
+                tags: ["icons"],
+            },
+        });
         const {
             success,
             data,
@@ -40,7 +45,12 @@ export default async function listIcons() {
 
 export async function getIconById(id: string) {
     try {
-        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/icons/${id}`);
+        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/icons/${id}`, {
+            cache: "force-cache",
+            next: {
+                tags: ["icons"],
+            },
+        });
         const {
             success,
             data,
@@ -54,8 +64,8 @@ export async function getIconById(id: string) {
         if (res.status === 404) {
             return {
                 success: false,
-                message: "Ícone não encontrado."
-            }
+                message: "Ícone não encontrado.",
+            };
         }
 
         if (!res.ok || !success) {

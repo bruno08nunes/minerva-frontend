@@ -1,6 +1,7 @@
 "use server";
 
 import { env } from "@/lib/env";
+import { revalidateTag } from "next/cache";
 import z from "zod";
 
 export const createIconAction = async (
@@ -35,6 +36,7 @@ export const createIconAction = async (
             body: formData
         });
         const result = await res.json();
+        revalidateTag("icons");
 
         if (res.status === 400) {
             return {
