@@ -10,6 +10,12 @@ export default async function IconAdminPage() {
     return (
         <section className="w-full flex gap-4 flex-col">
             <H1 title="Ícones" />
+            <Link
+                href={"/admin/icons/create"}
+                className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl"
+            >
+                Criar Ícone
+            </Link>
             {success ? (
                 data?.map((icon) => (
                     <Link
