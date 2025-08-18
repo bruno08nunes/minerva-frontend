@@ -20,7 +20,7 @@ const adminPages = [
     },
     {
         text: "Fotos de Perfil",
-        link: "profile-picture",
+        link: "profilePictures",
     },
     {
         text: "Conquistas",
