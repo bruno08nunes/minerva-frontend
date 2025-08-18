@@ -48,7 +48,7 @@ export default function EditIconForm({
                 defaultValue={icon?.description}
             />
             <input type="hidden" name="token" value={token} />
-            <input type="hidden" name="iconId" value={icon?.id ?? ""} />
+            <input type="hidden" name="id" value={icon?.id ?? ""} />
             <Button text="Editar" />
         </form>
     );
