@@ -1,6 +1,7 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { listUserRanking } from "@/lib/api/user";
+import Link from "next/link";
 
 export default async function RankingPage() {
     const { message, success, users } = await listUserRanking();
@@ -15,15 +16,17 @@ export default async function RankingPage() {
                         users.map((user, index) => (
                             <li
                                 key={index}
-                                className="bg-plum text-lavender-blush sm:text-2xl text-md p-4 rounded-xl flex justify-between items-center"
+                                className="bg-plum text-lavender-blush sm:text-2xl text-md p-4 rounded-xl"
                             >
-                                <div className="flex gap-4 items-center">
-                                    <span className="font-bold sm:text-3xl text-xl">
-                                        {index + 1}°
-                                    </span>
-                                    <span>@{user.username}</span>
-                                </div>
-                                <span>{user.semanalXP}XP</span>
+                                <Link href={`/users/${user.username}`} className="flex justify-between items-center">
+                                    <div className="flex gap-4 items-center">
+                                        <span className="font-bold sm:text-3xl text-xl">
+                                            {index + 1}°
+                                        </span>
+                                        <span>@{user.username}</span>
+                                    </div>
+                                    <span>{user.semanalXP}XP</span>
+                                </Link>
                             </li>
                         ))
                     ) : (
