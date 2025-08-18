@@ -2,11 +2,17 @@ import { env } from "@/lib/env";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function FileInput({ defaultUrl }: { defaultUrl?: string }) {
+export default function FileInput({
+    defaultUrl,
+    type = "icons",
+}: {
+    defaultUrl?: string;
+    type?: "icons" | "profile-images";
+}) {
     const [icon, setIcon] = useState(defaultUrl ?? "");
     const url =
         icon === defaultUrl
-            ? `${env.NEXT_PUBLIC_API_URL}/uploads/icons/${defaultUrl}`
+            ? `${env.NEXT_PUBLIC_API_URL}/uploads/${type}/${defaultUrl}`
             : icon;
 
     const handleChangeFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
