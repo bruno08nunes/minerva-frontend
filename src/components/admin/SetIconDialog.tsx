@@ -10,7 +10,6 @@ import {
 import { useState } from "react";
 import { Icon } from "@/types/icon";
 import { env } from "@/lib/env";
-import placeholder from "../../../public/no-picture.png";
 
 export default function SetIconDialog({
     icons,
@@ -25,27 +24,33 @@ export default function SetIconDialog({
 
     const pathImage = currentIcon?.url
         ? `${env.NEXT_PUBLIC_API_URL}/uploads/icons/${currentIcon.url}`
-        : placeholder;
+        : null;
 
     return (
         <div className="flex gap-4 items-center">
-            <Image
-                src={pathImage}
-                width={400}
-                height={400}
-                alt="Sua foto de perfil atual"
-                className="w-35 bg-plum rounded-full"
-            />
+            {
+                pathImage ? (
+                    <Image
+                        src={pathImage}
+                        width={400}
+                        height={400}
+                        alt="Sua foto de perfil atual"
+                        className="w-35 bg-plum rounded-full"
+                    />
+                ) : (
+                    <div className="w-35 bg-plum rounded-full aspect-square"></div>
+                )
+            }
             <Dialog
                 open={isModalOpen}
                 onOpenChange={() => setIsModalOpen((state) => !state)}
             >
                 <DialogTrigger className="border-2 border-lavender-blush text-lavender-blush p-3 cursor-pointer hover:scale-110 transition">
-                    Mudar Foto de Perfil
+                    Mudar Ícone
                 </DialogTrigger>
                 <DialogContent className="bg-plum text-lavender-blush">
                     <DialogTitle className="text-center font-bold text-2xl mb-3">
-                        Escolha Sua Foto de Perfil
+                        Escolha o Ícone
                     </DialogTitle>
                     <section className="flex flex-wrap justify-center gap-4 overflow-auto max-h-[50vh]">
                         {icons.map((item) => (
