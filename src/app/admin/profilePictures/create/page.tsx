@@ -7,7 +7,7 @@ export default async function CreateProfilePictureAdminPage() {
 
     return (
         <section className="w-full">
-            <H1 title="Criar Ícone" />
+            <H1 title="Criar Foto de Perfil" />
             <CreateProfilePictureForm token={token!} />
         </section>
     );

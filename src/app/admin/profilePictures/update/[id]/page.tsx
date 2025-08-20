@@ -20,7 +20,7 @@ export default async function EditProfilePictureAdminPage({
 
     return (
         <section className="w-full">
-            <H1 title="Editar Ícone" />
+            <H1 title="Editar Foto de Perfil" />
             <EditProfilePictureForm profilePicture={profilePicture} token={token} />
         </section>
     );

@@ -9,7 +9,7 @@ export default async function ProfilePictureAdminPage() {
 
     return (
         <section className="w-full flex gap-4 flex-col">
-            <H1 title="Ícones" />
+            <H1 title="Fotos de Perfil" />
             <Link
                 href={"/admin/profilePictures/create"}
                 className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl"
