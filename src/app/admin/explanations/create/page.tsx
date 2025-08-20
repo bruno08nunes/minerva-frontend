@@ -4,6 +4,7 @@ export default async function CreateExplanationAdminPage() {
     return (
         <section className="w-full">
             <H1 title="Criar Explicação" />
+            <CreateExplanationAdminPage />
         </section>
     )
 }
