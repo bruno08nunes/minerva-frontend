@@ -1,0 +1,86 @@
+"use server";
+
+import { env } from "@/lib/env";
+import { parseMarkdownLike } from "@/utils/parseMarkdown";
+import { revalidateTag } from "next/cache";
+import z from "zod";
+
+export const createExplanationAction = async (
+    _prevState: { success: boolean; message: string },
+    formData: FormData
+) => {
+    const title = formData.get("title");
+    const description = formData.get("description");
+    const contentText = formData.get("content")?.toString();
+    const content = parseMarkdownLike(contentText!);
+    const topicId = formData.get("topicId");
+    const token = formData.get("token");
+
+    const authenticateBodySchema = z.object({
+        title: z.string(),
+        description: z.string(),
+        content: z.array(
+            z.object({
+                type: z.enum(["paragraph", "code"]),
+                data: z.string(),
+            })
+        ),
+        topicId: z.string().uuid(),
+    });
+
+    const { success } = authenticateBodySchema.safeParse({
+        title,
+        description,
+        content,
+        topicId,
+    });
+
+    if (!success) {
+        return { success: false, message: "Dados inválidos!" };
+    }
+
+    try {
+        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/explanations`, {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify({
+                title,
+                description,
+                content,
+                topicId,
+            }),
+        });
+        const result = await res.json();
+        revalidateTag("explanations");
+
+        if (res.status === 400) {
+            return {
+                success: false,
+                message: "Informações incorretas",
+            };
+        }
+
+        if (!result.success && !res.ok) {
+            return {
+                success: false,
+                message: "Erro ao criar explicação. Tente novamente mais tarde.",
+            };
+        }
+
+        return {
+            success: true,
+            message: "Sucesso!",
+        };
+    } catch (err) {
+        console.log(err);
+        return {
+            success: false,
+            message:
+                err instanceof Error
+                    ? err.message
+                    : "Erro ao criar explicação. Tente novamente mais tarde.",
+        };
+    }
+};
