@@ -33,7 +33,7 @@ export default function CreateProfilePictureForm({ token }: { token: string }) {
             action={formAction}
             className="flex flex-col gap-4 justify-center"
         >
-            <FileInput />
+            <FileInput type="profile-images" />
             <Textarea id="description" label="Descrição:" placeholder="Descrição" maxLength={255} />
             <input type="hidden" name="token" value={token} />
             <Button text="Criar" />

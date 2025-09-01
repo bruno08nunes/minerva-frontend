@@ -40,7 +40,7 @@ export default function FileInput({
                 <div className="w-35 bg-plum rounded-full aspect-square" />
             )}
             <label className="border-2 border-lavender-blush text-lavender-blush p-3 cursor-pointer hover:scale-110 transition">
-                Adicionar Ícone
+                Adicionar {type === "icons" ? "Ícone" : "Foto de Perfil"}
                 <input
                     type="file"
                     name="file"

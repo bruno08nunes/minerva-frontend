@@ -18,34 +18,39 @@ export const editProfilePictureAction = async (
             .instanceof(File)
             .refine((file) => file.type.startsWith("image/"), {
                 message: "O arquivo deve ser uma imagem.",
-            }),
-        description: z.string().max(255),
+            })
+            .optional(),
+        description: z.string().max(255).optional(),
     });
 
-    const { success } = authenticateBodySchema.safeParse({
+    const { success, error } = authenticateBodySchema.safeParse({
         file,
         description,
     });
+    console.log(error);
 
     if (!success) {
         return { success: false, message: "Dados inválidos!" };
     }
 
     try {
-        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/profile-pictures/${id}`, {
-            method: "PUT",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-            body: formData,
-        });
+        const res = await fetch(
+            `${env.NEXT_PUBLIC_API_URL}/profile-pictures/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    Authorization: "Bearer " + token,
+                },
+                body: formData,
+            }
+        );
         const result = await res.json();
         revalidateTag("profilePictures");
 
         if (res.status === 404) {
             return {
                 success: false,
-                message: "Ícone não encontrado!",
+                message: "Foto de perfil não encontrado!",
             };
         }
 
@@ -59,7 +64,7 @@ export const editProfilePictureAction = async (
         if (!result.success && !res.ok) {
             return {
                 success: false,
-                message: "Erro ao editar ícone. Tente novamente mais tarde.",
+                message: "Erro ao editar perfil. Tente novamente mais tarde.",
             };
         }
 
