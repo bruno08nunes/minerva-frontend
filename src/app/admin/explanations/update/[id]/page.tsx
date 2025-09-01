@@ -5,5 +5,5 @@ export default async function UpdateExplanationAdminPage() {
         <section className="w-full">
             <H1 title="Editar Explicação" />
         </section>
-    )
+    );
 }

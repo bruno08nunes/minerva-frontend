@@ -34,7 +34,7 @@ export default async function ExplanationsAdminPage() {
                     <Link
                         href={`/admin/explanations/update/${explanation.id}`}
                         key={explanation.id}
-                        className="w-full bg-plum text-lavender-blush p-3 rounded-md flex gap-2 items-center text-xl"
+                        className="w-full bg-plum text-lavender-blush p-3 rounded-md flex gap-2 items-center text-lg"
                     >
                         <Image
                             src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${explanation.topic.icon.url}`}
@@ -44,7 +44,12 @@ export default async function ExplanationsAdminPage() {
                             className="max-w-[100px]"
                         />
                         <div>
-                            <h2>{explanation.title}</h2>
+                            <div className="flex items-baseline gap-2">
+                                <h2 className="font-bold text-xl">{explanation.title}</h2>
+                                <p className="italic text-sm">
+                                    {explanation.topic.name}
+                                </p>
+                            </div>
                             <p className="line-clamp-2">
                                 {explanation.description ?? "Sem descrição"}
                             </p>
