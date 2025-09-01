@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
-export default function CreateExplanationForm() {
+export default function CreateExplanationForm({ token }: { token: string }) {
     const [state, formAction] = useActionState(createExplanationAction, {
         success: false,
         message: "",
@@ -29,7 +29,10 @@ export default function CreateExplanationForm() {
     }, [state]);
 
     return (
-        <form className="flex flex-col gap-4 justify-center" action={formAction}>
+        <form
+            className="flex flex-col gap-4 justify-center"
+            action={formAction}
+        >
             <Input id="title" label="Título:" placeholder="Título" />
             <Textarea
                 id="description"
@@ -38,6 +41,7 @@ export default function CreateExplanationForm() {
             />
             <Textarea id="content" label="Conteúdo:" placeholder="Conteúdo" />
             <Input id="topicId" label="Tópico:" placeholder="Tópico" />
+            <input type="hidden" name="token" value={token} />
             <Button text="Criar" />
         </form>
     );

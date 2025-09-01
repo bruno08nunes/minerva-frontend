@@ -21,7 +21,7 @@ export default async function ExplanationPage({
     return (
         <>
             <Header />
-            <main className="p-4 text-lavender-blush text-xl max-w-[800px] mx-auto text-justify">
+            <main className="p-4 text-lavender-blush text-xl max-w-[800px] w-full mx-auto text-justify">
                 <article>
                     <ExplanationHeader explanation={data} />
                     <section className="py-4 flex flex-col gap-4">
