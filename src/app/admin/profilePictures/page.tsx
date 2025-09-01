@@ -1,11 +1,17 @@
 import H1 from "@/components/layout/H1";
 import listProfilePictures from "@/lib/api/profilePictures";
 import { env } from "@/lib/env";
+import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function ProfilePictureAdminPage() {
     const { message, success, data } = await listProfilePictures();
+    const resetProfilePictureCache = async () => {
+        "use server";
+
+        revalidateTag("profilePictures");
+    };
 
     return (
         <section className="w-full flex gap-4 flex-col">
@@ -16,6 +22,12 @@ export default async function ProfilePictureAdminPage() {
             >
                 Criar Foto de Perfil
             </Link>
+            <button
+                className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl cursor-pointer"
+                onClick={resetProfilePictureCache}
+            >
+                Resetar Cache
+            </button>
             {success ? (
                 data?.map((profilePicture) => (
                     <Link

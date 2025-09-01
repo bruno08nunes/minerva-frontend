@@ -1,11 +1,18 @@
 import H1 from "@/components/layout/H1";
 import { listExplanations } from "@/lib/api/explanations";
 import { env } from "@/lib/env";
+import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function ExplanationsAdminPage() {
     const { message, success, data } = await listExplanations();
+
+    const resetExplanationCache = async () => {
+        "use server";
+
+        revalidateTag("explanations");
+    };
 
     return (
         <section className="w-full flex gap-4 flex-col">
@@ -16,6 +23,12 @@ export default async function ExplanationsAdminPage() {
             >
                 Criar Explicação
             </Link>
+            <button
+                className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl cursor-pointer"
+                onClick={resetExplanationCache}
+            >
+                Resetar Cache
+            </button>
             {success ? (
                 data?.map((explanation) => (
                     <Link
@@ -32,7 +45,9 @@ export default async function ExplanationsAdminPage() {
                         />
                         <div>
                             <h2>{explanation.title}</h2>
-                            <p className="line-clamp-2">{explanation.description ?? "Sem descrição"}</p>
+                            <p className="line-clamp-2">
+                                {explanation.description ?? "Sem descrição"}
+                            </p>
                         </div>
                     </Link>
                 ))

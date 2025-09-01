@@ -1,16 +1,36 @@
 import H1 from "@/components/layout/H1";
+import Button from "@/components/layout/form/Button";
 import { listThemes } from "@/lib/api/themes";
 import { env } from "@/lib/env";
+import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 
 export default async function AdminThemesPage() {
     const { message, themesData: themes, success } = await listThemes();
 
+    const resetThemeCache = async () => {
+        "use server";
+
+        revalidateTag("themes");
+    };
+
     return (
         <>
             <H1 title="Editar Temas" />
             <section className="flex flex-col gap-3">
+                <Link
+                    href={"/admin/themes/form/create"}
+                    className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl"
+                >
+                    Criar Tema
+                </Link>
+                <button
+                    className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl cursor-pointer"
+                    onClick={resetThemeCache}
+                >
+                    Resetar Cache
+                </button>
                 {success ? (
                     themes?.map((theme) => (
                         <Link
@@ -39,12 +59,6 @@ export default async function AdminThemesPage() {
                 ) : (
                     <p>{message}</p>
                 )}
-                <Link
-                    href={"/admin/themes/form/create"}
-                    className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl"
-                >
-                    Criar Tema
-                </Link>
             </section>
         </>
     );
