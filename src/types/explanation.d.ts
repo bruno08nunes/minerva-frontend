@@ -4,7 +4,7 @@ export interface Explanation {
     id: string;
     title: string;
     description: string;
-    content: Record<string, string>[];
+    content: { type: "paragraph" | "code", data: string }[];
     topicId: string;
     topic: Topic;
     createdAt: string;
