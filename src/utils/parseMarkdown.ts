@@ -38,17 +38,18 @@ export function parseMarkdownToText(markdownArray: Explanation["content"]) {
             text += line.data;
 
             if (!(i + 1 === markdownArray.length)) {
-                text += "\n\n"
+                text += "\n\n";
             }
 
             continue;
         }
 
         if (line.type === "code") {
-            text += "```\n" + line.data
+            text += "```\n" + line.data + "\n```";
 
             if (!(i + 1 === markdownArray.length)) {
-                text += "\n```\n\n";
+                text += "\n\n";
+                continue;
             }
         }
     }

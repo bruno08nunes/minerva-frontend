@@ -35,7 +35,7 @@ export const editExplanationAction = async (
         title,
         description,
         content,
-        topicId
+        topicId,
     });
 
     if (!success) {
@@ -43,13 +43,17 @@ export const editExplanationAction = async (
     }
 
     try {
-        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/explanations/${id}`, {
-            method: "PUT",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-            body: formData,
-        });
+        const res = await fetch(
+            `${env.NEXT_PUBLIC_API_URL}/explanations/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    Authorization: "Bearer " + token,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ title, description, content, topicId }),
+            }
+        );
         const result = await res.json();
         revalidateTag("explanations");
 
@@ -70,7 +74,8 @@ export const editExplanationAction = async (
         if (!result.success && !res.ok) {
             return {
                 success: false,
-                message: "Erro ao editar explicação. Tente novamente mais tarde.",
+                message:
+                    "Erro ao editar explicação. Tente novamente mais tarde.",
             };
         }
 
