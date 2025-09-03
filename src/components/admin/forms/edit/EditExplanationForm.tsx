@@ -7,16 +7,22 @@ import Textarea from "@/components/layout/form/Textarea";
 import { Explanation } from "@/types/explanation";
 import { parseMarkdownToText } from "@/utils/parseMarkdown";
 import { redirect } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
+import SetTopicDialog from "../../SetTopicDialog";
+import { Topic } from "@/types/topic";
 
 export default function EditExplanationForm({
     explanation,
     token,
+    topics,
 }: {
     explanation: Explanation;
     token: string;
+    topics: Topic[];
 }) {
+    const [currentTopic, setCurrentTopic] = useState<Topic>(explanation.topic);
+
     const content = parseMarkdownToText(explanation?.content ?? []);
 
     const [state, formAction] = useActionState(editExplanationAction, {
@@ -39,7 +45,10 @@ export default function EditExplanationForm({
     }, [state]);
 
     return (
-        <form className="flex flex-col gap-4 justify-center" action={formAction}>
+        <form
+            className="flex flex-col gap-4 justify-center"
+            action={formAction}
+        >
             <Input
                 id="title"
                 label="Título:"
@@ -58,13 +67,14 @@ export default function EditExplanationForm({
                 placeholder="Conteúdo"
                 defaultValue={content}
             />
-            <Input
-                id="topicId"
-                label="Tópico:"
-                placeholder="Tópico"
-                defaultValue={explanation?.topicId}
+            <p className="text-lavender-blush text-xl">Tópico:</p>
+            <SetTopicDialog
+                setCurrentTopic={setCurrentTopic}
+                topics={topics}
+                currentTopic={currentTopic}
             />
             <input type="hidden" name="id" value={explanation?.id} />
+            <input type="hidden" name="topicId" value={currentTopic.id ?? ""} />
             <input type="hidden" name="token" value={token} />
             <Button text="Editar" />
         </form>

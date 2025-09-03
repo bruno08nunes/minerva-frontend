@@ -4,11 +4,21 @@ import { createExplanationAction } from "@/action/admin/create/create-explanatio
 import Button from "@/components/layout/form/Button";
 import Input from "@/components/layout/form/Input";
 import Textarea from "@/components/layout/form/Textarea";
+import { Topic } from "@/types/topic";
 import { redirect } from "next/navigation";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
+import SetTopicDialog from "../../SetTopicDialog";
 
-export default function CreateExplanationForm({ token }: { token: string }) {
+export default function CreateExplanationForm({
+    token,
+    topics,
+}: {
+    token: string;
+    topics: Topic[];
+}) {
+    const [currentTopic, setCurrentTopic] = useState<Topic>();
+
     const [state, formAction] = useActionState(createExplanationAction, {
         success: false,
         message: "",
@@ -40,7 +50,13 @@ export default function CreateExplanationForm({ token }: { token: string }) {
                 placeholder="Descrição"
             />
             <Textarea id="content" label="Conteúdo:" placeholder="Conteúdo" />
-            <Input id="topicId" label="Tópico:" placeholder="Tópico" />
+            <p className="text-lavender-blush text-xl">Tópico:</p>
+            <SetTopicDialog
+                setCurrentTopic={setCurrentTopic}
+                topics={topics}
+                currentTopic={currentTopic}
+            />
+            <input type="hidden" name="topicId" value={currentTopic?.id ?? ""} />
             <input type="hidden" name="token" value={token} />
             <Button text="Criar" />
         </form>
