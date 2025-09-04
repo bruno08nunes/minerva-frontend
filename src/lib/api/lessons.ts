@@ -81,7 +81,7 @@ interface WinLessonReturn {
         success: boolean;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data: any;
-    }[]
+    }[];
 }
 
 export async function winLesson({
@@ -139,7 +139,11 @@ export async function winLesson({
             }
         }
 
-        return { success: true, responses: jsonResponses, message: jsonResponses[0].message };
+        return {
+            success: true,
+            responses: jsonResponses,
+            message: jsonResponses[0].message,
+        };
     } catch (err) {
         if (err instanceof Error) {
             return {
@@ -148,5 +152,27 @@ export async function winLesson({
             };
         }
         return { success: false, message: "Erro desconhecido" };
+    }
+}
+
+export async function listAllLessons() {
+    try {
+        const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/lessons`);
+        const { data, success, message }: LessonsListResponse =
+            await response.json();
+
+        if (!success) {
+            return {
+                success: false,
+                message: "Erro ao listar lições. Tente novamente mais tarde!",
+            };
+        }
+
+        return { lessonsData: data, success, message };
+    } catch {
+        return {
+            success: false,
+            message: "Erro ao listar lições. Tente novamente",
+        };
     }
 }

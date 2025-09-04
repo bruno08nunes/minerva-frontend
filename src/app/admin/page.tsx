@@ -12,7 +12,7 @@ const adminPages = [
     },
     {
         text: "Lições",
-        link: "themes",
+        link: "lessons",
     },
     {
         text: "Ícones",
