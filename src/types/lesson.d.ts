@@ -1,3 +1,4 @@
+import { Exercise } from "./exercise";
 import type { Icon } from "./icon";
 import type { Progress } from "./progress";
 import type { Theme } from "./theme";
