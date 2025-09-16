@@ -1,12 +1,11 @@
 import H1 from "@/components/layout/H1";
 import { listAllLessons } from "@/lib/api/lessons";
-import { env } from "@/lib/env";
 import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
-import image from "../../../../public/programming2.png";
+import { env } from "@/lib/env";
 
-export default async function IconAdminPage() {
+export default async function LessonnAdminPage() {
     const { message, success, lessonsData: data } = await listAllLessons();
 
     const resetLessonsCache = async () => {
@@ -38,9 +37,18 @@ export default async function IconAdminPage() {
                         className="w-full bg-plum text-lavender-blush p-2 rounded-md flex gap-2 items-center text-xl"
                     >
                         <Image
-                            src={image}
+                            src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${lesson.theme.icon.url}`}
                             alt={lesson.description ?? ""}
                             className="max-w-[100px]"
+                            width={400}
+                            height={400}
+                        />
+                        <Image
+                            src={`${env.NEXT_PUBLIC_API_URL}/uploads/icons/${lesson.topic.icon.url}`}
+                            alt={lesson.description ?? ""}
+                            className="max-w-[100px]"
+                            width={400}
+                            height={400}
                         />
                         <div className="flex flex-col gap-2">
                             <h2 className="font-bold text-2xl">{lesson.name}</h2>

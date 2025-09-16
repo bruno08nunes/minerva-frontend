@@ -26,7 +26,7 @@ export default async function EditLessonAdminPage ({
                     Editar Lição
                 </Link>
                 <Link
-                    href={`/admin/lessons/update/${id}/form`}
+                    href={`/admin/exercises/${id}`}
                     className="px-3 py-1 bg-plum text-lavender-blush rounded-md"
                 >
                     Editar Exercícios da Lição

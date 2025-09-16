@@ -10,21 +10,27 @@ import SetThemeDialog from "../../SetThemeDialog";
 import Button from "@/components/layout/form/Button";
 import { toast } from "sonner";
 import { redirect } from "next/navigation";
-import { createLessonAction } from "@/action/admin/create/create-lesson-action";
+import { Lesson } from "@/types/lesson";
+import { editLessonAction } from "@/action/admin/edit/edit-lesson-action";
 
-export default function CreateLessonForm({
+export default function EditLessonForm({
     topics,
     themes,
-    token
+    token,
+    lesson,
 }: {
     topics: Topic[];
     themes: Theme[];
     token: string;
+    lesson: Lesson;
 }) {
-    const [currentTopic, setCurrentTopic] = useState(topics[0]);
-    const [currentTheme, setCurrentTheme] = useState(themes[0]);
+    const initialTopic = topics.find((topic) => topic.id === lesson.topic.id);
+    const initialTheme = themes.find((theme) => theme.id === lesson.theme.id);
 
-    const [state, formAction] = useActionState(createLessonAction, {
+    const [currentTopic, setCurrentTopic] = useState(initialTopic ?? topics[0]);
+    const [currentTheme, setCurrentTheme] = useState(initialTheme ?? themes[0]);
+
+    const [state, formAction] = useActionState(editLessonAction, {
         success: false,
         message: "",
     });
@@ -44,7 +50,10 @@ export default function CreateLessonForm({
     }, [state]);
 
     return (
-        <form className="flex flex-col gap-4 justify-center" action={formAction}>
+        <form
+            className="flex flex-col gap-4 justify-center"
+            action={formAction}
+        >
             <SetTopicDialog
                 topics={topics}
                 currentTopic={currentTopic}
@@ -55,18 +64,20 @@ export default function CreateLessonForm({
                 currentTheme={currentTheme}
                 setCurrentTheme={setCurrentTheme}
             />
-            <Input id="name" label="Nome:" placeholder="Nome" />
+            <Input id="name" label="Nome:" placeholder="Nome" defaultValue={lesson.name} />
             <Textarea
                 id="description"
                 label="Descrição:"
                 placeholder="Descrição"
+                defaultValue={lesson.description}
             />
             <Input
                 id="rewardXP"
                 label="XP de Recompensa:"
                 placeholder="XP de Recompensa"
+                defaultValue={lesson.rewardXP}
             />
-            <Input id="order" label="Ordem:" placeholder="Ordem" />
+            <Input id="order" label="Ordem:" placeholder="Ordem" defaultValue={lesson.order} />
             <input
                 type="hidden"
                 id="themeId"
@@ -83,14 +94,10 @@ export default function CreateLessonForm({
                 type="hidden"
                 id="iconId"
                 name="iconId"
-                value={currentTopic.icon.id}
+                value={lesson.icon.id}
             />
-            <input
-                type="hidden"
-                id="token"
-                name="token"
-                value={token}
-            />
+            <input type="hidden" id="token" name="token" value={token} />
+            <input type="hidden" id="id" name="id" value={lesson.id} />
             <Button text="Enviar" />
         </form>
     );
