@@ -1,6 +1,7 @@
 "use client";
 
 import { Lesson } from "@/types/lesson";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function ExercisesAdmin({ lesson }: { lesson: Lesson }) {
@@ -30,7 +31,8 @@ export default function ExercisesAdmin({ lesson }: { lesson: Lesson }) {
     return (
         <div className="flex flex-col gap-3">
             {exercises.map((exercise, index) => (
-                <div
+                <Link
+                    href={"/admin/exercise/" + exercise.id}
                     className="text-lavender-blush bg-plum p-4 rounded-md flex gap-3 items-center text-xl"
                     key={exercise.order}
                     draggable
@@ -40,7 +42,7 @@ export default function ExercisesAdmin({ lesson }: { lesson: Lesson }) {
                 >
                     <span>{exercise.order}°</span>
                     <p className="line-clamp-2">{exercise.content[0].data}</p>
-                </div>
+                </Link>
             ))}
         </div>
     );
