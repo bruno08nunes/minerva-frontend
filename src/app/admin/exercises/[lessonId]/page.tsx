@@ -1,6 +1,7 @@
 import ExercisesAdmin from "@/components/admin/ExercisesAdmin";
 import H1 from "@/components/layout/H1";
 import { getLessonById } from "@/lib/api/lessons";
+import getAuthToken from "@/lib/token";
 import { redirect } from "next/navigation";
 
 export default async function ExerciseAdminPage({
@@ -10,15 +11,16 @@ export default async function ExerciseAdminPage({
 }) {
     const { lessonId } = await params;
     const { lessonData: lesson } = await getLessonById(lessonId);
+    const token = await getAuthToken();
 
-    if (!lesson) {
+    if (!lesson || !token) {
         redirect("/admin");
     }
 
     return (
         <section className="w-full">
             <H1 title={`Editar Exercícios de "${lesson.name}"`} />
-            <ExercisesAdmin lesson={lesson} />
+            <ExercisesAdmin lesson={lesson} token={token} />
         </section>
     );
 }
