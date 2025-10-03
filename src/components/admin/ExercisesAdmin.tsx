@@ -64,7 +64,7 @@ export default function ExercisesAdmin({ lesson, token }: { lesson: Lesson, toke
                     onDrop={(e) => handleDrop(e, index)} // Processar o drop
                 >
                     <span>{exercise.order}°</span>
-                    <p className="line-clamp-2">{exercise.content[0].data}</p>
+                    <p className="line-clamp-2">{exercise.content[0]?.data}</p>
                 </Link>
             ))}
             <div className="flex gap-4 justify-end m-3">

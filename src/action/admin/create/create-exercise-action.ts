@@ -5,31 +5,34 @@ import { parseMarkdownLike } from "@/utils/parseMarkdown";
 import { revalidateTag } from "next/cache";
 import z from "zod";
 
-export const editExerciseAction = async (
+export const createExerciseAction = async (
     _prevState: { success: boolean; message: string },
     formData: FormData
 ) => {
     const hint = formData.get("hint");
     const contentText = formData.get("content")?.toString();
     const content = parseMarkdownLike(contentText!);
+    const type = formData.get("type");
+    const lessonId = formData.get("lessonId");
     const token = formData.get("token");
-    const id = formData.get("id");
 
     const authenticateBodySchema = z.object({
         hint: z.string(),
-        content: z
-            .array(
-                z.object({
-                    type: z.enum(["paragraph", "code"]),
-                    data: z.string(),
-                })
-            )
-            .optional(),
+        type: z.string(),
+        content: z.array(
+            z.object({
+                type: z.enum(["paragraph", "code"]),
+                data: z.string(),
+            })
+        ),
+        lessonId: z.string().uuid(),
     });
 
     const { success } = authenticateBodySchema.safeParse({
         hint,
+        type,
         content,
+        lessonId,
     });
 
     if (!success) {
@@ -37,27 +40,22 @@ export const editExerciseAction = async (
     }
 
     try {
-        const res = await fetch(
-            `${env.NEXT_PUBLIC_API_URL}/exercises/${id}`,
-            {
-                method: "PUT",
-                headers: {
-                    Authorization: "Bearer " + token,
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ hint, content }),
-            }
-        );
+        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/exercises`, {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                type,
+                content,
+                hint,
+                lessonId
+            }),
+        });
         const result = await res.json();
         revalidateTag("exercises");
         revalidateTag("lessons");
-
-        if (res.status === 404) {
-            return {
-                success: false,
-                message: "Exercício não encontrado!",
-            };
-        }
 
         if (res.status === 400) {
             return {
@@ -69,8 +67,7 @@ export const editExerciseAction = async (
         if (!result.success && !res.ok) {
             return {
                 success: false,
-                message:
-                    "Erro ao editar exercício. Tente novamente mais tarde.",
+                message: "Erro ao criar exercício. Tente novamente mais tarde.",
             };
         }
 
@@ -85,7 +82,7 @@ export const editExerciseAction = async (
             message:
                 err instanceof Error
                     ? err.message
-                    : "Erro ao editar exercício. Tente novamente mais tarde.",
+                    : "Erro ao criar exercício. Tente novamente mais tarde.",
         };
     }
 };
