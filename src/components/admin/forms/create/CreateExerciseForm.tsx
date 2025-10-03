@@ -1,11 +1,9 @@
 "use client";
 
 import { createExerciseAction } from "@/action/admin/create/create-exercise-action";
-import { editExerciseAction } from "@/action/admin/edit/edit-exercise-action";
 import Button from "@/components/layout/form/Button";
 import Input from "@/components/layout/form/Input";
 import Textarea from "@/components/layout/form/Textarea";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";

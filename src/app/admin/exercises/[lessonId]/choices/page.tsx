@@ -1,4 +1,3 @@
-import ChoicesAdmin from "@/components/admin/ChoicesAdmin";
 import H1 from "@/components/layout/H1";
 import { getExerciseById } from "@/lib/api/exercises";
 import getAuthToken from "@/lib/token";
@@ -23,12 +22,21 @@ export default async function ChoicesAdminPage({
         <section className="w-full flex gap-4 flex-col">
             <H1 title="Alternativas" />
             <Link
-                href={"/admin/explanations/create"}
+                href={`/admin/exercises/${exerciseId}/choices/create`}
                 className="w-full bg-plum text-lavender-blush p-4 rounded-md text-center text-xl"
             >
                 Criar Escolha
             </Link>
-            <ChoicesAdmin token={token} exercise={exercise} /> 
+            {exercise.choices.map((choice) => (
+                <Link
+                    href={"/admin/choice/" + choice.id}
+                    className="text-lavender-blush bg-plum p-4 rounded-md flex gap-3 items-center text-xl"
+                    key={choice.order}
+                >
+                    <span>{choice.order}°</span>
+                    <p className="line-clamp-2">{choice.text}</p>
+                </Link>
+            ))}
         </section>
     );
 }
