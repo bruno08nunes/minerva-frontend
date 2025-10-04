@@ -47,14 +47,17 @@ export default async function Header({
     const cookie = await cookies();
     const token = cookie.get("token")?.value;
 
-    const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/me`, {
-        headers: {
-            Authorization: "Bearer " + token,
-        },
-    });
-    const data = await res.json();
-
-    const userLink = data.user ? `/users/${data.user.username}` : "/login";
+    let userLink = "/login";
+    
+    if (token) {
+        const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/me`, {
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        });
+        const data = await res.json();
+        userLink = data.user ? `/users/${data.user.username}` : "/login";
+    }
 
     return (
         <header
