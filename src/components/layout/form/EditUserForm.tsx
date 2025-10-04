@@ -31,6 +31,13 @@ export default function EditUserForm({
     const [state, formAction] = useActionState(editUserAction, {
         success: false,
         message: "",
+        data: {
+            name: undefined,
+            username: undefined,
+            email: undefined,
+            password: undefined,
+            profilePictureId: undefined,
+        },
     });
     const [profilePicture, setProfilePicture] = useState<ProfilePicture | null>(
         null
@@ -114,13 +121,13 @@ export default function EditUserForm({
                     id="name"
                     label="Nome:"
                     placeholder="Nome..."
-                    defaultValue={user?.name}
+                    defaultValue={state.data?.name ?? user?.name}
                 />
                 <Input
                     id="username"
                     label="Nome de Usuário:"
                     placeholder="@Nome de usuário..."
-                    defaultValue={user?.username}
+                    defaultValue={state.data?.username ?? user?.username}
                 />
             </div>
             <div className="sm:grid-cols-2 grid gap-4 grid-cols-1">
@@ -129,7 +136,7 @@ export default function EditUserForm({
                     id="email"
                     label="Email:"
                     placeholder="Email..."
-                    defaultValue={user?.email}
+                    defaultValue={state.data?.email ?? user?.email}
                 />
                 <PasswordInput
                     id="password"

@@ -13,6 +13,12 @@ export default function RegisterForm() {
     const [state, formAction] = useActionState(registerAction, {
         success: false,
         message: null,
+        userData: {
+            email: undefined,
+            name: undefined,
+            password: undefined,
+            username: undefined
+        }
     });
 
     useEffect(() => {
@@ -59,12 +65,14 @@ export default function RegisterForm() {
                     type="text"
                     label="Nome:"
                     placeholder="Nome..."
+                    defaultValue={state.userData.name}
                 />
                 <Input
                     id="username"
                     type="text"
                     label="Nome de Usuário:"
                     placeholder="@Nome de usuário..."
+                    defaultValue={state.userData.username}
                 />
             </div>
             <div className="grid grid-cols-2 gap-4 sm:flex-row">
@@ -73,11 +81,13 @@ export default function RegisterForm() {
                     type="email"
                     label="Email:"
                     placeholder="Email..."
+                    defaultValue={state.userData.email}
                 />
                 <PasswordInput
                     id="password"
                     label="Senha:"
                     placeholder="Senha..."
+                    defaultValue={state.userData.password}
                 />
             </div>
             <Button text="Cadastrar-se" />

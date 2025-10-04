@@ -13,6 +13,10 @@ export default function LoginForm() {
     const [state, formAction] = useActionState(loginAction, {
         success: false,
         message: null,
+        userData: {
+            email: undefined,
+            password: undefined,
+        },
     });
 
     useEffect(() => {
@@ -59,6 +63,7 @@ export default function LoginForm() {
                 label="Email"
                 placeholder="Email..."
                 required
+                defaultValue={state.userData?.email}
             />
             <PasswordInput
                 id="password"
@@ -66,6 +71,7 @@ export default function LoginForm() {
                 placeholder="Senha..."
                 minLength={6}
                 required
+                defaultValue={state.userData?.password}
             />
             <Button text="Entrar" />
         </form>

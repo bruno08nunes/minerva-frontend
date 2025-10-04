@@ -3,14 +3,21 @@
 import { cookies } from "next/headers";
 import z from "zod";
 
+interface UserData {
+    name: string | undefined;
+    username: string | undefined;
+    email: string | undefined;
+    password: string | undefined;
+}
+
 export const registerAction = async (
-    _prevState: { success: boolean; message: string },
+    _prevState: { success: boolean; message: string; userData: UserData },
     formData: FormData
 ) => {
-    const name = formData.get("name");
-    const username = formData.get("username");
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const name = formData.get("name")?.toString().trim();
+    const username = formData.get("username")?.toString().trim();
+    const email = formData.get("email")?.toString().trim();
+    const password = formData.get("password")?.toString().trim();
 
     const authenticateBodySchema = z.object({
         name: z.string(),
@@ -23,15 +30,22 @@ export const registerAction = async (
         password: z.string().min(6),
     });
 
-    const { success, } = authenticateBodySchema.safeParse({
+    const { success } = authenticateBodySchema.safeParse({
         name,
         username,
         email,
         password,
     });
 
+    const userData = {
+        name,
+        username,
+        email,
+        password,
+    };
+
     if (!success) {
-        return { success: false, message: "Dados inválidos!" };
+        return { success: false, message: "Dados inválidos!", userData };
     }
 
     try {
@@ -52,6 +66,7 @@ export const registerAction = async (
             return {
                 success: false,
                 message: "Erro ao fazer login. Tente novamente mais tarde.",
+                userData
             };
         }
 
@@ -61,6 +76,7 @@ export const registerAction = async (
             return {
                 success: false,
                 message: "Usuário com esse email já existente.",
+                userData
             };
         }
 
@@ -68,6 +84,7 @@ export const registerAction = async (
             return {
                 success: false,
                 message: "Dados inválidos!",
+                userData
             };
         }
 
@@ -78,6 +95,7 @@ export const registerAction = async (
                 message:
                     data.message ||
                     "Erro ao fazer login. Tente novamente mais tarde.",
+                userData
             };
         }
 
@@ -87,7 +105,7 @@ export const registerAction = async (
             maxAge: 60 * 60 * 24,
         });
 
-        return { success: true, message: "Login concluído." };
+        return { success: true, message: "Login concluído.", userData };
     } catch (err) {
         console.log(err);
         return {
@@ -96,6 +114,7 @@ export const registerAction = async (
                 err instanceof Error
                     ? err.message
                     : "Erro ao fazer login. Tente novamente mais tarde.F",
+            userData
         };
     }
 };

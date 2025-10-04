@@ -3,8 +3,16 @@
 import { env } from "@/lib/env";
 import z from "zod";
 
+interface UserData {
+    name: string | undefined;
+    username: string | undefined;
+    email: string | undefined;
+    password: string | undefined;
+    profilePictureId: FormDataEntryValue | null | undefined;
+}
+
 export const editUserAction = async (
-    _prevState: { success: boolean; message: string },
+    _prevState: { success: boolean; message: string; data: UserData },
     formData: FormData
 ) => {
     const name = formData.get("name")?.toString().trim() || undefined;
@@ -39,8 +47,16 @@ export const editUserAction = async (
         profilePictureId,
     });
 
+    const data = {
+        name,
+        username,
+        email,
+        password,
+        profilePictureId,
+    };
+
     if (!success) {
-        return { success: false, message: "Dados inválidos!" };
+        return { success: false, message: "Dados inválidos!", data };
     }
 
     try {
@@ -65,6 +81,7 @@ export const editUserAction = async (
                 success: false,
                 message:
                     "Informações de login incorretas! Faça login novamente para continuar.",
+                data,
             };
         }
 
@@ -72,6 +89,7 @@ export const editUserAction = async (
             return {
                 success: false,
                 message: "Informações incorretas",
+                data,
             };
         }
 
@@ -79,21 +97,23 @@ export const editUserAction = async (
             return {
                 success: false,
                 message: "Erro ao editar usuário. Tente novamente mais tarde.",
+                data,
             };
         }
 
         return {
             success: true,
             message: typeof username === "string" ? username : "",
+            data,
         };
     } catch (err) {
-        console.log(err);
         return {
             success: false,
             message:
                 err instanceof Error
                     ? err.message
                     : "Erro ao editar usuário. Tente novamente mais tarde.",
+            data,
         };
     }
 };

@@ -3,12 +3,17 @@
 import { cookies } from "next/headers";
 import z from "zod";
 
+interface UserData {
+    email: FormDataEntryValue | undefined;
+    password: FormDataEntryValue | undefined;
+}
+
 export const loginAction = async (
-    _prevState: { success: boolean; message: string },
+    _prevState: { success: boolean; message: string; userData: UserData },
     formData: FormData
 ) => {
-    const email = formData.get("email");
-    const password = formData.get("password");
+    const email = formData.get("email")?.toString().trim();
+    const password = formData.get("password")?.toString()?.toString().trim();
 
     const authenticateBodySchema = z.object({
         email: z.string().email(),
@@ -20,8 +25,13 @@ export const loginAction = async (
         password,
     });
 
+    const userData = {
+        email,
+        password,
+    };
+
     if (!success) {
-        return { success: false, message: "Dados inválidos!" };
+        return { success: false, message: "Dados inválidos!", userData };
     }
 
     try {
@@ -42,6 +52,7 @@ export const loginAction = async (
             return {
                 success: false,
                 message: "Erro ao fazer login. Tente novamente mais tarde.",
+                userData
             };
         }
 
@@ -50,15 +61,17 @@ export const loginAction = async (
         if (!data.success && data.message === "Invalid credentials.") {
             return {
                 success: false,
-                message: "Email ou senha inválidos."
-            }
+                message: "Email ou senha inválidos.",
+                userData
+            };
         }
 
         if (!data.success && data.message === "Validation error.") {
             return {
                 success: false,
-                message: "Dados inválidos!"
-            }
+                message: "Dados inválidos!",
+                userData
+            };
         }
 
         if (!data.success) {
@@ -68,6 +81,7 @@ export const loginAction = async (
                 message:
                     data.message ||
                     "Erro ao fazer login. Tente novamente mais tarde.",
+                userData
             };
         }
 
@@ -77,12 +91,16 @@ export const loginAction = async (
             maxAge: 60 * 60 * 24,
         });
 
-        return { success: true, message: "Login concluído." };
+        return { success: true, message: "Login concluído.", userData };
     } catch (err) {
         console.log(err);
         return {
             success: false,
-            message: err instanceof Error ? err.message : "Erro ao fazer login. Tente novamente mais tarde.F",
+            message:
+                err instanceof Error
+                    ? err.message
+                    : "Erro ao fazer login. Tente novamente mais tarde.F",
+            userData
         };
     }
 };
