@@ -10,6 +10,30 @@ import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 import SetIconDialog from "../../SetIconDialog";
 import { Icon } from "@/types/icon";
+import { deleteTopic } from "@/action/admin/delete/delete-topic";
+
+const handleDeleteTopic = async ({
+    id,
+    token,
+}: {
+    id: string;
+    token: string;
+}) => {
+    const willDelete = confirm("Deseja Deletar?");
+
+    if (!willDelete) {
+        return;
+    }
+
+    const errorOnDelete = await deleteTopic(id, token);
+
+    if (errorOnDelete) {
+        toast("Erro ao Deletar");
+        return;
+    }
+
+    redirect("/admin");
+};
 
 export default function EditTopicForm({
     topic,
@@ -84,7 +108,16 @@ export default function EditTopicForm({
             <input type="hidden" name="token" value={token} />
             <input type="hidden" name="topicId" value={topic?.id ?? ""} />
             <input type="hidden" name="iconId" value={currentIcon?.id ?? ""} />
-            <Button text="Editar" />
+            <div className="flex">
+                <Button text="Editar" />
+                <Button
+                    text="Excluir"
+                    type="button"
+                    onClick={() =>
+                        handleDeleteTopic({ token: token, id: topic?.id! })
+                    }
+                />
+            </div>
         </form>
     );
 }
