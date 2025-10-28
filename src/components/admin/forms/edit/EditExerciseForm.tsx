@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteExercise } from "@/action/admin/delete/delete-exercises";
 import { editExerciseAction } from "@/action/admin/edit/edit-exercise-action";
 import Button from "@/components/layout/form/Button";
 import Input from "@/components/layout/form/Input";
@@ -10,6 +11,29 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
+
+const handleDeleteExercise = async ({
+    id,
+    token,
+}: {
+    id: string;
+    token: string;
+}) => {
+    const willDelete = confirm("Deseja Deletar?");
+
+    if (!willDelete) {
+        return;
+    }
+
+    const errorOnDelete = await deleteExercise(id, token);
+
+    if (errorOnDelete) {
+        toast("Erro ao Deletar");
+        return;
+    }
+
+    redirect("/admin");
+};
 
 export default function EditExerciseForm({
     exercise,
@@ -62,7 +86,10 @@ export default function EditExerciseForm({
             >
                 Alterar Escolhas
             </Link>
-            <Button text="Enviar" />
+            <div className="flex">
+                <Button text="Enviar" />
+                <Button text="Excluir" type="button" onClick={() => handleDeleteExercise({id: exercise.id, token})} />
+            </div>
             <input type="hidden" name="id" value={exercise.id} />
             <input type="hidden" name="token" value={token} />
         </form>
