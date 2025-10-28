@@ -8,6 +8,30 @@ import { toast } from "sonner";
 import { Icon } from "@/types/icon";
 import FileInput from "@/components/layout/form/FileInput";
 import { editIconAction } from "@/action/admin/edit/edit-icon-action";
+import { deleteIcon } from "@/action/admin/delete/delete-icon";
+
+const handleDeleteIcon = async ({
+    id,
+    token,
+}: {
+    id: string;
+    token: string;
+}) => {
+    const willDelete = confirm("Deseja Deletar?");
+
+    if (!willDelete) {
+        return;
+    }
+
+    const errorOnDelete = await deleteIcon(id, token);
+
+    if (errorOnDelete) {
+        toast("Erro ao Deletar");
+        return;
+    }
+
+    redirect("/admin");
+};
 
 export default function EditIconForm({
     icon,
@@ -49,7 +73,10 @@ export default function EditIconForm({
             />
             <input type="hidden" name="token" value={token} />
             <input type="hidden" name="id" value={icon?.id ?? ""} />
-            <Button text="Editar" />
+            <div className="flex">
+                <Button text="Editar" />
+                <Button text="Excluir" type="button" onClick={() => handleDeleteIcon({ id: icon?.id!, token })} />
+            </div>
         </form>
     );
 }
