@@ -11,6 +11,30 @@ import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 import SetTopicDialog from "../../SetTopicDialog";
 import { Topic } from "@/types/topic";
+import { deleteExplanation } from "@/action/admin/delete/delete-explanation";
+
+const handleDeleteExplanation = async ({
+    id,
+    token,
+}: {
+    id: string;
+    token: string;
+}) => {
+    const willDelete = confirm("Deseja Deletar?");
+
+    if (!willDelete) {
+        return;
+    }
+
+    const errorOnDelete = await deleteExplanation(id, token);
+
+    if (errorOnDelete) {
+        toast("Erro ao Deletar");
+        return;
+    }
+
+    redirect("/admin");
+};
 
 export default function EditExplanationForm({
     explanation,
@@ -76,7 +100,10 @@ export default function EditExplanationForm({
             <input type="hidden" name="id" value={explanation?.id} />
             <input type="hidden" name="topicId" value={currentTopic.id ?? ""} />
             <input type="hidden" name="token" value={token} />
-            <Button text="Editar" />
+            <div className="flex">
+                <Button text="Editar" />
+                <Button text="Excluir" type="button" onClick={() => handleDeleteExplanation({ id: explanation.id, token })} />
+            </div>
         </form>
     );
 }
