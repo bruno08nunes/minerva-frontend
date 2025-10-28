@@ -8,6 +8,30 @@ import { toast } from "sonner";
 import { ProfilePicture } from "@/types/profile-picture";
 import FileInput from "@/components/layout/form/FileInput";
 import { editProfilePictureAction } from "@/action/admin/edit/edit-profile-picture-action";
+import { deleteProfilePicture } from "@/action/admin/delete/delete-profile-picture";
+
+const handleDeleteProfilePicture = async ({
+    id,
+    token,
+}: {
+    id: string;
+    token: string;
+}) => {
+    const willDelete = confirm("Deseja Deletar?");
+
+    if (!willDelete) {
+        return;
+    }
+
+    const errorOnDelete = await deleteProfilePicture(id, token);
+
+    if (errorOnDelete) {
+        toast("Erro ao Deletar");
+        return;
+    }
+
+    redirect("/admin");
+};
 
 export default function EditProfilePictureForm({
     profilePicture,
@@ -49,7 +73,10 @@ export default function EditProfilePictureForm({
             />
             <input type="hidden" name="token" value={token} />
             <input type="hidden" name="id" value={profilePicture?.id ?? ""} />
+            <div className="flex">
             <Button text="Editar" />
+            <Button text="Excluir" type="button" onClick={() => handleDeleteProfilePicture({id: profilePicture?.id!, token})} />
+            </div>
         </form>
     );
 }
