@@ -12,6 +12,30 @@ import { toast } from "sonner";
 import { redirect } from "next/navigation";
 import { Lesson } from "@/types/lesson";
 import { editLessonAction } from "@/action/admin/edit/edit-lesson-action";
+import { deleteLesson } from "@/action/admin/delete/delete-lesson";
+
+const handleDeleteLesson = async ({
+    id,
+    token,
+}: {
+    id: string;
+    token: string;
+}) => {
+    const willDelete = confirm("Deseja Deletar?");
+
+    if (!willDelete) {
+        return;
+    }
+
+    const errorOnDelete = await deleteLesson(id, token);
+
+    if (errorOnDelete) {
+        toast("Erro ao Deletar");
+        return;
+    }
+
+    redirect("/admin");
+};
 
 export default function EditLessonForm({
     topics,
@@ -98,7 +122,10 @@ export default function EditLessonForm({
             />
             <input type="hidden" id="token" name="token" value={token} />
             <input type="hidden" id="id" name="id" value={lesson.id} />
-            <Button text="Enviar" />
+            <div className="flex">
+                <Button text="Enviar" />
+                <Button text="Excluir" type="button" onClick={() => handleDeleteLesson({token, id: lesson.id})} />
+            </div>
         </form>
     );
 }
