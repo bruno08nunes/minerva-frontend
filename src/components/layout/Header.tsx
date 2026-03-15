@@ -1,7 +1,7 @@
 import Image from "next/image";
 import logo from "../../../public/logo.png";
 import Link from "next/link";
-import { Settings, CircleUser, Menu, Bell } from "lucide-react";
+import { Settings, CircleUser, Menu } from "lucide-react";
 
 import {
     DropdownMenu,
@@ -25,10 +25,11 @@ const links = [
         path: "/ranking",
         text: "Ranking",
     },
-    {
-        path: "/",
-        text: "Notificações",
-    },
+    // Todo: add notification
+    // {
+    //     path: "/",
+    //     text: "Notificações",
+    // },
     {
         path: "/",
         text: "Perfil",
@@ -93,12 +94,12 @@ export default async function Header({
                 </Link>
             </nav>
             <div className="flex gap-4">
-                <button
+                {/* Todo: add notification <button
                     className="bg-transparent border-0 cursor-pointer hidden sm:block"
                     aria-label="Notificações"
                 >
                     <Bell color="#D3B1C2" size={35} />
-                </button>
+                </button> */}
                 <Link href={userLink} className="hidden sm:block">
                     <CircleUser color="#D3B1C2" size={35} />
                 </Link>
