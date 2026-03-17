@@ -18,6 +18,7 @@ import { redirect } from "next/navigation";
 import type { ProfilePicture } from "@/types/profile-picture";
 import { env } from "@/lib/env";
 import PasswordInput from "./PasswordInput";
+import { logoutAction } from "@/action/logout-action";
 
 export default function EditUserForm({
     user,
@@ -40,9 +41,13 @@ export default function EditUserForm({
         },
     });
     const [profilePicture, setProfilePicture] = useState<ProfilePicture | null>(
-        null
+        null,
     );
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleLogOut = () => {
+        logoutAction();
+    }
 
     useEffect(() => {
         if (state.message && state.success === false) {
@@ -151,7 +156,14 @@ export default function EditUserForm({
                 name="profilePictureId"
                 value={profilePicture?.id ?? ""}
             />
-            <div className="mt-4 ml-auto mb-4">
+            <div className="mt-4 ml-auto mb-4 flex gap-4">
+                <button
+                    type="button"
+                    onClick={handleLogOut}
+                    className="text-lavender-blush border-2 border-lavender-blush rounded-4xl py-1.5 px-6 text-lg max-w-[200px] mx-auto cursor-pointer hover:bg-lavender-blush hover:text-plum transition duration-[0.4s]"
+                >
+                    Deslogar
+                </button>
                 <Button text="Editar Usuário" />
             </div>
         </form>

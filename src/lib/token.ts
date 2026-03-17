@@ -5,3 +5,8 @@ export default async function getAuthToken() {
     const token = cookie.get("token")?.value;
     return token;
 }
+
+export async function logOut() {
+    const cookie = await cookies();
+    cookie.delete("token");
+}
