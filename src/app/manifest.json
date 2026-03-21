@@ -1,0 +1,48 @@
+{
+    "id": "/",
+    "name": "Minerva",
+    "short_name": "Minerva",
+    "description": "Plataforma para aprender lógica de programação com desafios interativos e prática em código.",
+    "icons": [
+        {
+            "src": "/web-app-manifest-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/web-app-manifest-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/web-app-manifest.ico",
+            "sizes": "72x72 96x96 128x128 256x256",
+            "type": "image/x-icon"
+        },
+        {
+            "src": "/web-app-manifest.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ],
+    "start_url": "/",
+    "scope": "/",
+    "theme_color": "#613659",
+    "background_color": "#613659",
+    "display": "standalone",
+    "categories": ["education"],
+    "shortcuts": [
+        {
+            "name": "Desafios",
+            "description": "Acessa a aba de desafios",
+            "url": "/learn/themes"
+        },
+        {
+            "name": "Explicações",
+            "description": "Acessa a aba de explicações",
+            "url": "/explanations"
+        }
+    ]
+}
