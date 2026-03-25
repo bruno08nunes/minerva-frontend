@@ -4,10 +4,64 @@ import LessonButtons from "@/components/layout/lesson/LessonButtons";
 import { listLessonsByTopicAndTheme } from "@/lib/api/lessons";
 import { getThemeBySlug } from "@/lib/api/themes";
 import { getTopicBySlug } from "@/lib/api/topics";
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 
 interface LessonsPageProps {
     params: Promise<{ themeSlug: string; topicSlug: string }>;
+}
+
+export async function generateMetadata({
+    params,
+}: LessonsPageProps): Promise<Metadata> {
+    const [{ themeSlug, topicSlug }, cookie] = await Promise.all([
+        params,
+        cookies(),
+    ]);
+
+    const token = cookie.get("token");
+
+    const data = await Promise.all([
+        listLessonsByTopicAndTheme({
+            themeSlug,
+            topicSlug,
+            token: token?.value,
+        }),
+        getTopicBySlug(topicSlug),
+        getThemeBySlug(themeSlug),
+    ]);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, topicData, themeData] = data;
+
+    return {
+        title: "Desafios de " + topicData.topic?.name + " | Minerva",
+        description:
+            "Conclua desafios de " +
+            topicData.topic?.name +
+            " usando " +
+            themeData.theme?.name +
+            " como base para o aprendizado.",
+        openGraph: {
+            title: "Desafios de " + topicData.topic?.name + " | Minerva",
+            description:
+                "Conclua desafios de " +
+                topicData.topic?.name +
+                " usando " +
+                themeData.theme?.name +
+                " como base para o aprendizado.",
+            type: "website",
+        },
+        twitter: {
+            title: "Desafios de " + topicData.topic?.name + " | Minerva",
+            description:
+                "Conclua desafios de " +
+                topicData.topic?.name +
+                " usando " +
+                themeData.theme?.name +
+                " como base para o aprendizado.",
+        },
+    };
 }
 
 export default async function LessonsPage({ params }: LessonsPageProps) {

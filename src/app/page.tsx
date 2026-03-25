@@ -21,6 +21,7 @@ export default function Home() {
                     src={heroImage}
                     alt=""
                     className="max-w-[350px] w-[30%] hidden sm:block"
+                    priority
                 />
                 <div className="flex flex-col gap-8 text-white items-center">
                     <h1 className="font-normal text-4xl">Minerva</h1>

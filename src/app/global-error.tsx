@@ -3,6 +3,28 @@ import H1 from "@/components/layout/H1";
 import Image from "next/image";
 import image from "../../public/programming2.png";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Página de Erro | Minerva",
+    description:
+        "Erro ao acessar essa página! Continue aprendendo programação com desafios interativos no Minerva.",
+    openGraph: {
+        title: "Página de Erro | Minerva",
+        description:
+            "Erro ao acessar essa página! Continue aprendendo programação com desafios interativos no Minerva.",
+        type: "website",
+    },
+    twitter: {
+        title: "Página de Erro | Minerva",
+        description:
+            "Erro ao acessar essa página! Continue aprendendo programação com desafios interativos no Minerva.",
+    },
+    robots: {
+        follow: true,
+        index: false,
+    },
+};
 
 export default function GlobalError({
     error,

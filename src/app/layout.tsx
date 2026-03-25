@@ -5,7 +5,16 @@ import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
     title: "Minerva",
-    description: "Minerva é uma aplicação...", // Todo: Update description
+    description: "Aprenda programação do zero com gamificação! Teste seus conhecimentos com desafios interativos.",
+    openGraph: {
+        title: "Minerva",
+        description: "Aprenda programação do zero com gamificação! Teste seus conhecimentos com desafios interativos.",
+        type: "website",
+    },
+    twitter: {
+        title: "Minerva",
+        description: "Aprenda programação do zero com gamificação! Teste seus conhecimentos com desafios interativos."
+    }
 };
 
 export default function RootLayout({

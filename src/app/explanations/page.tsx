@@ -5,6 +5,23 @@ import image from "../../../public/programming2.png";
 import { listTopics } from "@/lib/api/topics";
 import { env } from "@/lib/env";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Explicações | Minerva",
+    description: "Tire suas dúvidas sobre conceitos de programação aprendidos!",
+    openGraph: {
+        title: "Explicações | Minerva",
+        description:
+            "Tire suas dúvidas sobre conceitos de programação aprendidos!",
+        type: "website",
+    },
+    twitter: {
+        title: "Explicações | Minerva",
+        description:
+            "Tire suas dúvidas sobre conceitos de programação aprendidos!",
+    },
+};
 
 export default async function ExplanationsPage() {
     const { success, message, topicsData: topics } = await listTopics();
@@ -19,6 +36,8 @@ export default async function ExplanationsPage() {
                         src={image}
                         alt=""
                         className="max-w-[200px] hidden sm:block"
+                        loading="eager"
+                        priority
                     />
                     <p>
                         Está com dúvida sobre os conceitos aprendidos? Veja mais

@@ -3,6 +3,28 @@ import image from "../../../../public/no-picture.png";
 import Image from "next/image";
 import H1 from "@/components/layout/H1";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Usuário Não Encontrado | Minerva",
+    description:
+        "O usuário que você procura não existe. Continue aprendendo programação com desafios interativos no Minerva.",
+    openGraph: {
+        title: "Usuário Não Encontrado | Minerva",
+        description:
+            "O usuário que você procura não existe. Continue aprendendo programação com desafios interativos no Minerva.",
+        type: "website",
+    },
+    twitter: {
+        title: "Usuário Não Encontrado | Minerva",
+        description:
+            "O usuário que você procura não existe. Continue aprendendo programação com desafios interativos no Minerva.",
+    },
+    robots: {
+        follow: true,
+        index: false,
+    },
+};
 
 export default function NotFoundUser() {
     return (

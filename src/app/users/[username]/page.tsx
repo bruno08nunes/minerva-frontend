@@ -5,6 +5,45 @@ import { env } from "@/lib/env";
 import { cookies } from "next/headers";
 import UserInfoSection from "@/components/layout/user-page/UserInfoSection";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ username: string }>;
+}): Promise<Metadata> {
+    const { username } = await params;
+
+    const token = (await cookies()).get("token")?.value;
+    const userData = await getUserProfile({ username, token });
+
+    if (!userData.success) {
+        notFound();
+    }
+
+    return {
+        title: "Perfil de " + userData.user.name + " | Minerva",
+        description:
+            "Veja o progresso de " +
+            userData.user.name +
+            " em desafios de lógica e programação.",
+        openGraph: {
+            title: "Perfil de " + userData.user.name + " | Minerva",
+            description:
+                "Veja o progresso de " +
+                userData.user.name +
+                " em desafios de lógica e programação.",
+            type: "website",
+        },
+        twitter: {
+            title: "Perfil de " + userData.user.name + " | Minerva",
+            description:
+                "Veja o progresso de " +
+                userData.user.name +
+                " em desafios de lógica e programação.",
+        },
+    };
+}
 
 export default async function UserProfilePage({
     params,

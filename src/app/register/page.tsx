@@ -4,9 +4,18 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import H1 from "@/components/layout/H1";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+    title: "Criar Conta | Minerva",
+    description:
+        "Crie sua conta no Minerva e comece a aprender programação com gamificação.",
+    robots: {
+        index: false,
+        follow: true,
+    },
+};
 
-// TODO: Verify if header will contain the links and buttons on login and register page
 export default async function Register() {
     const cookie = await cookies();
     const token = cookie.get("token");

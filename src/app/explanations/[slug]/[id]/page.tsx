@@ -2,8 +2,37 @@ import ExplanationHeader from "@/components/layout/explanations/ExplanationHeade
 import Header from "@/components/layout/Header";
 import { getExplanationById } from "@/lib/api/explanations";
 import { codeFont } from "@/lib/fonts";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+    const { id } = await params;
+
+    const { success, data } = await getExplanationById({ id });
+
+    if (!success || data === undefined) {
+        notFound();
+    }
+
+    return {
+        title: data.title + " | Minerva",
+        description: "Tire suas dúvidas sobre " + data.topic.name + ".",
+        openGraph: {
+            title: data.title + " | Minerva",
+            description: "Tire suas dúvidas sobre " + data.topic.name + ".",
+            type: "website",
+        },
+        twitter: {
+            title: data.title + " | Minerva",
+            description: "Tire suas dúvidas sobre " + data.topic.name + ".",
+        },
+    };
+}
 
 export default async function ExplanationPage({
     params,

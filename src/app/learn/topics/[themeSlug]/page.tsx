@@ -10,10 +10,25 @@ import {
 } from "@/components/ui/hover-card";
 import { listTopics } from "@/lib/api/topics";
 import { getThemeBySlug } from "@/lib/api/themes";
+import { Metadata } from "next";
 
 interface ChallengesPagesProps {
     params: Promise<{ themeSlug: string }>;
 }
+
+export const metadata: Metadata = {
+    title: "Tópicos | Minerva",
+    description: "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento.",
+    openGraph: {
+        title: "Tópicos | Minerva",
+        description: "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento.",
+        type: "website",
+    },
+    twitter: {
+        title: "Tópicos | Minerva",
+        description: "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento."
+    }
+};
 
 export default async function ChallengesPages({
     params,

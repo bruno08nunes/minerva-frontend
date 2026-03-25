@@ -4,6 +4,17 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import H1 from "@/components/layout/H1";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Login | Minerva",
+    description:
+        "Acesse sua conta no Minerva e continue aprendendo programação com desafios interativos.",
+    robots: {
+        index: false,
+        follow: true,
+    },
+};
 
 export default async function Login() {
     const cookie = await cookies();

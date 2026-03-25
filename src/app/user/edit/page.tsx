@@ -4,7 +4,17 @@ import EditUserForm from "@/components/layout/form/EditUserForm";
 import { listProfilePictures } from "@/lib/api/profile-pictures";
 import { getMe } from "@/lib/api/user";
 import getAuthToken from "@/lib/token";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+    title: "Editar Perfil | Minerva",
+    description: "Atualize suas informações na plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: true,
+    },
+};
 
 export default async function EditUserPage() {
     const token = await getAuthToken();

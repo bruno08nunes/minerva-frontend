@@ -3,7 +3,22 @@ import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { listThemes } from "@/lib/api/themes";
 import { env } from "@/lib/env";
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+    title: "Temas | Minerva",
+    description: "Escolha o tema de seu interesse para aprender lógica e programação.",
+    openGraph: {
+        title: "Temas | Minerva",
+        description: "Escolha o tema de seu interesse para aprender lógica e programação.",
+        type: "website",
+    },
+    twitter: {
+        title: "Temas | Minerva",
+        description: "Escolha o tema de seu interesse para aprender lógica e programação."
+    }
+};
 
 export default async function ThemesPage() {
     const { themesData, success, message } = await listThemes();

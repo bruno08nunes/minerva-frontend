@@ -2,6 +2,38 @@ import ExplanationLink from "@/components/layout/explanations/ExplanationLink";
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import { listExplanationsByTopicSlug } from "@/lib/api/explanations";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+    const { slug } = await params;
+
+    const { data } = await listExplanationsByTopicSlug({
+        slug,
+    });
+
+    let topicName = slug;
+    if (data && data[0]) {
+        topicName = data[0].topic.name;
+    }
+
+    return {
+        title: "Explicações sobre " + topicName + " | Minerva",
+        description: "Tire suas dúvidas sobre " + topicName + ".",
+        openGraph: {
+            title: "Explicações sobre " + topicName + " | Minerva",
+            description: "Tire suas dúvidas sobre " + topicName + ".",
+            type: "website",
+        },
+        twitter: {
+            title: "Explicações sobre " + topicName + " | Minerva",
+            description: "Tire suas dúvidas sobre " + topicName + ".",
+        },
+    };
+}
 
 export default async function ExplanationsListPage({
     params,

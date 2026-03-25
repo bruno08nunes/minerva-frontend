@@ -3,6 +3,28 @@ import Header from "@/components/layout/Header";
 import Image from "next/image";
 import image from "../../../../../public/programming2.png";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Explicação Não Encontrada | Minerva",
+    description:
+        "A explicação que você procura não existe. Continue aprendendo programação com desafios interativos no Minerva.",
+    openGraph: {
+        title: "Explicação Não Encontrada | Minerva",
+        description:
+            "A explicação que você procura não existe. Continue aprendendo programação com desafios interativos no Minerva.",
+        type: "website",
+    },
+    twitter: {
+        title: "Explicação Não Encontrada | Minerva",
+        description:
+            "A explicação que você procura não existe. Continue aprendendo programação com desafios interativos no Minerva.",
+    },
+    robots: {
+        follow: true,
+        index: false,
+    },
+};
 
 export default function NotFoundExplanationPage() {
     return (
