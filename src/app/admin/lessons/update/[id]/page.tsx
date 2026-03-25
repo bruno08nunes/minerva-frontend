@@ -2,6 +2,16 @@ import H1 from "@/components/layout/H1";
 import { getLessonById } from "@/lib/api/lessons";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Edição de Lições | Minerva",
+    description: "Área restrita para gerenciamento da plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 
 export default async function EditLessonAdminPage ({
     params,

@@ -3,6 +3,16 @@ import { getExerciseById } from "@/lib/api/exercises";
 import getAuthToken from "@/lib/token";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Alternativas - Painel Administrativo | Minerva",
+    description: "Área restrita para gerenciamento da plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 
 export default async function ChoicesAdminPage({
     params,

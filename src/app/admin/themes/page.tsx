@@ -1,10 +1,19 @@
 import H1 from "@/components/layout/H1";
-import Button from "@/components/layout/form/Button";
 import { listThemes } from "@/lib/api/themes";
 import { env } from "@/lib/env";
 import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Temas - Painel Administrativo | Minerva",
+    description: "Área restrita para gerenciamento da plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 
 export default async function AdminThemesPage() {
     const { message, themesData: themes, success } = await listThemes();

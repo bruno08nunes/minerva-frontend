@@ -5,6 +5,17 @@ import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Tópicos - Painel Administrativo | Minerva",
+    description: "Área restrita para gerenciamento da plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
+
 export default async function AdminTopicsPage() {
     const { message, topicsData: topics, success } = await listTopics();
     const resetTopicCache = async () => {

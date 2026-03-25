@@ -4,6 +4,16 @@ import { env } from "@/lib/env";
 import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Ícone - Painel Administrativo | Minerva",
+    description: "Área restrita para gerenciamento da plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 
 export default async function IconAdminPage() {
     const { message, success, data } = await listIcons();

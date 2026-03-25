@@ -4,6 +4,16 @@ import { getExplanationById } from "@/lib/api/explanations";
 import { listTopics } from "@/lib/api/topics";
 import getAuthToken from "@/lib/token";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Edição de Explicações | Minerva",
+    description: "Área restrita para gerenciamento da plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 
 export default async function UpdateExplanationAdminPage({
     params,

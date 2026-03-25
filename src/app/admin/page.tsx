@@ -1,5 +1,15 @@
 import H1 from "@/components/layout/H1";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Painel Administrativo | Minerva",
+    description: "Área restrita para gerenciamento da plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 
 const adminPages = [
     {

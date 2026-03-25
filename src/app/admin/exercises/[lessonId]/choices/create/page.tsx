@@ -2,6 +2,16 @@ import CreateChoiceForm from "@/components/admin/forms/create/CreateChoiceForm";
 import H1 from "@/components/layout/H1";
 import getAuthToken from "@/lib/token";
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+    title: "Criar Alternativas | Minerva",
+    description: "Área restrita para gerenciamento da plataforma Minerva.",
+    robots: {
+        index: false,
+        follow: false,
+    },
+};
 
 export default async function ChoiceCreateAdminPage({
     params,
