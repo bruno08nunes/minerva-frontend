@@ -93,7 +93,7 @@ export default async function LessonExercisePage({
             token: token?.value,
         });
 
-        if (lessonsArray) {
+        if (lessonsArray && token) {
             checkCanMakeLesson(lessonsArray!, lessonData!);
         }
     }
