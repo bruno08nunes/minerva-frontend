@@ -39,6 +39,12 @@ export default function Home() {
                         >
                             Já Possuo uma Conta
                         </Link>
+                        <Link
+                            href="/learn/themes"
+                            className="text-lavender-blush underline hover:no-underline text-base"
+                        >
+                            Usar a Aplicação Sem Login
+                        </Link>
                     </div>
                 </div>
             </section>
