@@ -1,6 +1,7 @@
 import H1 from "@/components/layout/H1";
 import Header from "@/components/layout/Header";
 import LessonButtons from "@/components/layout/lesson/LessonButtons";
+import { PreviousLink } from "@/components/layout/PreviousLink";
 import { listLessonsByTopicAndTheme } from "@/lib/api/lessons";
 import { getThemeBySlug } from "@/lib/api/themes";
 import { getTopicBySlug } from "@/lib/api/topics";
@@ -31,8 +32,7 @@ export async function generateMetadata({
         getThemeBySlug(themeSlug),
     ]);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, topicData, themeData] = data;
+    const [, topicData, themeData] = data;
 
     return {
         title: "Desafios de " + topicData.topic?.name + " | Minerva",
@@ -89,11 +89,17 @@ export default async function LessonsPage({ params }: LessonsPageProps) {
     const message =
         data.find((item) => !item.success)?.message ?? data[0].message;
 
+    const previousPage = themeData.success ? ("/learn/topics/" + themeData.theme?.slug) : "";
+
     return (
         <>
             <Header />
             <main>
-                <H1 title="Lições" />
+                <div className="flex items-center justify-between px-2">
+                    <PreviousLink url={previousPage} />
+                    <H1 title="Lições" />
+                    <span className="flex-1"></span>
+                </div>
                 <h2 className="text-center text-lavender-blush text-xl font-bold">
                     {themeData.theme?.name} - {topicData.topic?.name}
                 </h2>

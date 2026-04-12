@@ -11,6 +11,7 @@ import {
 import { listTopics } from "@/lib/api/topics";
 import { getThemeBySlug } from "@/lib/api/themes";
 import { Metadata } from "next";
+import { PreviousLink } from "@/components/layout/PreviousLink";
 
 interface ChallengesPagesProps {
     params: Promise<{ themeSlug: string }>;
@@ -18,16 +19,19 @@ interface ChallengesPagesProps {
 
 export const metadata: Metadata = {
     title: "Tópicos | Minerva",
-    description: "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento.",
+    description:
+        "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento.",
     openGraph: {
         title: "Tópicos | Minerva",
-        description: "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento.",
+        description:
+            "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento.",
         type: "website",
     },
     twitter: {
         title: "Tópicos | Minerva",
-        description: "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento."
-    }
+        description:
+            "Escolha o tópico de lógica e programação que você deseja aumentar seu conhecimento.",
+    },
 };
 
 export default async function ChallengesPages({
@@ -42,11 +46,17 @@ export default async function ChallengesPages({
         redirect("/learn/themes");
     }
 
+    const previousPage = "/learn/themes";
+
     return (
         <>
             <Header />
-            <main className="max-w-[800px] w-full mx-auto px-8 pb-4">
+            <div className="flex items-center justify-between px-2">
+                <PreviousLink url={previousPage} />
                 <H1 title="Desafios" />
+                <span className="flex-1"></span>
+            </div>
+            <main className="max-w-[800px] w-full mx-auto px-8 pb-4">
                 <h2 className="text-lavender-blush text-2xl text-center font-bold pb-6">
                     {theme?.name ?? themeSlug.toUpperCase()}
                 </h2>
@@ -66,7 +76,9 @@ export default async function ChallengesPages({
                                             height={400}
                                             className="bg-plum max-w-[60px] rounded-full"
                                         />
-                                        <p className="text-lavender-blush">{item.name}</p>
+                                        <p className="text-lavender-blush">
+                                            {item.name}
+                                        </p>
                                     </HoverCardTrigger>
                                     <HoverCardContent
                                         className="bg-plum text-lavender-blush border-lavender-blush"
