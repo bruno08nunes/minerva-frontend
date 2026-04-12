@@ -4,14 +4,17 @@ import { codeFont } from "@/lib/fonts";
 function CodeInput({
     onChangeInputValue,
     inputValue,
+    disabled = false,
+    submit
 }: Omit<ExerciseCodeProps, "content">) {
-    // Todo: change this to a text area and update the size by the lenght of the answer
     return (
         <input
             type="text"
-            className="border-0 outline-0 border-plum border-b-4 bg-[#0007] p-2"
+            className={`border-0 outline-0 border-plum border-b-4 bg-[#0007] p-2 ${disabled && "bg-transparent cursor-not-allowed"}`}
             value={inputValue}
             onChange={(e) => onChangeInputValue(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") submit() }}
+            disabled={disabled}
         />
     );
 }
@@ -20,12 +23,16 @@ interface ExerciseCodeProps {
     content: string;
     onChangeInputValue(value: string): void;
     inputValue: string;
+    disabled?: boolean;
+    submit: () => void;
 }
 
 export default function ExerciseCode({
     content,
     inputValue,
     onChangeInputValue,
+    disabled = false,
+    submit
 }: ExerciseCodeProps) {
     const codes = content === "_____" ? [] : content.split("_____");
 
@@ -47,6 +54,8 @@ export default function ExerciseCode({
                             <CodeInput
                                 inputValue={inputValue}
                                 onChangeInputValue={onChangeInputValue}
+                                disabled={disabled}
+                                submit={submit}
                             />
                         </Fragment>
                     );
@@ -55,6 +64,8 @@ export default function ExerciseCode({
                 <CodeInput
                     inputValue={inputValue}
                     onChangeInputValue={onChangeInputValue}
+                    disabled={disabled}
+                    submit={submit}
                 />
             )}
         </pre>

@@ -31,6 +31,7 @@ export default function ExerciseComponent({
     const [isGameOver, setIsGameOver] = useState(false);
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const exercise: Exercise = lesson.exercises[currentExerciseIndex];
+    const isInputEnabled = exercise.type === "MULTIPLE_CHOICE";
 
     async function updateExercise() {
         const isNotLastExercise =
@@ -141,6 +142,8 @@ export default function ExerciseComponent({
                             content={item.data}
                             onChangeInputValue={handleChangeInput}
                             inputValue={inputValue}
+                            disabled={isInputEnabled}
+                            submit={handleSubmitInputAnswer}
                         />
                     )}
                 </div>
