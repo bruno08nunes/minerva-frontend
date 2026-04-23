@@ -104,7 +104,7 @@ export default function EditThemeForm({
                 <Button
                     text="Deletar"
                     type="button"
-                    onClick={() => handleDeleteTheme({ id: theme?.id!, token })}
+                    onClick={() => handleDeleteTheme({ id: theme!.id, token })}
                 />
             </div>
         </form>

@@ -26,7 +26,7 @@ export default async function EditIconAdminPage({
     }
 
     const { id } = await params;
-    const { message, success, data: icon } = await getIconById(id);
+    const { data: icon } = await getIconById(id);
 
     return (
         <section className="w-full">

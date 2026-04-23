@@ -26,7 +26,7 @@ export default async function EditProfilePictureAdminPage({
     }
 
     const { id } = await params;
-    const { message, success, data: profilePicture } = await getProfilePictureById(id);
+    const { data: profilePicture } = await getProfilePictureById(id);
 
     return (
         <section className="w-full">

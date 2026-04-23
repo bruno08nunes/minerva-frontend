@@ -3,7 +3,7 @@
 import Button from "@/components/layout/form/Button";
 import Textarea from "@/components/layout/form/Textarea";
 import { redirect } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 import { ProfilePicture } from "@/types/profile-picture";
 import FileInput from "@/components/layout/form/FileInput";
@@ -75,7 +75,7 @@ export default function EditProfilePictureForm({
             <input type="hidden" name="id" value={profilePicture?.id ?? ""} />
             <div className="flex">
             <Button text="Editar" />
-            <Button text="Excluir" type="button" onClick={() => handleDeleteProfilePicture({id: profilePicture?.id!, token})} />
+            <Button text="Excluir" type="button" onClick={() => handleDeleteProfilePicture({id: profilePicture!.id, token})} />
             </div>
         </form>
     );

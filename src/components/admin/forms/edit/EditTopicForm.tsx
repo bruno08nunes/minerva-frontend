@@ -114,7 +114,7 @@ export default function EditTopicForm({
                     text="Excluir"
                     type="button"
                     onClick={() =>
-                        handleDeleteTopic({ token: token, id: topic?.id! })
+                        handleDeleteTopic({ token: token, id: topic!.id })
                     }
                 />
             </div>

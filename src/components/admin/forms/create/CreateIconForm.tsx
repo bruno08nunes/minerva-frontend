@@ -5,7 +5,7 @@ import Button from "@/components/layout/form/Button";
 import FileInput from "@/components/layout/form/FileInput";
 import Textarea from "@/components/layout/form/Textarea";
 import { redirect } from "next/navigation";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function CreateIconForm({ token }: { token: string }) {
