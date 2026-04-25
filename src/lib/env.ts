@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-    NEXT_PUBLIC_API_URL: z.string().url()
+    NODE_ENV: z.enum(["development", "test", "production"]).default("production"),
+    NEXT_PUBLIC_API_URL: z.string().url().default("https://minerva-backend-zyhi.onrender.com")
 });
 
 const _env = envSchema.safeParse(process.env);
