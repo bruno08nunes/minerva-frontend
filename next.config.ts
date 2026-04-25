@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
                 hostname: "localhost",
                 port: "3333",
             },
+            {
+                protocol: "https",
+                hostname: "minerva-backend-zyhi.onrender.com",
+            },
         ],
         
     },
