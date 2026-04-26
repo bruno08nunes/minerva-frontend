@@ -47,7 +47,7 @@ export default function EditUserForm({
 
     const handleLogOut = () => {
         logoutAction();
-    }
+    };
 
     useEffect(() => {
         if (state.message && state.success === false) {
@@ -81,6 +81,7 @@ export default function EditUserForm({
                     height={400}
                     alt="Sua foto de perfil atual"
                     className="w-35 bg-plum rounded-full"
+                    priority
                 />
                 <Dialog
                     open={isModalOpen}
@@ -95,7 +96,6 @@ export default function EditUserForm({
                         </DialogTitle>
                         <section className="flex flex-wrap justify-center gap-4 overflow-auto max-h-[50vh]">
                             {profilePictures.map((item) => (
-                                // TODO: Add profile picture description
                                 <button
                                     key={item.id}
                                     type="button"
@@ -127,12 +127,19 @@ export default function EditUserForm({
                     label="Nome:"
                     placeholder="Nome..."
                     defaultValue={state.data?.name ?? user?.name}
+                    autoComplete="name"
+                    autoFocus
+                    minLength={3}
+                    autoCapitalize="words"
                 />
                 <Input
                     id="username"
                     label="Nome de Usuário:"
                     placeholder="@Nome de usuário..."
                     defaultValue={state.data?.username ?? user?.username}
+                    minLength={3}
+                    maxLength={20}
+                    pattern="^[a-zA-Z0-9_]+$"
                 />
             </div>
             <div className="sm:grid-cols-2 grid gap-4 grid-cols-1">
@@ -142,12 +149,16 @@ export default function EditUserForm({
                     label="Email:"
                     placeholder="Email..."
                     defaultValue={state.data?.email ?? user?.email}
+                    autoComplete="email"
+                    inputMode="email"
                 />
                 <PasswordInput
                     id="password"
                     label="Senha:"
                     placeholder="Senha..."
                     min={6}
+                    maxLength={20}
+                    autoComplete="new-password"
                 />
             </div>
             <input type="hidden" name="token" value={token} />

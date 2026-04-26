@@ -64,6 +64,9 @@ export default function LoginForm() {
                 placeholder="Email..."
                 required
                 defaultValue={state.userData?.email}
+                autoComplete="email"
+                inputMode="email"
+                autoFocus
             />
             <PasswordInput
                 id="password"
@@ -72,6 +75,7 @@ export default function LoginForm() {
                 minLength={6}
                 required
                 defaultValue={state.userData?.password}
+                autoComplete="current-password"
             />
             <Button text="Entrar" />
         </form>

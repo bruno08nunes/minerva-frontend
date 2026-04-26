@@ -66,6 +66,11 @@ export default function RegisterForm() {
                     label="Nome:"
                     placeholder="Nome..."
                     defaultValue={state.userData.name}
+                    autoComplete="name"
+                    autoFocus
+                    required
+                    minLength={3}
+                    autoCapitalize="words"
                 />
                 <Input
                     id="username"
@@ -73,6 +78,10 @@ export default function RegisterForm() {
                     label="Nome de Usuário:"
                     placeholder="@Nome de usuário..."
                     defaultValue={state.userData.username}
+                    required
+                    minLength={3}
+                    maxLength={20}
+                    pattern="^[a-zA-Z0-9_]+$"
                 />
             </div>
             <div className="grid grid-cols-2 gap-4 sm:flex-row">
@@ -82,12 +91,19 @@ export default function RegisterForm() {
                     label="Email:"
                     placeholder="Email..."
                     defaultValue={state.userData.email}
+                    autoComplete="email"
+                    required
+                    inputMode="email"
                 />
                 <PasswordInput
                     id="password"
                     label="Senha:"
                     placeholder="Senha..."
                     defaultValue={state.userData.password}
+                    autoComplete="new-password"
+                    required
+                    minLength={6}
+                    maxLength={20}
                 />
             </div>
             <Button text="Cadastrar-se" />

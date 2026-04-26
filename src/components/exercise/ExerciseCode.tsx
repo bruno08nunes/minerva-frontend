@@ -15,6 +15,7 @@ function CodeInput({
             onChange={(e) => onChangeInputValue(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") submit() }}
             disabled={disabled}
+            autoFocus
         />
     );
 }
