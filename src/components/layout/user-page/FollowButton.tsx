@@ -47,19 +47,28 @@ export default function FollowButton({
         setIsLoading(false);
     };
 
-    return isFollowingState ? (
-        <button
-            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full text-center"
-            onClick={() => unfollow()}
-        >
-            Deixar de Seguir
-        </button>
-    ) : (
-        <button
-            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full text-center"
+    const buttons = {
+        "follow": <button
+            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full text-center hover:bg-transparent hover:text-lavender-blush border-3 border-lavender-blush transition duration-[0.4s]"
             onClick={() => follow()}
         >
             Seguir
-        </button>
-    );
+        </button>,
+        "unfollow": <button
+            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full text-center hover:bg-transparent hover:text-lavender-blush border-3 border-lavender-blush transition duration-[0.4s]"
+            onClick={() => unfollow()}
+        >
+            Deixar de Seguir
+        </button>,
+        "loading": <button
+            className="bg-lavender-blush p-3 rounded-4xl cursor-pointer max-w-[200px] w-full text-center animate-pulse border-3 border-lavender-blush"
+            onClick={() => unfollow()}
+        >
+            Carregando...
+        </button>,
+    };
+
+    const state = isLoading ? "loading" : isFollowingState ? "unfollow" : "follow";
+
+    return buttons[state];
 }
