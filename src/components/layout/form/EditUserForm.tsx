@@ -94,7 +94,7 @@ export default function EditUserForm({
                         <DialogTitle className="text-center font-bold text-2xl mb-3">
                             Escolha Sua Foto de Perfil
                         </DialogTitle>
-                        <section className="flex flex-wrap justify-center gap-4 overflow-auto max-h-[50vh]">
+                        <section className="flex flex-wrap justify-center gap-4 overflow-auto max-h-[50vh] scrollbar-custom">
                             {profilePictures.map((item) => (
                                 <button
                                     key={item.id}

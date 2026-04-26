@@ -131,3 +131,16 @@ body {
         @apply bg-background text-foreground;
     }
 }
+
+:is(.scrollbar-custom)::-webkit-scrollbar-thumb {
+    background-color: var(--color-lavender-blush);
+    border-radius: 6px;
+}
+
+:is(.scrollbar-custom)::-webkit-scrollbar-track {
+    background-color: var(--color-plum);
+}
+
+:is(.scrollbar-custom) {
+    scrollbar-color: var(--color-lavender-blush) var(--color-plum);
+}
