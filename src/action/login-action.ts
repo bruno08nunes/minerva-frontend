@@ -16,11 +16,11 @@ export const loginAction = async (
     const password = formData.get("password")?.toString()?.toString().trim();
 
     const authenticateBodySchema = z.object({
-        email: z.string().email(),
-        password: z.string().min(6),
+        email: z.string().email("Você precisa inserir um email válido!"),
+        password: z.string().max(20, "Tamanho máximo de senha excedido (20)"),
     });
 
-    const { success } = authenticateBodySchema.safeParse({
+    const { success, error } = authenticateBodySchema.safeParse({
         email,
         password,
     });
@@ -31,7 +31,7 @@ export const loginAction = async (
     };
 
     if (!success) {
-        return { success: false, message: "Dados inválidos!", userData };
+        return { success: false, message: error.issues[0] ? error.issues[0].message : "Dados inválidos", userData };
     }
 
     try {
@@ -48,7 +48,6 @@ export const loginAction = async (
         );
 
         if (response.status >= 500) {
-            console.log(response);
             return {
                 success: false,
                 message: "Erro ao fazer login. Tente novamente mais tarde.",
@@ -69,17 +68,15 @@ export const loginAction = async (
         if (!data.success && data.message === "Validation error.") {
             return {
                 success: false,
-                message: "Dados inválidos!",
+                message: data.issues[0] ? data.issues[0].message : "Dados inválidos!",
                 userData
             };
         }
 
         if (!data.success) {
-            console.error("Erro", data.message);
             return {
                 success: false,
                 message:
-                    data.message ||
                     "Erro ao fazer login. Tente novamente mais tarde.",
                 userData
             };

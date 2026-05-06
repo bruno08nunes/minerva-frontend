@@ -20,17 +20,17 @@ export const registerAction = async (
     const password = formData.get("password")?.toString().trim();
 
     const authenticateBodySchema = z.object({
-        name: z.string(),
+        name: z.string().min(3, "Seu nome deve ter no mínimo 3 caracteres").max(255, "Tamanho máximo de nome excedido (255)"),
         username: z
             .string()
-            .min(3)
-            .max(20)
-            .regex(/^[a-zA-Z0-9_]+$/),
-        email: z.string().email(),
-        password: z.string().min(6),
+            .min(3, "Seu nome de usuário deve ter ao menos 3 caracteres")
+            .max(20, "Seu nome de usuário deve ter no máximo 20 caracteres")
+            .regex(/^[a-zA-Z0-9_]+$/, "Seu nome de usuário deve conter apenas letras, números ou underline (_)"),
+        email: z.string().email("Email inválido"),
+        password: z.string().min(6, "Sua senha deve ter ao menos 6 caracteres").max(20, "Tamanho máximo de senha excedido (20"),
     });
 
-    const { success } = authenticateBodySchema.safeParse({
+    const { success, error } = authenticateBodySchema.safeParse({
         name,
         username,
         email,
@@ -45,7 +45,7 @@ export const registerAction = async (
     };
 
     if (!success) {
-        return { success: false, message: "Dados inválidos!", userData };
+        return { success: false, message: error.issues[0] ? error.issues[0].message : "Dados inválidos!", userData };
     }
 
     try {
@@ -62,7 +62,6 @@ export const registerAction = async (
         );
 
         if (response.status >= 500) {
-            console.log(response);
             return {
                 success: false,
                 message: "Erro ao fazer login. Tente novamente mais tarde.",
@@ -83,7 +82,7 @@ export const registerAction = async (
         if (!data.success && data.message === "Validation error.") {
             return {
                 success: false,
-                message: "Dados inválidos!",
+                message: data.issues[0] ? data.issues[0].message : "Dados inválidos!",
                 userData
             };
         }

@@ -27,19 +27,19 @@ export const editUserAction = async (
             : profilePictureFormDataValue;
 
     const authenticateBodySchema = z.object({
-        name: z.string().min(3).max(255).optional(),
+        name: z.string().min(3, "Seu nome deve ter no mínimo 3 caracteres").max(255, "Tamanho máximo de nome excedido (255)").optional(),
         username: z
             .string()
-            .min(3)
-            .max(20)
-            .regex(/^[a-zA-Z0-9_]+$/)
+            .min(3, "Seu nome de usuário deve ter ao menos 3 caracteres")
+            .max(20, "Seu nome de usuário deve ter no máximo 20 caracteres")
+            .regex(/^[a-zA-Z0-9_]+$/, "Seu nome de usuário deve conter apenas letras, números ou underline (_)")
             .optional(),
-        email: z.string().email().optional(),
-        password: z.string().min(6).max(20).optional(),
+        email: z.string().email("Email inválido").optional(),
+        password: z.string().min(6, "Sua senha deve ter ao menos 6 caracteres").max(20, "Tamanho máximo de senha excedido (20").optional(),
         profilePictureId: z.string().nullable().optional(),
     });
 
-    const { success } = authenticateBodySchema.safeParse({
+    const { success, error } = authenticateBodySchema.safeParse({
         name,
         username,
         email,
@@ -56,7 +56,7 @@ export const editUserAction = async (
     };
 
     if (!success) {
-        return { success: false, message: "Dados inválidos!", data };
+        return { success: false, message: error.issues[0] ? error.issues[0].message : "Dados inválidos!", data };
     }
 
     try {
@@ -88,7 +88,7 @@ export const editUserAction = async (
         if (res.status === 400) {
             return {
                 success: false,
-                message: "Informações incorretas",
+                message: result.issues[0] ? result.issues[0].message : "Dados inválidos!",
                 data,
             };
         }
