@@ -1,6 +1,5 @@
 "use client";
 
-import Button from "@/components/layout/form/Button";
 import Input from "@/components/layout/form/Input";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
@@ -8,6 +7,7 @@ import { loginAction } from "@/action/login-action";
 import { redirect } from "next/navigation";
 import PasswordInput from "./PasswordInput";
 import { checkIfHasProgressIDB } from "@/lib/indexeddb/progress-idb";
+import SubmitButton from "./SubmitButton";
 
 export default function LoginForm() {
     const [state, formAction] = useActionState(loginAction, {
@@ -77,7 +77,7 @@ export default function LoginForm() {
                 defaultValue={state.userData?.password}
                 autoComplete="current-password"
             />
-            <Button text="Entrar" />
+            <SubmitButton text="Entrar" />
         </form>
     );
 }

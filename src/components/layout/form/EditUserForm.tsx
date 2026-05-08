@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Button from "./Button";
 import Input from "./Input";
 import {
     Dialog,
@@ -19,6 +18,7 @@ import type { ProfilePicture } from "@/types/profile-picture";
 import { env } from "@/lib/env";
 import PasswordInput from "./PasswordInput";
 import { logoutAction } from "@/action/logout-action";
+import SubmitButton from "./SubmitButton";
 
 export default function EditUserForm({
     user,
@@ -175,7 +175,7 @@ export default function EditUserForm({
                 >
                     Deslogar
                 </button>
-                <Button text="Editar Usuário" />
+                <SubmitButton text="Editar Usuário" />
             </div>
         </form>
     );

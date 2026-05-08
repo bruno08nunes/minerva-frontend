@@ -3,11 +3,11 @@
 import { redirect } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
-import Button from "./Button";
 import Input from "./Input";
 import { registerAction } from "@/action/register-action";
 import PasswordInput from "./PasswordInput";
 import { checkIfHasProgressIDB } from "@/lib/indexeddb/progress-idb";
+import SubmitButton from "./SubmitButton";
 
 export default function RegisterForm() {
     const [state, formAction] = useActionState(registerAction, {
@@ -106,7 +106,7 @@ export default function RegisterForm() {
                     maxLength={20}
                 />
             </div>
-            <Button text="Cadastrar-se" />
+            <SubmitButton text="Cadastrar-se" />
         </form>
     );
 }
